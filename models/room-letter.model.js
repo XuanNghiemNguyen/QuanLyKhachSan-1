@@ -10,6 +10,9 @@ const RoomLetterSchema = new Schema(
     numberOfPeople: { type: Number, min: 0, default: 2 },
     surchargeId: Schema.Types.ObjectId, // Tỷ lệ phụ thu
     foreignerId: Schema.Types.ObjectId, // Tham chiếu tới customerType Nếu tồn tại thì lấy hệ số (factor) nhân vào đơn giá của phòng
+    isDeleted: { type: Boolean, default: false },
+    createdAt: { type: Number, default: Date.now() },
+    createdBy: Schema.Types.ObjectId, // employee id
   },
   {
     versionKey: false, // remove field "__v"

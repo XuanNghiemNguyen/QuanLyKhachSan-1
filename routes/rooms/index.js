@@ -1,12 +1,13 @@
-const express = require("express");
-const router = express.Router();
-
-router.get("/views", async (req, res) => {
+const express = require('express')
+const router = express.Router()
+const Room = require('../../models/room.model')
+router.get('/views', async (req, res) => {
   try {
-    res.render("pages/rooms/index", { layout: "layout" });
+    const _rooms = await Room.find({ isDeleted: false })
+    res.render('pages/rooms/index', { layout: 'layout', data: _rooms || [] })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-});
+})
 
 module.exports = router
