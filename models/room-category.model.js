@@ -10,7 +10,8 @@ const RoomCategorySchema = new Schema(
       maxlength: 20,
     },
     price: { type: Number, default: 150000, min: 10000 },
-    factor: { type: Number, default: 1.5 }, //Hệ số của khách
+    note: { type: String, default: '' },
+    isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId, // employee id
   },

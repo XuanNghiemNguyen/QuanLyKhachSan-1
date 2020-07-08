@@ -14,7 +14,7 @@ const CustomerSchema = new Schema(
     address: String,
     customerTypeId: Schema.Types.ObjectId,
     employeeId: Schema.Types.ObjectId,
-    totalPrice: { type: Number, min: 0 },
+    isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId // employee id
   },

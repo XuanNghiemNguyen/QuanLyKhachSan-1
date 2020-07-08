@@ -4,23 +4,24 @@
 
 ---
 
-
 ## :loudspeaker: Thông tin nhóm
 
+| STT | Họ và tên          | MSSV    |
+| --- | ------------------ | ------- |
+| 1   | Nguyễn Xuân Nghiêm | 1612427 |
+| 2   | Trương Quang Duy   | 1712394 |
+| 3   | Phạm Minh Hoàng    | 1712460 |
 
-| STT      | Họ và tên              | MSSV    |
-| -------- | -----------------------|-------- |
-| 1        | Nguyễn Xuân Nghiêm     | 1612427 |
-| 2        | Trương Quang Duy       | 1712394 |
-| 3        | Phạm Minh Hoàng        | 1712460 |
+## :rocket: Running
 
-## :rocket:  Running
+- //connect database NOSQL BOOSTER
+  uri = `mongodb+srv://XuanNghiemNguyen:2101998@cluster0-6az1w.mongodb.net/QLKS?retryWrites=true&w=majority`
 
-+ run script on mysql workbench before (dir: `./utils/db.script`)
-+ type: `npm start` or `nodemon`
+- type: `npm start` or `nodemon`
 
-### :straight_ruler:  Quy định message commit code
-+ Đang làm:  `doing: ...`
-+ Đã xong:   `done: ...`
-+ Fix lỗi:   `fix: ...`
-+ Fix vặt:   `chore: ...`
+### :straight_ruler: Quy định message commit code
+
+- Đang làm: `doing: ...`
+- Đã xong: `done: ...`
+- Fix lỗi: `fix: ...`
+- Fix vặt: `chore: ...`
