@@ -1,27 +1,14 @@
 <div class="container-fluid">
   <!-- Page Heading -->
   <!-- <div class="card shadow mb-4"> -->
-  <div
-    class="card-header py-3"
-    style="display: flex; justify-content: space-between;"
-  >
+  <div class="card-header py-3" style="display: flex; justify-content: space-between;">
     <h3 class="m-0 font-weight-bold text-primary">Loại phòng</h3>
-    <a
-      href="#"
-      class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
-      data-toggle="modal"
-      data-target="#logoutModal"
-      ><i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a
-    >
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#myModalAdd">
+      <i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table
-        class="table table-bordered"
-        id="dataTable"
-        width="100%"
-        cellspacing="0"
-      >
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>STT</th>
@@ -32,17 +19,6 @@
             <th>Thao tác</th>
           </tr>
         </thead>
-        <!-- <tfoot>
-                    <tr>
-                      <th>STT</th>
-                      <th>Tên loại phòng</th>
-                      <th>Giá</th>
-                      <th>Số lượng phòng</th>
-                      <th>Khách tối đa</th>
-                      <th>Ghi chú</th>
-                      <th>Thao tác</th>
-                    </tr>
-                  </tfoot> -->
         <tbody>
           <% data.forEach(function(item, idx) { %>
           <tr>
@@ -51,173 +27,114 @@
             <td><%= item.price.toLocaleString()%> đ</td>
             <td><%= item.roomQuantity%></td>
             <td><%= item.createdByUser%></td>
-
             <td>
-              <button
-                class="fa fa-eye fa-fw thaotacButton"
-                title="Xem chi tiết"
-                type="button"
-                data-toggle="modal"
-                data-whatever="<%= JSON.stringify(item)%>"
-                data-target="#categoryDetailModal"
-              ></button>
-              <button
-                class="fa fa-edit fa-fw thaotacButton"
-                type="button"
-                title="Cập nhật"
-                data-toggle="tooltip"
-              ></button>
-              <button
-                class="fa fa-remove fa-fw thaotacButton"
-                onclick="return confirm('Bạn thực sự muốn xóa chuyên mục này?')"
-                title="Xóa"
-                type="submit"
-                data-toggle="tooltip"
-              ></button>
+              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-name="<%= item.nameOfCategory %>" data-price="<%= item.price %>" data-note="<%= item.note %>">Edit</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Delete</a>
             </td>
           </tr>
           <% }); %>
         </tbody>
       </table>
     </div>
-    <!-- Logout Modal-->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="exampleModalLabel">
-              <b>Loại phòng mới</b>
-            </h4>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <form action="/room-categories/add" method="POST">
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="nameOfCategory">Tên loại phòng:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nhập tên loại phòng"
-                  id="nameOfCategory"
-                  name="nameOfCategory"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label
-                  for="price"
-                  style="display: flex; justify-content: space-between;"
-                >
-                  <span>Giá</span>
-                  <span>(VND)</span>
-                </label>
-                <input
-                  type="number"
-                  min="100000"
-                  step="50000"
-                  max="5000000"
-                  class="form-control"
-                  placeholder="Nhập giá"
-                  id="price"
-                  name="price"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="note"> </label>
-                <textarea
-                  rows="3"
-                  class="form-control"
-                  placeholder="Thêm ghi chú"
-                  id="note"
-                  name="note"
-                ></textarea>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                class="btn btn-secondary"
-                type="button"
-                data-dismiss="modal"
-              >
-                Hủy
-              </button>
-              <button type="submit" class="btn btn-primary">Lưu</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div
-      class="modal fade"
-      id="categoryDetailModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label"
-                  >Recipient:</label
-                >
-                <input type="text" class="form-control" id="recipient-name" />
-              </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label"
-                  >Message:</label
-                >
-                <textarea class="form-control" id="message-text"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Send message</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Page level plugins -->
-    <script>
-      document.getElementById('collapseTwo').classList.add('show')
-      document.getElementById('room-categories-tab').classList.add('active')
-    </script>
   </div>
+
+<!-- Modal Add -->
+<form action="/room-categories/add" method="post">
+  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Thêm loại phòng mới</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <div class="form-group">
+          <label for="nameOfCategory">Tên loại phòng:</label>
+          <input type="text" class="form-control" placeholder="Nhập tên loại phòng" id="nameOfCategory" name="nameOfCategory" placeholder="Nhập tên loại phòng" required />
+        </div>
+        <div class="form-group">
+          <label for="price" style="display: flex; justify-content: space-between;">
+            <span>Giá:</span>
+            <span>(VND)</span>
+          </label>
+          <input type="number" min="100000" step="50000" max="5000000" class="form-control" placeholder="Nhập giá" id="price" name="price" required/>
+        </div>
+        <div class="form-group">
+          <label for="note">Ghi chú:</label>
+          <textarea rows="3" class="form-control" placeholder="Thêm ghi chú" id="note" name="note"></textarea>
+        </div>
+      </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary">Save</button>
+       </div>
+     </div>
+   </div>
+  </div>
+</form>
+
+<!-- Modal Update -->
+<form action="/room-categories/update/<%= data._id %>" method="post">
+ <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sửa loại phòng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="nameOfCategory">Tên loại phòng:</label>
+            <input type="text" name="nameOfCategory" class="form-control nameOfCategory" id="nameOfCategory" required>
+        </div>
+        <div class="form-group">
+          <label for="price" style="display: flex; justify-content: space-between;">
+            <span>Giá</span>
+            <span>(VND)</span>
+          </label>
+          <input type="number" min="100000" step="50000" max="5000000" class="form-control price" placeholder="Nhập giá" id="price" name="price" required/>
+        </div>
+        <div class="form-group">
+          <label for="note">Ghi chú:</label>
+          <textarea rows="3" class="form-control note" placeholder="Thêm ghi chú" id="note" name="note"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" name="id" class="_id">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+ </div>
+</form>
+
+<!-- Modal Delete -->
+<form id="add-row-form" action="/room-categories/delete/<%= data._id %>" method="post">
+   <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel">Xóa loại phòng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             </div>
+             <div class="modal-body">
+                <strong>Bạn có chắc chắn muốn xóa?</strong>
+             </div>
+             <div class="modal-footer">
+                  <input type="hidden" name="_id" class="form-control _id2" required>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success">Delete</button>
+             </div>
+          </div>
+      </div>
+   </div>
+</form>
+
   <script
     src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -225,19 +142,26 @@
   ></script>
 
   <script>
-    $(document).ready(function () {
-      $('#categoryDetailModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget)
-        const data_json = button.data('whatever')
-        console.log(data_json)
-      })
-    })
-    // $('#categoryDetailModal').on('show.bs.modal', function (event) {
-    //   console.log('_data')
-    //   // const _data = JSON.parse(item.toString())
-    //   // var modal = $(this)
-    //   // modal.find('.modal-title').text('New message to ' + recipient)
-    //   // modal.find('.modal-body input').val(recipient)
-    // })
+    $(document).ready(function(){
+      //showing data to edit modal      
+      $('#dataTable').on('click','.edit',function(){
+        var _id = $(this).data('id');
+        var nameOfCategory = $(this).data('name');
+        var price = $(this).data('price');
+        var note = $(this).data('note');
+        $('#EditModal').modal('show');
+        $('.nameOfCategory').val(nameOfCategory);
+        $('.price').val(price);
+        $('.note').val(note);
+        $('._id').val(_id);
+      });
+      //showing delete record modal
+      $('#dataTable').on('click','.delete',function(){
+        var _id = $(this).data('id');
+        $('#DeleteModal').modal('show');
+        $('._id2').val(_id);
+      });
+ 
+    });
   </script>
 </div>

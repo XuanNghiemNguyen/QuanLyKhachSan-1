@@ -31,6 +31,7 @@ app.use("/dashboard", require("./routes/dashboard"));
 app.use("/room-categories", require("./routes/room-categories"));
 app.use("/rooms", require("./routes/rooms"));
 app.use("/users", require("./routes/users"));
+app.use("/room-letters", require("./routes/room-letters"));
 
 
 //connect database

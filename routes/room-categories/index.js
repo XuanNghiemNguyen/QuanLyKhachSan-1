@@ -46,4 +46,44 @@ router.post('/add', async (req, res) => {
     res.render(error)
   }
 })
+
+router.post('/update', async (req, res, next) => {
+  var id = req.body.id;
+
+    var room_cat = {
+        _id: req.body.id,
+        nameOfCategory: req.body.nameOfCategory,
+        price: req.body.price,
+        note: req.body.note
+    };
+
+    RoomCategory.update({ _id: id}, room_cat, function(err) {
+        if (err) {
+          console.log(err)
+        }
+        else {
+            res.redirect('/room-categories/views')
+        }
+    });
+});
+
+router.post('/delete', function (req, res, next) {
+  //store the id from the url into a variable
+  // var id = req.params.id;
+  var id = req.body.id;
+
+  //use our RoomCategory model to delete
+  RoomCategory.remove({ _id: id }, function (err, product) {
+      if (err) {
+        console.log(err)
+      }
+      else {
+        console.log("Xóa thành công!")
+        res.redirect('/room-categories/views')
+      }
+  });
+});
+
 module.exports = router
+
+
