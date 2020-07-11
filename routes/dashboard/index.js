@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 
-router.get('/', async (req, res) => {
+router.get('/dashboard', async (req, res) => {
   try {
     res.render('pages/dashboard/index', { layout: 'layout' })
   } catch (error) {

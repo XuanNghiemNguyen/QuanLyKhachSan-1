@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-
-router.get('/views', async (req, res) => {
+router.get('/room-categories', async (req, res) => {
   try {
     res.render("pages/room-categories/index", { layout: "layout" });
   } catch (error) {

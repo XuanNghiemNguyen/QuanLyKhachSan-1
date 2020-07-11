@@ -1,27 +1,14 @@
 <div class="container-fluid">
   <!-- Page Heading -->
   <!-- <div class="card shadow mb-4"> -->
-  <div
-    class="card-header py-3"
-    style="display: flex; justify-content: space-between;"
-  >
+  <div class="card-header py-3" style="display: flex; justify-content: space-between;">
     <h3 class="m-0 font-weight-bold text-primary">Loại phòng</h3>
-    <a
-      href="#"
-      class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
-      data-toggle="modal"
-      data-target="#logoutModal"
-      ><i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a
-    >
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal"
+      data-target="#logoutModal"><i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table
-        class="table table-bordered"
-        id="dataTable"
-        width="100%"
-        cellspacing="0"
-      >
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>STT</th>
@@ -56,27 +43,14 @@
 
             <td>
               <form method="POST" action="/admin/category/delete/{{ chilID }}">
-                <a
-                  class="fa fa-eye fa-fw thaotacButton"
-                  title="Xem bài viết"
-                  href="/category/{{ chilID }}"
-                  target="_blank"
-                  data-toggle="tooltip"
-                ></a>
-                <button
-                  class="fa fa-edit fa-fw thaotacButton"
-                  type="button"
-                  onclick="location.href='/admin/category/edit/{{ chilID }}'"
-                  title="Cập nhật"
-                  data-toggle="tooltip"
-                ></button>
-                <button
-                  class="fa fa-remove fa-fw thaotacButton"
-                  onclick="return confirm('Bạn thực sự muốn xóa chuyên mục này?')"
-                  title="Xóa"
-                  type="submit"
-                  data-toggle="tooltip"
-                ></button>
+                <a class="fa fa-eye fa-fw thaotacButton" title="Xem bài viết" href="/category/{{ chilID }}"
+                  target="_blank" data-toggle="tooltip"></a>
+                <button class="fa fa-edit fa-fw thaotacButton" type="button"
+                  onclick="location.href='/admin/category/edit/{{ chilID }}'" title="Cập nhật"
+                  data-toggle="tooltip"></button>
+                <button class="fa fa-remove fa-fw thaotacButton"
+                  onclick="return confirm('Bạn thực sự muốn xóa chuyên mục này?')" title="Xóa" type="submit"
+                  data-toggle="tooltip"></button>
               </form>
             </td>
           </tr>
@@ -85,24 +59,13 @@
       </table>
     </div>
     <!-- Logout Modal-->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="exampleModalLabel"><b>Loại phòng mới</b></h4>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -110,37 +73,20 @@
             <div class="modal-body">
               <div class="form-group">
                 <label for="name_category_room">Tên loại phòng:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nhập tên loại phòng"
-                  id="name_category_room"
-                  required
-                />
+                <input type="text" class="form-control" placeholder="Nhập tên loại phòng" id="name_category_room"
+                  required />
               </div>
               <div class="form-group">
                 <label for="price_category_room" style="display: flex; justify-content: space-between;">
                   <span>Giá</span>
                   <span>(VND)</span>
                 </label>
-                <input
-                  type="number"
-                  min="100000"
-                  step="50000"
-                  max="5000000"
-                  class="form-control"
-                  placeholder="Nhập giá"
-                  id="price_category_room"
-                  required
-                />
+                <input type="number" min="100000" step="50000" max="5000000" class="form-control" placeholder="Nhập giá"
+                  id="price_category_room" required />
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                class="btn btn-secondary"
-                type="button"
-                data-dismiss="modal"
-              >
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">
                 Hủy
               </button>
               <button type="submit" class="btn btn-primary">Lưu</button>
