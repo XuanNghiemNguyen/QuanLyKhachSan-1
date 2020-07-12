@@ -2,9 +2,14 @@ const express = require('express')
 const router = express.Router()
 
 
-router.get('/dashboard', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    res.render('pages/dashboard/index', { layout: 'layout' })
+    if (req.isAuthenticated()) {
+      res.render('pages/dashboard/index', { layout: 'layout' })
+    }
+    else {
+      res.send("You are not logged in")
+    }
   } catch (error) {
     console.log(error)
   }

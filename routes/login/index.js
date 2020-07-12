@@ -1,10 +1,8 @@
 const express = require('express');
-const app = require('../../app');
 const router = express.Router()
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const { render } = require('../../app');
 const LocalStrategy = require('passport-local').Strategy
 
 router.get('/', async (req, res) => {
@@ -22,8 +20,7 @@ router.use(passport.session());
 
 router.post('/', passport.authenticate('local', {
   successRedirect: '/dashboard',
-  failureRedirect: '/login',
-  failureFlash: true
+  failureRedirect: '/login'
 }));
 
 passport.use(new LocalStrategy(
