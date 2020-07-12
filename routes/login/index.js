@@ -1,22 +1,20 @@
-const express = require('express');
+const express = require('express')
 const router = express.Router()
-const passport = require('passport');
-const session = require('express-session');
-const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt')
+const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const Users = require('../../models/user.model')
 
 router.get('/', async (req, res) => {
   try {
+    if (req.isAuthenticated()) {
+      res.redirect('/dashboard');
+    }
     res.render("pages/login/index", { layout: false });
   } catch (error) {
     console.log(error);
   }
 });
-
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(session({ secret: "hotelSecret" }));
-router.use(passport.initialize());
-router.use(passport.session());
 
 router.post('/', passport.authenticate('local', {
   successRedirect: '/dashboard',
@@ -24,27 +22,30 @@ router.post('/', passport.authenticate('local', {
 }));
 
 passport.use(new LocalStrategy(
-  function (username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
+  async function (username, password, done) {
+    try {
+      var User = await Users.find({ email: username });
+      if (User.length == 0) {
         return done(null, false, { message: 'Invalid username.' });
       }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: "Incorrect password" });
+      if (bcrypt.compareSync(password, User[0].password) == false) {
+        return done(null, false, { message: 'Wrong password.' });
       }
-      return done(null, user);
-    });
+      return done(null, User[0]);
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 ));
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
+passport.deserializeUser(function (user, done) {
+  Users.findById(user._id, function (err, receivedUser) {
+    done(err, receivedUser);
   });
 });
 

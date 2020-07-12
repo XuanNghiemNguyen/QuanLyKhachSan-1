@@ -9,6 +9,10 @@ require('express-async-errors')
 const mongoose = require('mongoose')
 const app = express();
 
+const passport = require('passport')
+const session = require('express-session')
+const bodyParser = require('body-parser')
+
 const cors = require('cors')
 app.use(cors())
 dotenv.config()
@@ -23,15 +27,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(expressLayouts);
 
+// PassportJs initialize
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ secret: "hotelSecret", saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 /* GET home page. */
 app.get("/", async (req, res) => {
-  res.redirect('dashboard')
+  res.redirect('login')
 });
+app.use("/login", require("./routes/login"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/room-categories", require("./routes/room-categories"));
 app.use("/rooms", require("./routes/rooms"));
 app.use("/users", require("./routes/users"));
-
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
@@ -70,7 +80,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render("error", { layout: false });
 });
 
 module.exports = app;
