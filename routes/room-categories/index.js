@@ -6,25 +6,27 @@ const User = require('../../models/user.model')
 
 router.get('/views', async (req, res) => {
   try {
-    let _roomCategories = await RoomCategory.find({})
-    if (_roomCategories && _roomCategories.length > 0) {
-      for (let i = 0; i < _roomCategories.length; i++) {
-        _roomCategories[i].roomQuantity =
-          (
-            await Room.find({
-              cateOfRoomId: _roomCategories[i]._id,
-            })
-          ).length || 0
-        const createdByUser = await User.findById(_roomCategories[i].createdBy)
-        _roomCategories[i].createdByUser = createdByUser
-          ? createdByUser.name
-          : ''
+    if (req.isAuthenticated()) {
+      let _roomCategories = await RoomCategory.find({})
+      if (_roomCategories && _roomCategories.length > 0) {
+        for (let i = 0; i < _roomCategories.length; i++) {
+          _roomCategories[i].roomQuantity =
+            (
+              await Room.find({
+                cateOfRoomId: _roomCategories[i]._id,
+              })
+            ).length || 0
+          const createdByUser = await User.findById(_roomCategories[i].createdBy)
+          _roomCategories[i].createdByUser = createdByUser
+            ? createdByUser.name
+            : ''
+        }
       }
+      res.render('pages/room-categories/index', {
+        layout: 'layout',
+        data: _roomCategories || [],
+      })
     }
-    res.render('pages/room-categories/index', {
-      layout: 'layout',
-      data: _roomCategories || [],
-    })
   } catch (error) {
     console.log(error)
   }
