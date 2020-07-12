@@ -9,10 +9,11 @@ const RoomSchema = new Schema(
       minlength: 3,
       maxlength: 20,
     },
-    cateOfRoom: Schema.Types.ObjectId,
+    cateOfRoomId: Schema.Types.ObjectId,
     price: { type: Number, min: 10000 },
     status: { type: String, default: 'Còn trống' }, // "Còn trống", "Đang sử dụng"
     note: { type: String, default: '' },
+    isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId, // employee id
     maxPeople: { type: Number, min: 1, default: 3 }

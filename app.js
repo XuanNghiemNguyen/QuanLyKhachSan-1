@@ -9,7 +9,7 @@ require('express-async-errors')
 const mongoose = require('mongoose')
 const app = express();
 
-const cors = require('cors');
+const cors = require('cors')
 app.use(cors())
 dotenv.config()
 
@@ -25,13 +25,13 @@ app.use(expressLayouts);
 
 /* GET home page. */
 app.get("/", async (req, res) => {
-  res.redirect('login')
+  res.redirect('dashboard')
 });
+app.use("/dashboard", require("./routes/dashboard"));
+app.use("/room-categories", require("./routes/room-categories"));
+app.use("/rooms", require("./routes/rooms"));
+app.use("/users", require("./routes/users"));
 
-app.use('/login', require("./routes/login"))
-app.use('/dashboard', require("./routes/dashboard"));
-app.use('/room-categories', require("./routes/room-categories"));
-app.use('/rooms', require("./routes/rooms"));
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
@@ -57,7 +57,6 @@ const connectDatabase = () => {
   )
 }
 connectDatabase()
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

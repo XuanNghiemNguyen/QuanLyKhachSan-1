@@ -10,6 +10,7 @@ const CustomerTypeSchema = new Schema(
       maxlength: 20,
     },
     factor: { type: Number, default: 1.5 },
+    isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId, // employee id
   },
