@@ -20,19 +20,24 @@
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                 </div>
-                <form class="login" action="/login/" method="post">
-                  <div class="form-group">
-                    <input type="email" class="form-control form-control-user" name="username"
-                      aria-describedby="emailHelp" placeholder="Enter username">
+                <div>
+                  <p class="text-danger">
+                    <%= message%>
+                  </p>
+                </div>
+                <form class="login" onsubmit="return validateUser()" action="/login/" method="post">
+                  <div class=" form-group">
+                    <input type="email" class="form-control form-control-user" id="username" name="username"
+                      aria-describedby="emailHelp" placeholder="Nhập địa chỉ Email">
                   </div>
                   <div class="form-group">
-                    <input type="password" class="form-control form-control-user" name="password"
-                      placeholder="Password">
+                    <input type="password" class="form-control form-control-user" id="password" name="password"
+                      placeholder="Mật khẩu">
                   </div>
                   <div class="form-group">
                     <div class="custom-control custom-checkbox small">
                       <input type="checkbox" class="custom-control-input" id="customCheck" name="isRemember">
-                      <label class="custom-control-label" for="customCheck">Remember Me</label>
+                      <label class="custom-control-label" for="customCheck">Ghi nhớ đăng nhập</label>
                     </div>
                   </div>
                   <input type="submit" class="btn btn-primary btn-user btn-block" value="Log In">
@@ -49,6 +54,28 @@
   </div>
 
 </div>
+
+<script>
+  function validateUser() {
+    var username = document.getElementById("username");
+    var password = document.getElementById("password");
+    if (username.value !== "") {
+      username.style.borderColor = "#d1d3e2";
+    }
+    if (password.value !== "") {
+      password.style.borderColor = "#d1d3e2";
+    }
+    if (username.value === "") {
+      username.style.borderColor = "red";
+      return false;
+    }
+    if (password.value === "") {
+      password.style.borderColor = "red";
+      return false;
+    }
+    return true;
+  }
+</script>
 
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

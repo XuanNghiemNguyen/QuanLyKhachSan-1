@@ -12,6 +12,7 @@ const app = express();
 const passport = require('passport')
 const session = require('express-session')
 const bodyParser = require('body-parser')
+const flash = require('connect-flash')
 
 const cors = require('cors')
 app.use(cors())
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: "hotelSecret", saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 /* GET home page. */
 app.get("/", async (req, res) => {
