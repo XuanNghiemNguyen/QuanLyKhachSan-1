@@ -10,16 +10,22 @@ router.get('/', async (req, res) => {
     if (req.isAuthenticated()) {
       res.redirect('/dashboard');
     }
-    res.render("pages/login/index", { layout: false });
+    res.render("pages/login/index", { layout: false, clientName: `${process.env.CLIENT_NAME}` });
   } catch (error) {
     console.log(error);
   }
 });
 
 router.post('/', passport.authenticate('local', {
-  successRedirect: '/dashboard',
-  failureRedirect: '/login'
-}));
+  failureRedirect: '/login',
+  failureFlash: true
+}), (req, res) => {
+  // Remember check box is checked
+  if (req.body.isRemember) {
+    req.session.cookie.expires = new Date(253402300000000); // set the expired date to year 10000
+  }
+  res.redirect('/dashboard');
+});
 
 passport.use(new LocalStrategy(
   async function (username, password, done) {
