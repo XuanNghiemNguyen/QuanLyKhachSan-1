@@ -28,8 +28,8 @@
             <td><%= item.roomQuantity%></td>
             <td><%= item.createdByUser%></td>
             <td>
-              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-name="<%= item.nameOfCategory %>" data-price="<%= item.price %>" data-note="<%= item.note %>">Edit</a>
-              <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Delete</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-name="<%= item.nameOfCategory %>" data-price="<%= item.price %>" data-note="<%= item.note %>">Cập nhật</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
             </td>
           </tr>
           <% }); %>
@@ -51,19 +51,19 @@
        </div>
        <div class="modal-body">
         <div class="form-group">
-          <label for="nameOfCategory">Tên loại phòng:</label>
-          <input type="text" class="form-control" placeholder="Nhập tên loại phòng" id="nameOfCategory" name="nameOfCategory" placeholder="Nhập tên loại phòng" required />
+          <label for="nameOfCategory_Create">Tên loại phòng:</label>
+          <input type="text" class="form-control" placeholder="Nhập tên loại phòng" id="nameOfCategory_Create" name="nameOfCategory" placeholder="Nhập tên loại phòng" required />
         </div>
         <div class="form-group">
-          <label for="price" style="display: flex; justify-content: space-between;">
+          <label for="price_create" style="display: flex; justify-content: space-between;">
             <span>Giá:</span>
             <span>(VND)</span>
           </label>
-          <input type="number" min="100000" step="50000" max="5000000" class="form-control" placeholder="Nhập giá" id="price" name="price" required/>
+          <input type="number" min="100000" step="50000" max="5000000" class="form-control" placeholder="Nhập giá" id="price_create" name="price" required/>
         </div>
         <div class="form-group">
-          <label for="note">Ghi chú:</label>
-          <textarea rows="3" class="form-control" placeholder="Thêm ghi chú" id="note" name="note"></textarea>
+          <label for="note_create">Ghi chú:</label>
+          <textarea rows="3" class="form-control" placeholder="Thêm ghi chú" id="note_create" name="note"></textarea>
         </div>
       </div>
        <div class="modal-footer">
@@ -76,7 +76,7 @@
 </form>
 
 <!-- Modal Update -->
-<form action="/room-categories/update/<%= data._id %>" method="post">
+<form action="/room-categories/update?id=<%= data._id %>" method="post">
  <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -88,25 +88,25 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-            <label for="nameOfCategory">Tên loại phòng:</label>
-            <input type="text" name="nameOfCategory" class="form-control nameOfCategory" id="nameOfCategory" required>
+            <label for="nameOfCategor_Update">Tên loại phòng:</label>
+            <input type="text" name="nameOfCategory" class="form-control nameOfCategory" id="nameOfCategory_Update" required>
         </div>
         <div class="form-group">
-          <label for="price" style="display: flex; justify-content: space-between;">
+          <label for="price_update" style="display: flex; justify-content: space-between;">
             <span>Giá</span>
             <span>(VND)</span>
           </label>
-          <input type="number" min="100000" step="50000" max="5000000" class="form-control price" placeholder="Nhập giá" id="price" name="price" required/>
+          <input type="number" min="100000" step="50000" max="5000000" class="form-control price" placeholder="Nhập giá" id="price_update" name="price" required/>
         </div>
         <div class="form-group">
-          <label for="note">Ghi chú:</label>
-          <textarea rows="3" class="form-control note" placeholder="Thêm ghi chú" id="note" name="note"></textarea>
+          <label for="note_update">Ghi chú:</label>
+          <textarea rows="3" class="form-control note" placeholder="Thêm ghi chú" id="note_update" name="note"></textarea>
         </div>
       </div>
       <div class="modal-footer">
         <input type="hidden" name="id" class="_id">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="submit" class="btn btn-primary">Xác nhận</button>
       </div>
     </div>
   </div>
@@ -114,7 +114,7 @@
 </form>
 
 <!-- Modal Delete -->
-<form id="add-row-form" action="/room-categories/delete/<%= data._id %>" method="post">
+<form id="add-row-form" action="/room-categories/delete" method="post">
    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -126,9 +126,9 @@
                 <strong>Bạn có chắc chắn muốn xóa?</strong>
              </div>
              <div class="modal-footer">
-                  <input type="hidden" name="_id" class="form-control _id2" required>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-success">Delete</button>
+                  <input type="hidden" name="id" class="form-control _id2" required>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                  <button type="submit" class="btn btn-success">Xác nhận</button>
              </div>
           </div>
       </div>
@@ -145,10 +145,10 @@
     $(document).ready(function(){
       //showing data to edit modal      
       $('#dataTable').on('click','.edit',function(){
-        var _id = $(this).data('id');
-        var nameOfCategory = $(this).data('name');
-        var price = $(this).data('price');
-        var note = $(this).data('note');
+        const _id = $(this).data('id');
+        const nameOfCategory = $(this).data('name');
+        const price = $(this).data('price');
+        const note = $(this).data('note');
         $('#EditModal').modal('show');
         $('.nameOfCategory').val(nameOfCategory);
         $('.price').val(price);
@@ -157,7 +157,7 @@
       });
       //showing delete record modal
       $('#dataTable').on('click','.delete',function(){
-        var _id = $(this).data('id');
+        const _id = $(this).data('id');
         $('#DeleteModal').modal('show');
         $('._id2').val(_id);
       });

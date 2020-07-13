@@ -23,6 +23,8 @@ router.post('/add', async (req, res) => {
         success: true,
         user: _user,
       })
+    } else {
+      return res.redirect("/login")
     }
   } catch (error) {
     console.log(error)
