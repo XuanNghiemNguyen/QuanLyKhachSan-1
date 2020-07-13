@@ -31,7 +31,11 @@ app.use(expressLayouts);
 
 // PassportJs initialize
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ secret: "hotelSecret", saveUninitialized: true }));
+app.use(session({
+  secret: "hotelSecret",
+  saveUninitialized: false,
+  resave: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -44,6 +48,7 @@ app.use("/dashboard", require("./routes/dashboard"));
 app.use("/room-categories", require("./routes/room-categories"));
 app.use("/rooms", require("./routes/rooms"));
 app.use("/users", require("./routes/users"));
+app.use("/logout", require("./routes/logout"));
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
