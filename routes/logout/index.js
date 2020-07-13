@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/', function (req, res) {
+router.get('/', async (req, res) => {
     req.session.destroy(function () {
         res.clearCookie('connect.sid');
         res.redirect('/login');
