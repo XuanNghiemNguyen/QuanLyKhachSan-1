@@ -11,7 +11,7 @@ const RoomSchema = new Schema(
     },
     cateOfRoomId: Schema.Types.ObjectId,
     price: { type: Number, min: 10000 },
-    status: { type: String, default: 'Còn trống' }, // "Còn trống", "Đang sử dụng"
+    status: { type: String, default: 'Còn trống' }, // "Còn trống", "Đang sử dụng" // Xem lai: Nen la enum, khong nen cho nguoi dung nhap string
     note: { type: String, default: '' },
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
