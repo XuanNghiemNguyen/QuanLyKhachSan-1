@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const { Decimal128 } = require('mongodb')
 
 const CustomerTypeSchema = new Schema(
   {
@@ -9,7 +10,7 @@ const CustomerTypeSchema = new Schema(
       minlength: 3,
       maxlength: 20,
     },
-    factor: { type: Number, default: 1.5 },
+    factor: { type: Decimal128, default: 1.5 },
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId, // employee id

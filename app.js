@@ -50,6 +50,10 @@ app.use("/dashboard", require("./routes/dashboard"));
 app.use("/room-categories", require("./routes/room-categories"));
 app.use("/rooms", require("./routes/rooms"));
 app.use("/users", require("./routes/users"));
+app.use("/customer-types", require("./routes/customer-types"));
+app.use("/customers", require("./routes/customers"));
+app.use("/surcharges", require("./routes/surcharges"));
+app.use("/employees", require("./routes/employees"));
 app.use("/logout", require("./routes/logout"));
 
 //connect database
