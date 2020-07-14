@@ -13,6 +13,7 @@ const app = express();
 const passport = require('passport')
 const session = require('express-session')
 const bodyParser = require('body-parser')
+const flash = require('connect-flash')
 
 const cors = require('cors')
 app.use(cors())
@@ -31,9 +32,14 @@ app.use(expressLayouts);
 
 // PassportJs initialize
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ secret: "hotelSecret", saveUninitialized: true }));
+app.use(session({
+  secret: "hotelSecret",
+  saveUninitialized: false,
+  resave: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 /* GET home page. */
 app.get("/", async (req, res) => {
@@ -48,6 +54,7 @@ app.use("/customer-types", require("./routes/customer-types"));
 app.use("/customers", require("./routes/customers"));
 app.use("/surcharges", require("./routes/surcharges"));
 app.use("/employees", require("./routes/employees"));
+app.use("/logout", require("./routes/logout"));
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`

@@ -7,29 +7,38 @@ const Users = require('../../models/user.model')
 
 router.get('/', async (req, res) => {
   try {
+    var message = req.flash('failureMessage');
+    if (message == null) {
+      message = "";
+    }
     if (req.isAuthenticated()) {
       res.redirect('/dashboard');
     }
-    res.render("pages/login/index", { layout: false });
+    res.render("pages/login/index", { layout: false, clientName: `${process.env.CLIENT_NAME}`, message: message });
   } catch (error) {
     console.log(error);
   }
 });
 
 router.post('/', passport.authenticate('local', {
-  successRedirect: '/dashboard',
   failureRedirect: '/login'
-}));
+}), (req, res) => {
+  // Remember check box is checked
+  if (req.body.isRemember) {
+    req.session.cookie.expires = new Date(253402300000000); // set the expired date to year 10000
+  }
+  res.redirect('/dashboard');
+});
 
-passport.use(new LocalStrategy(
-  async function (username, password, done) {
+passport.use(new LocalStrategy({ passReqToCallback: true },
+  async function (req, username, password, done) {
     try {
       var User = await Users.find({ email: username });
       if (User.length == 0) {
-        return done(null, false, { message: 'Invalid username.' });
+        return done(null, false, req.flash('failureMessage', 'Email không tồn tại'));
       }
       if (bcrypt.compareSync(password, User[0].password) == false) {
-        return done(null, false, { message: 'Wrong password.' });
+        return done(null, false, req.flash('failureMessage', 'Sai mật khẩu'));
       }
       return done(null, User[0]);
     }
