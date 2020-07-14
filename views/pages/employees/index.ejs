@@ -1,0 +1,222 @@
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <!-- <div class="card shadow mb-4"> -->
+  <div class="card-header py-3" style="display: flex; justify-content: space-between;">
+    <h3 class="m-0 font-weight-bold text-primary">Nhân viên</h3>
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#myModalAdd">
+      <i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên nhân viên</th>
+            <th>Email</th>
+            <th>Địa chỉ</th>
+            <th>Người tạo</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.forEach(function(item, idx) { %>
+          <tr>
+            <td><%= idx + 1 %></td>
+            <td><%= item.name%></td>
+            <td><%= item.email%></td>
+            <td><%= item.address%></td>
+            <td><%= item.createdByUser%></td>
+            <td>
+              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-name="<%= item.name %>" data-type="<%= item.type %>" data-password="<%= item.password %>" data-email="<%= item.email %>" data-address="<%= item.address %>" data-avatar="<%= item.avatar %>" data-enabled="<%= item.isEnabled %>">Cập nhật</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<!-- Modal Add -->
+<form action="/employees/add" method="post">
+  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Thêm user mới</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <div class="form-group">
+          <label for="name_Create">Tên:</label>
+          <input type="text" class="form-control name" placeholder="Nhập tên nhân viên" id="name_Create" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="status_Create">Loại nhân viên:</label>
+          <label class="radio-inline">
+            <input type="radio" name="type" value="Employee" checked> Nhân viên thường
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="type" value="Admin"> Quản lý
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="isEnabled_Create">Trạng thái:</label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="true" checked> Đang hoạt động
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="false"> Không hoạt động
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="email_Create">Email:</label>
+          <input type="text" class="form-control email" placeholder="Nhập email nhân viên" id="email_Create" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password_Create">Password:</label>
+          <input type="text" class="form-control password" placeholder="Nhập password nhân viên" id="password_Create" name="password" required />
+        </div>
+        <div class="form-group">
+          <label for="address_Create">Địa chỉ:</label>
+          <input type="text" class="form-control address" placeholder="Nhập địa chỉ nhân viên" id="address_Create" name="address" required />
+        </div>
+        <div class="form-group">
+          <label for="avatar_Create">Avatar:</label>
+          <input type="text" class="form-control avatar" placeholder="Nhập địa chỉ url avatar nhân viên" id="avatar_Create" name="avatar" required />
+        </div>
+      </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary">Save</button>
+       </div>
+     </div>
+   </div>
+  </div>
+</form>
+
+<!-- Modal Update -->
+<form action="/employees/update?id=<%= data._id %>" method="post">
+ <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sửa loại phòng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="name_Create">Tên:</label>
+          <input type="text" class="form-control name" placeholder="Nhập tên nhân viên" id="name_Create" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="status_Create">Loại nhân viên:</label>
+          <label class="radio-inline">
+            <input type="radio" name="type" value="Employee" checked> Nhân viên thường
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="type" value="Admin"> Quản lý
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="isEnabled_Create">Trạng thái:</label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="true" checked> Đang hoạt động
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="false"> Không hoạt động
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="email_Create">Email:</label>
+          <input type="text" class="form-control email" placeholder="Nhập email nhân viên" id="email_Create" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password_Create">Password:</label>
+          <input type="text" class="form-control password" placeholder="Nhập password nhân viên" id="password_Create" name="password" required />
+        </div>
+        <div class="form-group">
+          <label for="address_Create">Địa chỉ:</label>
+          <input type="text" class="form-control address" placeholder="Nhập địa chỉ url nhân viên" id="address_Create" name="address" required />
+        </div>
+        <div class="form-group">
+          <label for="avatar_Create">Avatar:</label>
+          <input type="text" class="form-control avatar" placeholder="Nhập địa chỉ avatar nhân viên" id="avatar_Create" name="avatar" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" name="id" class="_id">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="submit" class="btn btn-primary">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+ </div>
+</form>
+
+<!-- Modal Delete -->
+<form id="add-row-form" action="/employees/delete" method="post">
+   <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel">Xóa loại phòng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             </div>
+             <div class="modal-body">
+                <strong>Bạn có chắc chắn muốn xóa?</strong>
+             </div>
+             <div class="modal-footer">
+                  <input type="hidden" name="id" class="form-control _id2" required>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                  <button type="submit" class="btn btn-success">Xác nhận</button>
+             </div>
+          </div>
+      </div>
+   </div>
+</form>
+
+  <script
+    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"
+  ></script>
+
+  <script>
+    $(document).ready(function(){
+      //showing data to edit modal      
+      $('#dataTable').on('click','.edit',function(){
+        const _id = $(this).data('id');
+        const name = $(this).data('name');
+        const type = $(this).data('type');
+        const email = $(this).data('email');
+        const address = $(this).data('address');
+        const avatar = $(this).data('avatar');
+        const password = $(this).data('password');
+        const isEnabled = $(this).data('enabled');
+        $('#EditModal').modal('show');
+        $('.name').val(name);
+        $('.type').val(type);
+        $('.password').val(password);
+        $('.email').val(email);
+        $('.address').val(address);
+        $('.avatar').val(avatar);
+        $(`input:radio[name="isEnabled"][value="${isEnabled}"]`).prop('checked', true);
+        $(`input:radio[name="type"][value="${type}"]`).prop('checked', true);
+        $('._id').val(_id);
+      });
+      //showing delete record modal
+      $('#dataTable').on('click','.delete',function(){
+        const _id = $(this).data('id');
+        $('#DeleteModal').modal('show');
+        $('._id2').val(_id);
+      });
+ 
+    });
+  </script>
+</div>
