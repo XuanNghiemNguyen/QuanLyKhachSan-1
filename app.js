@@ -45,6 +45,7 @@ app.use("/room-categories", require("./routes/room-categories"));
 app.use("/rooms", require("./routes/rooms"));
 app.use("/users", require("./routes/users"));
 app.use("/customer-types", require("./routes/customer-types"));
+app.use("/customers", require("./routes/customers"));
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`

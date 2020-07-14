@@ -10,10 +10,10 @@ const CustomerSchema = new Schema(
       minlength: 1,
       maxlength: 40,
     },
-    gender: { type: String, default: 'male' },
+    gender: { type: String, default: 'Nam' },
     address: String,
     customerTypeId: Schema.Types.ObjectId,
-    employeeId: Schema.Types.ObjectId,
+    employeeId: Schema.Types.ObjectId, // chua dung
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId // employee id
