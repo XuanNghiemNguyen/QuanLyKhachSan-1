@@ -4,7 +4,7 @@ const User = require("../../models/user.model")
 const User_Verify = require("../../models/verify.model")
 const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 
 const getRandomCode = () => {
   let ss = Math.floor(Math.random() * Math.floor(100000))
@@ -126,7 +126,7 @@ router.post("/getOTP", async (req, res) => {
 
 router.post("/change-password", async (req, res) => {
   try {
-    const {email} = req.query
+    const { email } = req.query
     const { code, new_password } = req.body
     if (!new_password || !code) {
       return
