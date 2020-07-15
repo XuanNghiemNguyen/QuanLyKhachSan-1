@@ -25,20 +25,21 @@
                     <%= message%>
                   </p>
                 </div>
-                <form class="login" onsubmit="return validateUser()" action="/login/" method="post">
-                  <div class=" form-group">
-                    <input type="email" class="form-control form-control-user" id="username" name="username"
-                      aria-describedby="emailHelp" placeholder="Nhập địa chỉ Email">
+                <form class="login" action="/login" method="POST">
+                  <div class="form-group">
+                    <input type="email" class="form-control form-control-user" id="email" name="email"
+                      aria-describedby="emailHelp" placeholder="Nhập địa chỉ Email" required>
                   </div>
                   <div class="form-group">
                     <input type="password" class="form-control form-control-user" id="password" name="password"
-                      placeholder="Mật khẩu">
+                      placeholder="Mật khẩu" required>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="display: flex; flex-direction: row; justify-content: space-between">
                     <div class="custom-control custom-checkbox small">
                       <input type="checkbox" class="custom-control-input" id="customCheck" name="isRemember">
                       <label class="custom-control-label" for="customCheck">Ghi nhớ đăng nhập</label>
                     </div>
+                    <a href="/forgot-password">Quên mật khẩu?</a>
                   </div>
                   <input type="submit" class="btn btn-primary btn-user btn-block" value="Log In">
                   </input>
@@ -57,16 +58,17 @@
 
 <script>
   function validateUser() {
-    var username = document.getElementById("username");
-    var password = document.getElementById("password");
-    if (username.value !== "") {
-      username.style.borderColor = "#d1d3e2";
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+    const mailCheck = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/gm)
+    if (email.value !== "" || mailCheck.test(email)) {
+      email.style.borderColor = "#d1d3e2";
     }
     if (password.value !== "") {
       password.style.borderColor = "#d1d3e2";
     }
-    if (username.value === "") {
-      username.style.borderColor = "red";
+    if (email.value === "") {
+      email.style.borderColor = "red";
       return false;
     }
     if (password.value === "") {

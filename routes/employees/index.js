@@ -90,7 +90,6 @@ router.post("/delete", async (req, res) => {
         return
       }
       const _user = await User.findById(id)
-      console.log("nghiem", _user)
       if (_user) _user.isDeleted = true
       await _user.save()
       return res.redirect("/employees/views")

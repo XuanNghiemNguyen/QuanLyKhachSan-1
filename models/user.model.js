@@ -5,7 +5,7 @@ const UserSchema = new Schema(
     type: { type: String, default: 'employee' }, // or admin
     name: String,
     password: String,
-    email: { type: String, default: 'user@domain.com' },
+    email: { type: String, unique: true },
     address: { type: String, default: 'TPHCM' },
     avatar: String,
     isEnabled: { type: Boolean, default: true },

@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     if (message == null) {
       message = "";
     }
+    console.log(req.isAuthenticated())
     if (req.isAuthenticated()) {
       res.redirect('/dashboard');
     }
@@ -33,7 +34,8 @@ router.post('/', passport.authenticate('local', {
 passport.use(new LocalStrategy({ passReqToCallback: true },
   async function (req, username, password, done) {
     try {
-      var User = await Users.find({ email: username });
+      const User = await Users.find({ email: username });
+      console.log(User)
       if (User.length == 0) {
         return done(null, false, req.flash('failureMessage', 'Email không tồn tại'));
       }
@@ -52,8 +54,8 @@ passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function (user, done) {
-  Users.findById(user._id, function (err, receivedUser) {
+passport.deserializeUser(async (user, done) => {
+  await Users.findById(user._id, function (err, receivedUser) {
     done(err, receivedUser);
   });
 });
