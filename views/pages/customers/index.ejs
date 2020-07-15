@@ -175,6 +175,8 @@
 
   <script>
     $(document).ready(function(){
+      document.getElementById('collapseUtilities').classList.add('show')
+    document.getElementById('customers-tab').classList.add('active')
       //showing data to edit modal      
       $('#dataTable').on('click','.edit',function(){
         const _id = $(this).data('id');

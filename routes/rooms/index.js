@@ -1,9 +1,9 @@
-const express = require('express')
+const express = require("express")
 const router = express.Router()
-const Room = require('../../models/room.model')
+const Room = require("../../models/room.model")
 const RoomCategory = require("../../models/room-category.model")
 
-router.get('/views', async (req, res) => {
+router.get("/views", async (req, res) => {
   try {
     if (req.isAuthenticated()) {
       const _rooms = await Room.find({ isDeleted: false })
@@ -11,18 +11,17 @@ router.get('/views', async (req, res) => {
 
       if (_rooms && _rooms.length > 0) {
         for (let i = 0; i < _rooms.length; i++) {
-          const cate = await RoomCategory.findById(
-            _rooms[i].cateOfRoomId
-          )
-          _rooms[i].cate = cate
-            ? cate.nameOfCategory
-            : ""
+          const cate = await RoomCategory.findById(_rooms[i].cateOfRoomId)
+          _rooms[i].cate = cate ? cate.nameOfCategory : ""
         }
       }
-      res.render('pages/rooms/index', { layout: 'layout', data: _rooms, dataCate: _roomCates || [] })
-    }
-    else {
-      res.redirect('/login')
+      res.render("pages/rooms/index", {
+        layout: "layout",
+        data: _rooms,
+        dataCate: _roomCates || [],
+      })
+    } else {
+      res.redirect("/login")
     }
   } catch (error) {
     console.log(error)
@@ -33,7 +32,14 @@ router.post("/add", async (req, res) => {
   try {
     if (req.isAuthenticated()) {
       const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
-      const { nameOfRoom, cateOfRoomId, maxPeople, note, price, status } = req.body
+      const {
+        nameOfRoom,
+        cateOfRoomId,
+        maxPeople,
+        note,
+        price,
+        status,
+      } = req.body
       const _room = new Room({})
       _room.nameOfRoom = nameOfRoom
       _room.cateOfRoomId = cateOfRoomId
@@ -56,7 +62,15 @@ router.post("/add", async (req, res) => {
 router.post("/update", async (req, res) => {
   try {
     if (req.isAuthenticated()) {
-      const { id, nameOfRoom, cateOfRoomId, price, maxPeople, note, status } = req.body
+      const {
+        id,
+        nameOfRoom,
+        cateOfRoomId,
+        price,
+        maxPeople,
+        note,
+        status,
+      } = req.body
       if (!id) {
         return
       }
@@ -85,14 +99,16 @@ router.post("/delete", async (req, res) => {
     if (req.isAuthenticated()) {
       const { id } = req.body
       if (!id) {
-        console.log('id not found')
+        console.log("id not found")
         return
       }
       const _room = await Room.findById(id)
       console.log("nghiem", _room)
-      if (_room) _room.isDeleted = true
-      await _room.save()
-      return res.redirect("/rooms/views")
+      if (_room) {
+        _room.isDeleted = true
+        await _room.save()
+      }
+        return res.redirect("/rooms/views")
     } else {
       return res.redirect("/login")
     }

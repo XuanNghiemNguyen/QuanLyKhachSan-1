@@ -86,13 +86,14 @@ router.post("/delete", async (req, res) => {
     if (req.isAuthenticated()) {
       const { id } = req.body
       if (!id) {
-        console.log('id not found')
+        console.log("id not found")
         return
       }
       const _roomCategory = await RoomCategory.findById(id)
-      console.log("nghiem", _roomCategory)
-      if (_roomCategory) _roomCategory.isDeleted = true
-      await _roomCategory.save()
+      if (_roomCategory) {
+        _roomCategory.isDeleted = true
+        await _roomCategory.save()
+      }
       return res.redirect("/room-categories/views")
     } else {
       return res.redirect("/login")
