@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     if (req.isAuthenticated()) {
       res.redirect('/dashboard');
     }
-    res.render("pages/login/index", { layout: false, clientName: `${process.env.CLIENT_NAME}`, message: message });
+    return res.render("pages/login/index", { layout: false, clientName: `${process.env.CLIENT_NAME}`, message: message });
   } catch (error) {
     console.log(error);
   }
@@ -25,9 +25,9 @@ router.post('/', passport.authenticate('local', {
 }), (req, res) => {
   // Remember check box is checked
   if (req.body.isRemember) {
-    req.session.cookie.expires = new Date(253402300000000); // set the expired date to year 10000
+    return req.session.cookie.expires = new Date(253402300000000); // set the expired date to year 10000
   }
-  res.redirect('/dashboard');
+  return res.redirect('/dashboard');
 });
 
 passport.use(new LocalStrategy({ passReqToCallback: true },

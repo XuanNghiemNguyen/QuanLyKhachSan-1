@@ -9,12 +9,8 @@ router.get("/views", async (req, res) => {
       let _surcharges = await Surcharge.find({ isDeleted: false })
       if (_surcharges && _surcharges.length > 0) {
         for (let i = 0; i < _surcharges.length; i++) {
-          const createdByUser = await User.findById(
-            _surcharges[i].createdBy
-          )
-          _surcharges[i].createdByUser = createdByUser
-            ? createdByUser.name
-            : ""
+          const createdByUser = await User.findById(_surcharges[i].createdBy)
+          _surcharges[i].createdByUser = createdByUser ? createdByUser.name : ""
         }
       }
       res.render("pages/surcharges/index", {
@@ -54,7 +50,7 @@ router.post("/update", async (req, res) => {
     if (req.isAuthenticated()) {
       const { id, numberOfPeople, surchargePercent } = req.body
       if (!id) {
-        console.log('id not found')
+        console.log("id not found")
         return
       }
       const _surcharge = await Surcharge.findById(id)
@@ -78,13 +74,14 @@ router.post("/delete", async (req, res) => {
     if (req.isAuthenticated()) {
       const { id } = req.body
       if (!id) {
-        console.log('id not found')
+        console.log("id not found")
         return
       }
       const _surcharge = await Surcharge.findById(id)
-      console.log("nghiem", _surcharge)
-      if (_surcharge) _surcharge.isDeleted = true
-      await _surcharge.save()
+      if (_surcharge) {
+        _surcharge.isDeleted = true
+        await _surcharge.save()
+      }
       return res.redirect("/surcharges/views")
     } else {
       return res.redirect("/login")

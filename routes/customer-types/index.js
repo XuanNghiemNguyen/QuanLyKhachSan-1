@@ -9,9 +9,7 @@ router.get("/views", async (req, res) => {
       let _customerTypes = await CustomerType.find({ isDeleted: false })
       if (_customerTypes && _customerTypes.length > 0) {
         for (let i = 0; i < _customerTypes.length; i++) {
-          const createdByUser = await User.findById(
-            _customerTypes[i].createdBy
-          )
+          const createdByUser = await User.findById(_customerTypes[i].createdBy)
           _customerTypes[i].createdByUser = createdByUser
             ? createdByUser.name
             : ""
@@ -77,13 +75,15 @@ router.post("/delete", async (req, res) => {
     if (req.isAuthenticated()) {
       const { id } = req.body
       if (!id) {
-        console.log('id not found')
+        console.log("id not found")
         return
       }
       const _customerType = await CustomerType.findById(id)
       console.log("nghiem", _customerType)
-      if (_customerType) _customerType.isDeleted = true
-      await _customerType.save()
+      if (_customerType) {
+        _customerType.isDeleted = true
+        await _customerType.save()
+      }
       return res.redirect("/customer-types/views")
     } else {
       return res.redirect("/login")

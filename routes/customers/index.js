@@ -1,9 +1,9 @@
-const express = require('express')
+const express = require("express")
 const router = express.Router()
-const Customer = require('../../models/customer.model')
+const Customer = require("../../models/customer.model")
 const CustomerType = require("../../models/customer-type.model")
 
-router.get('/views', async (req, res) => {
+router.get("/views", async (req, res) => {
   try {
     if (req.isAuthenticated()) {
       const _customers = await Customer.find({ isDeleted: false })
@@ -11,18 +11,17 @@ router.get('/views', async (req, res) => {
 
       if (_customers && _customers.length > 0) {
         for (let i = 0; i < _customers.length; i++) {
-          const type = await CustomerType.findById(
-            _customers[i].customerTypeId
-          )
-          _customers[i].type = type
-            ? type.nameOfType
-            : ""
+          const type = await CustomerType.findById(_customers[i].customerTypeId)
+          _customers[i].type = type ? type.nameOfType : ""
         }
       }
-      res.render('pages/customers/index', { layout: 'layout', data: _customers, dataType: _customerTypes || [] })
-    }
-    else {
-      res.redirect('/login')
+      res.render("pages/customers/index", {
+        layout: "layout",
+        data: _customers,
+        dataType: _customerTypes || [],
+      })
+    } else {
+      res.redirect("/login")
     }
   } catch (error) {
     console.log(error)
@@ -83,13 +82,14 @@ router.post("/delete", async (req, res) => {
     if (req.isAuthenticated()) {
       const { id } = req.body
       if (!id) {
-        console.log('id not found')
+        console.log("id not found")
         return
       }
       const _customer = await Customer.findById(id)
-      console.log("nghiem", _customer)
-      if (_customer) _customer.isDeleted = true
-      await _customer.save()
+      if (_customer) {
+        _customer.isDeleted = true
+        await _customer.save()
+      }
       return res.redirect("/customers/views")
     } else {
       return res.redirect("/login")
