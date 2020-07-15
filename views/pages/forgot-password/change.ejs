@@ -1,0 +1,127 @@
+<div class="container">
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+    <div class="col-xl-10 col-lg-12 col-md-9">
+      <div>
+        <p
+          class="h1 text-center text-gray-900 mt-5"
+          style="font-family: serif;"
+        >
+          <%= clientName%>
+        </p>
+      </div>
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block">
+              <img src="/img/logo.png" class="img-fluid" />
+            </div>
+            <div
+              class="col-lg-6"
+              style="
+                display: flex;
+                justify-content: space-around;
+                flex-direction: column;
+              "
+            >
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Lấy lại mật khẩu</h1>
+                </div>
+                <div>
+                  <p class="text-success" style="display: <%= check_otp%>">
+                    Kiểm tra mã OTP được gửi về email của bạn!
+                  </p>
+                  <p class="text-danger" style="display: <%= error_otp%>">
+                    Mã OTP không chính xác hoặc hết hạn
+                  </p>
+                </div>
+                <form
+                  action="/forgot-password/change-password?email=<%= email%>"
+                  method="post"
+                  oninput='re_new_password.setCustomValidity(re_new_password.value != new_password.value ? "Mật khẩu mới không khớp với nhau" : "")'
+                >
+                <div class="form-group">
+                  <input
+                    type="email"
+                    class="form-control form-control-user"
+                    id="email"
+                    name="email"
+                    disabled
+                    required
+                    value="<%= email%>"
+                  />
+                </div>
+                  <div class="form-group">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="code"
+                      name="code"
+                      placeholder="Nhập mã OTP"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="password"
+                      class="form-control form-control-user"
+                      id="new_password"
+                      name="new_password"
+                      autocomplete="false"
+                      aria-describedby="emailHelp"
+                      placeholder="Nhập mật khẩu mới"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="password"
+                      class="form-control form-control-user"
+                      id="re_new_password"
+                      autocomplete="false"
+                      name="re_new_password"
+                      aria-describedby="emailHelp"
+                      placeholder="Nhập lại mật khẩu mới"
+                      required
+                    />
+                  </div>
+                  <input
+                    type="submit"
+                    class="btn btn-primary btn-user btn-block"
+                    value="Xác nhận"
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom fonts for this template-->
+<link
+  href="/vendor/fontawesome-free/css/all.min.css"
+  rel="stylesheet"
+  type="text/css"
+/>
+<link
+  href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+  rel="stylesheet"
+/>
+
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+
+<!-- Bootstrap core JavaScript-->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
