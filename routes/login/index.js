@@ -35,12 +35,14 @@ passport.use(new LocalStrategy({ passReqToCallback: true },
   async function (req, username, password, done) {
     try {
       const User = await Users.find({ email: username });
-      console.log(User)
       if (User.length == 0) {
         return done(null, false, req.flash('failureMessage', 'Email không tồn tại'));
       }
       if (bcrypt.compareSync(password, User[0].password) == false) {
         return done(null, false, req.flash('failureMessage', 'Sai mật khẩu'));
+      }
+      if (User[0].isEnabled == false) {
+        return done(null, false, req.flash('failureMessage', 'Tài khoản đã bị khóa'));
       }
       return done(null, User[0]);
     }
