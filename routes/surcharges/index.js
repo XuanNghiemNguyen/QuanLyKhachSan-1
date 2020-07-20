@@ -15,6 +15,7 @@ router.get("/views", async (req, res) => {
     res.render("pages/surcharges/index", {
       layout: "layout",
       data: _surcharges || [],
+      curUser: req.curUser
     })
   } catch (error) {
     console.log(error)

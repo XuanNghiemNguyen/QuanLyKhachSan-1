@@ -18,6 +18,7 @@ router.get("/views", async (req, res) => {
       layout: "layout",
       data: _rooms,
       dataCate: _roomCates || [],
+      curUser: req.curUser
     })
   } catch (error) {
     console.log(error)
