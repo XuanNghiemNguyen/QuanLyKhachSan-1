@@ -4,7 +4,7 @@ const User = require("../../models/user.model")
 
 router.get("/views", async (req, res) => {
   try {
-    let _users = await User.find({ isDeleted: false })
+    let _users = await User.find({ isDeleted: false, type: 'employee' })
     if (_users && _users.length > 0) {
       for (let i = 0; i < _users.length; i++) {
         const createdByUser = await User.findById(_users[i].createdBy)
@@ -27,8 +27,8 @@ router.post("/add", async (req, res) => {
     const _user = new User({})
     _user.type = type
     _user.name = name
-    _user.email = email
-    _user.password = password
+    const hash = bcrypt.hashSync(password, 10)
+    _user.password = hash
     _user.address = address
     _user.avatar = avatar
     _user.isEnabled = isEnabled

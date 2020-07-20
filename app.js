@@ -45,11 +45,9 @@ app.use(passport.session())
 app.use(flash())
 
 /* GET home page. */
-app.get("/", async (req, res) => {
-  res.redirect("login")
-})
 app.use("/login", require("./routes/login"))
 app.use("/forgot-password", require("./routes/forgot-password"))
+app.use("/",isLogged, require("./routes/dashboard"))
 app.use("/dashboard",isLogged, require("./routes/dashboard"))
 app.use("/room-categories", isLogged, require("./routes/room-categories"))
 app.use("/rooms", isLogged, require("./routes/rooms"))
@@ -92,7 +90,6 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // render the error page
-  console.log(err)
   return res.render("error", { layout: false })
 })
 

@@ -1,17 +1,22 @@
-const express = require('express');
-const { route } = require('express/lib/router');
+const express = require("express")
+const { route } = require("express/lib/router")
 const router = express.Router()
 
-
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   try {
-      res.render('pages/dashboard/index', { layout: 'layout' });
+    res.render("pages/dashboard/index", {
+      layout: "layout",
+      curUser: {
+        name: req.user.name || 'Người dùng',
+        avatar:
+          req.user.avatar ||
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png",
+      },
+    })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 })
-
-
 
 module.exports = router
 
