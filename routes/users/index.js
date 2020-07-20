@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs")
 const Users = require("../../models/user.model")
 router.post("/add", async (req, res) => {
   try {
-    if (req.isAuthenticated()) {
       const { name, password, email } = req.body
       const _user = new Users()
       const hash = bcrypt.hashSync(password, 10)
@@ -17,9 +16,6 @@ router.post("/add", async (req, res) => {
         success: true,
         user: _user,
       })
-    } else {
-      return res.redirect("/login")
-    }
   } catch (error) {
     console.log(error)
     return res.json({
