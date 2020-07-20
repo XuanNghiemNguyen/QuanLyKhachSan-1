@@ -5,6 +5,7 @@ const dotenv = require("dotenv")
 const cookieParser = require("cookie-parser")
 const expressLayouts = require("express-ejs-layouts")
 const logger = require("morgan")
+const { isLogged } = require('./middlewares/authen')
 require("express-async-errors")
 
 const mongoose = require("mongoose")
@@ -48,16 +49,16 @@ app.get("/", async (req, res) => {
   res.redirect("login")
 })
 app.use("/login", require("./routes/login"))
-app.use("/dashboard", require("./routes/dashboard"))
-app.use("/room-categories", require("./routes/room-categories"))
-app.use("/rooms", require("./routes/rooms"))
-app.use("/users", require("./routes/users"))
-app.use("/customer-types", require("./routes/customer-types"))
-app.use("/customers", require("./routes/customers"))
-app.use("/surcharges", require("./routes/surcharges"))
-app.use("/employees", require("./routes/employees"))
-app.use("/logout", require("./routes/logout"))
 app.use("/forgot-password", require("./routes/forgot-password"))
+app.use("/dashboard",isLogged, require("./routes/dashboard"))
+app.use("/room-categories", isLogged, require("./routes/room-categories"))
+app.use("/rooms", isLogged, require("./routes/rooms"))
+app.use("/users", isLogged, require("./routes/users"))
+app.use("/customer-types", isLogged, require("./routes/customer-types"))
+app.use("/customers", isLogged, require("./routes/customers"))
+app.use("/surcharges", isLogged, require("./routes/surcharges"))
+app.use("/employees", isLogged, require("./routes/employees"))
+app.use("/logout", isLogged, require("./routes/logout"))
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
@@ -90,12 +91,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message
-  res.locals.error = req.app.get("env") === "development" ? err : {}
-
   // render the error page
-  res.status(err.status || 500)
   console.log(err)
   return res.render("error", { layout: false })
 })

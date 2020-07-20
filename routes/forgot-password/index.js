@@ -132,15 +132,11 @@ router.post("/change-password", async (req, res) => {
       return
     }
     if (!email) {
-      return res.redirect(`/forgot-password/change-password?email=${email}&error=true`)
-
-      return
+      return res.redirect(`/forgot-password/change-password?email=${email}`)
     }
     let user = await User.findOne({ email })
     if (!user) {
       return res.redirect(`/forgot-password/change-password?email=${email}&error=true`)
-
-      return
     }
 
     let user_Verify = await User_Verify.findOne({ email, isUsed: false })

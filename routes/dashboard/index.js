@@ -5,12 +5,7 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
   try {
-    if (req.isAuthenticated()) {
       res.render('pages/dashboard/index', { layout: 'layout' });
-    }
-    else {
-      res.redirect('login');
-    }
   } catch (error) {
     console.log(error);
   }
