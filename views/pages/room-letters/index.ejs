@@ -23,7 +23,7 @@
           <% data.forEach(function(item, idx) { %>
           <tr>
             <td><%= idx + 1 %></td>
-            <td><%= item.customerId%></td>
+            <td><%= item.name%></td>
             <td><%= item.roomId%></td>
             <td><%= item.numberOfPeople%></td>
             <td><%= item.createdByUser%></td>
@@ -71,12 +71,12 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="dayCheckIn_update">Ngày đến:</label>
-            <input type="date" class="form-control dayCheckIn" id="dayCheckIn_update" name="dayCheckIn" required />
+            <label for="dayCheckIn_create">Ngày đến:</label>
+            <input type="date" class="form-control dayCheckIn" id="dayCheckIn_create" name="data.dayCheckIn" required />
           </div>
           <div class="form-group">
-            <label for="dayCheckOut_update">Ngày đi:</label>
-            <input type="date" class="form-control dayCheckOut" id="dayCheckOut_update" name="dayCheckOut" required />
+            <label for="dayCheckOut_create">Ngày đi:</label>
+            <input type="date" class="form-control dayCheckOut" id="dayCheckOut_create" name="dayCheckOut" required />
           </div>
         </div>
        <div class="modal-footer">
@@ -120,12 +120,10 @@
             <% }); %>
           </select>
         </div>
-        <!--
         <div class="form-group">
           <label for="dayCheckIn_update">Ngày đến:</label>
           <input type="date" class="form-control dayCheckIn" id="dayCheckIn_update" name="dayCheckIn" required />
         </div>
-        -->
         <div class="form-group">
           <label for="dayCheckOut_update">Ngày đi:</label>
           <input type="date" class="form-control dayCheckOut" id="dayCheckOut_update" name="dayCheckOut" required />
@@ -188,8 +186,12 @@
         $('.roomId').val(roomId);
         $('.surchargeId').val(surchargeId);
         $('.numberOfPeople').val(numberOfPeople);
-        $('.dayCheckIn').val(dayCheckIn);
-        $('.dayCheckOut').val(dayCheckOut);
+        $('#dayCheckIn_update').val(new Date(dayCheckIn).toISOString().split('T')[0]);
+        $('#dayCheckOut_update').val(new Date(dayCheckOut).toISOString().split('T')[0]);
+
+        // new Date().toISOString().split('T')[0]
+
+        // $('#dayCheckOut_update').val(dayCheckOut);
         // $(`input[name="dayCheckOut"]`).val(dayCheckOut);
         // $(`input[type="date"][value="${dayCheckOut}"]`).val(dayCheckOut);
         // $('.dayCheckOut').datepicker({ dateFormat: 'dd-mm-yyyy' }).val();
