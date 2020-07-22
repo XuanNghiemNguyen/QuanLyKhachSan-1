@@ -2,18 +2,21 @@ const { Schema, model } = require('mongoose')
 
 const CustomerSchema = new Schema(
   {
-    numberOfId: String,
     name: {
       type: String,
       uppercase: true,
       trim: true,
       minlength: 1,
-      maxlength: 40,
+      maxlength: 255,
+      required: true
     },
-    gender: { type: String, default: 'Nam' },
-    address: String,
+    gender: { type: String, maxlength: 10, default: 'Nam' },
+    address:  {
+      type: String,
+      trim: true,
+      maxlength: 255
+    },
     customerTypeId: Schema.Types.ObjectId,
-    employeeId: Schema.Types.ObjectId, // chua dung
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId // employee id
