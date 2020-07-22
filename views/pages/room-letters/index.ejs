@@ -70,6 +70,14 @@
               <% }); %>
             </select>
           </div>
+          <div class="form-group">
+            <label for="dayCheckIn_update">Ngày đến:</label>
+            <input type="date" class="form-control dayCheckIn" id="dayCheckIn_update" name="dayCheckIn" required />
+          </div>
+          <div class="form-group">
+            <label for="dayCheckOut_update">Ngày đi:</label>
+            <input type="date" class="form-control dayCheckOut" id="dayCheckOut_update" name="dayCheckOut" required />
+          </div>
         </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -111,6 +119,16 @@
               <option value="<%= item._id %>"><%= item.nameOfType %></option>
             <% }); %>
           </select>
+        </div>
+        <!--
+        <div class="form-group">
+          <label for="dayCheckIn_update">Ngày đến:</label>
+          <input type="date" class="form-control dayCheckIn" id="dayCheckIn_update" name="dayCheckIn" required />
+        </div>
+        -->
+        <div class="form-group">
+          <label for="dayCheckOut_update">Ngày đi:</label>
+          <input type="date" class="form-control dayCheckOut" id="dayCheckOut_update" name="dayCheckOut" required />
         </div>
       </div>
       <div class="modal-footer">
@@ -172,6 +190,9 @@
         $('.numberOfPeople').val(numberOfPeople);
         $('.dayCheckIn').val(dayCheckIn);
         $('.dayCheckOut').val(dayCheckOut);
+        // $(`input[name="dayCheckOut"]`).val(dayCheckOut);
+        // $(`input[type="date"][value="${dayCheckOut}"]`).val(dayCheckOut);
+        // $('.dayCheckOut').datepicker({ dateFormat: 'dd-mm-yyyy' }).val();
         $('.customerTypeId').val(customerTypeId);
         $('._id').val(_id);
       });

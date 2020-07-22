@@ -4,11 +4,11 @@ const RoomLetterSchema = new Schema(
   {
     customerId: Schema.Types.ObjectId,
     roomId: Schema.Types.ObjectId,
-    dayCheckIn: { type: Number, default: Date.now() },
-    dayCheckOut: { type: Number, default: Date.now() },
-    numberOfDays: { type: Number, default: 1 },
+    dayCheckIn: { type: Number, default: Date.now() }, //------
+    dayCheckOut: { type: Number, default: Date.now() }, //------
+    numberOfDays: { type: Number, default: 1 }, //------
     numberOfPeople: { type: Number, min: 0, default: 2 },
-    surchargeId: Schema.Types.ObjectId, // Tỷ lệ phụ thu
+    surchargeId: Schema.Types.ObjectId, // Tỷ lệ phụ thu //------
     customerTypeId: Schema.Types.ObjectId, // Tham chiếu tới customerType
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
