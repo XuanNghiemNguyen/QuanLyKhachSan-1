@@ -8,9 +8,9 @@ const CustomerTypeSchema = new Schema(
       uppercase: true,
       trim: true,
       minlength: 3,
-      maxlength: 20,
+      maxlength: 50,
     },
-    factor: { type: Decimal128, default: 1.5 },
+    factor: { type: Number, default: 1.5 },
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId, // employee id

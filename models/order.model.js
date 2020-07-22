@@ -6,7 +6,7 @@ const OrderSchema = new Schema(
     employeeId: Schema.Types.ObjectId,
     totalPrice: { type: Number, min: 10000 },
     isDeleted: { type: Boolean, default: false },
-
+    isPaid: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
   },
   {
