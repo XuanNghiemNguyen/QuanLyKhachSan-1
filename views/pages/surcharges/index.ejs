@@ -26,7 +26,7 @@
             <td><%= item.surchargePercent.toLocaleString()%>%</td>
             <td><%= item.createdByUser%></td>
             <td>
-              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-num="<%= item.numberOfPeople %>" data-percent="<%= item.surchargePercent %>">Cập nhật</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-num="<%= item.numberOfPeople %>" data-percent="<%= item.surchargePercent %>" data-enabled="<%= item.isEnabled %>">Cập nhật</a>
               <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
             </td>
           </tr>
@@ -58,6 +58,15 @@
             <span>(%)</span>
           </label>
           <input type="number" min="0" step="1" max="100" class="form-control surchargePercent" placeholder="Nhập phần trăm phụ phí" id="surchargePercent_create" name="surchargePercent" required/>
+        </div>
+        <div class="form-group">
+          <label for="isEnabled_Create">Trạng thái:</label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="true" checked> Đang hoạt động
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="false"> Không hoạt động
+          </label>
         </div>
       </div>
        <div class="modal-footer">
@@ -91,6 +100,15 @@
             <span>(%)</span>
           </label>
           <input type="number" min="0" step="1" max="100" class="form-control surchargePercent" placeholder="Nhập phần trăm phụ phí" id="surchargePercent_create" name="surchargePercent" required/>
+        </div>
+        <div class="form-group">
+          <label for="isEnabled_Create">Trạng thái:</label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="true" checked> Đang hoạt động
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="isEnabled" value="false"> Không hoạt động
+          </label>
         </div>
       </div>
       <div class="modal-footer">
@@ -140,9 +158,11 @@
         const _id = $(this).data('id');
         const numberOfPeople = $(this).data('num');
         const surchargePercent = $(this).data('percent');
+        const isEnabled = $(this).data('enabled');
         $('#EditModal').modal('show');
         $('.numberOfPeople').val(numberOfPeople);
         $('.surchargePercent').val(surchargePercent);
+        $(`input:radio[name="isEnabled"][value="${isEnabled}"]`).prop('checked', true);
         $('._id').val(_id);
       });
       //showing delete record modal

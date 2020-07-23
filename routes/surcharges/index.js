@@ -25,10 +25,11 @@ router.get("/views", async (req, res) => {
 router.post("/add", async (req, res) => {
   try {
     const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
-    const { numberOfPeople, surchargePercent } = req.body
+    const { numberOfPeople, surchargePercent, isEnabled } = req.body
     const _surcharge = new Surcharge({})
     _surcharge.numberOfPeople = parseInt(numberOfPeople)
     _surcharge.surchargePercent = parseInt(surchargePercent)
+    _surcharge.isEnabled = isEnabled
     _surcharge.createdBy = createdBy
     await _surcharge.save()
     return res.redirect("/surcharges/views")
@@ -40,7 +41,7 @@ router.post("/add", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   try {
-    const { id, numberOfPeople, surchargePercent } = req.body
+    const { id, numberOfPeople, surchargePercent, isEnabled } = req.body
     if (!id) {
       console.log("id not found")
       return
@@ -49,6 +50,7 @@ router.post("/update", async (req, res) => {
     if (_surcharge) {
       if (numberOfPeople) _surcharge.numberOfPeople = numberOfPeople
       if (surchargePercent) _surcharge.surchargePercent = surchargePercent
+      if (isEnabled) _surcharge.isEnabled = isEnabled
       await _surcharge.save()
     }
     return res.redirect("/surcharges/views")
