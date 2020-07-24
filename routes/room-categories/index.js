@@ -33,7 +33,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
+    const createdBy =  req.curUser._id// id employee or admin
     const { nameOfCategory, note, price } = req.body
     const _roomCategory = new RoomCategory({})
     _roomCategory.nameOfCategory = nameOfCategory

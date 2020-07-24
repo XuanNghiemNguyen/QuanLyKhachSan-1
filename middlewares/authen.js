@@ -2,6 +2,7 @@ const isLogged = (req, res, next) => {
   try {
     if (req.isAuthenticated()) {
       req.curUser = {
+        _id: req.user._id,
         name: req.user.name || 'Người dùng',
         avatar:
           req.user.avatar ||
