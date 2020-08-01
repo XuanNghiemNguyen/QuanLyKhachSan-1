@@ -11,6 +11,7 @@ const RoomLetterSchema = new Schema(
     surchargeId: Schema.Types.ObjectId, // Tỷ lệ phụ thu //------
     customerTypeId: Schema.Types.ObjectId, // Tham chiếu tới customerType
     price: {type: Number},
+    hasPayed: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
     createdBy: Schema.Types.ObjectId, // employee id

@@ -58,6 +58,7 @@ router.post("/add", async (req, res) => {
     _roomletter.numberOfPeople = numberOfPeople
     _roomletter.surchargeId = sur._id
     _roomletter.customerTypeId = customerTypeId
+    _roomletter.hasPayed = false
     _roomletter.createdBy = createdBy
     // Price
     let priceRoom = room.price;
