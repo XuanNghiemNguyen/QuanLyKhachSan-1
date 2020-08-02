@@ -7,11 +7,10 @@ const Users = require('../../models/user.model')
 
 router.get('/', async (req, res) => {
   try {
-    var message = req.flash('failureMessage');
+    const message = req.flash('failureMessage');
     if (message == null) {
       message = "";
     }
-    console.log(req.isAuthenticated())
     if (req.isAuthenticated()) {
       res.redirect('/dashboard');
     }
@@ -26,7 +25,7 @@ router.post('/', passport.authenticate('local', {
 }), (req, res) => {
   // Remember check box is checked
   if (req.body.isRemember) {
-    return req.session.cookie.expires = new Date(253402300000000); // set the expired date to year 10000
+    req.session.cookie.expires = new Date(253402300000000); // set the expired date to year 10000
   }
   return res.redirect('/dashboard');
 });

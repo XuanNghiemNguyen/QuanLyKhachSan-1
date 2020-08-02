@@ -2,7 +2,7 @@
   <!-- Page Heading -->
   <!-- <div class="card shadow mb-4"> -->
   <div class="card-header py-3" style="display: flex; justify-content: space-between;">
-    <h3 class="m-0 font-weight-bold text-primary">Loại phòng</h3>
+    <h3 class="m-0 font-weight-bold text-primary">Phụ phí</h3>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#myModalAdd">
       <i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a>
   </div>
@@ -12,7 +12,7 @@
         <thead>
           <tr>
             <th>STT</th>
-            <th>Số người trở lên chịu phụ phí:</th>
+            <th>Hạn mức chịu phụ phí</th>
             <th>Phần trăm</th>
             <th>Người tạo</th>
             <th>Thao tác</th>
@@ -22,7 +22,7 @@
           <% data.forEach(function(item, idx) { %>
           <tr>
             <td><%= idx + 1 %></td>
-            <td><%= item.numberOfPeople.toLocaleString()%></td>
+            <td><%= item.numberOfPeople%> (người)</td>
             <td><%= item.surchargePercent.toLocaleString()%>%</td>
             <td><%= item.createdByUser%></td>
             <td>
@@ -42,14 +42,14 @@
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalLabel">Thêm loại phòng mới</h5>
+         <h5 class="modal-title" id="exampleModalLabel">Thêm phụ phí mới</h5>
          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
            <span aria-hidden="true">&times;</span>
          </button>
        </div>
        <div class="modal-body">
         <div class="form-group">
-          <label for="numberOfPeople_Create">Số người trở lên chịu phí:</label>
+          <label for="numberOfPeople_Create">Hạn mức chịu phụ phí</label>
           <input type="number" class="form-control numberOfPeople" placeholder="Nhập số người" id="numberOfPeople_Create" name="numberOfPeople" required />
         </div>
         <div class="form-group">
@@ -61,8 +61,8 @@
         </div>
       </div>
        <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-primary">Save</button>
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+         <button type="submit" class="btn btn-primary">Lưu</button>
        </div>
      </div>
    </div>
@@ -75,7 +75,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sửa loại phòng</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Sửa phụ phí</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

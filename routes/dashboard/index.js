@@ -1,22 +1,17 @@
-const express = require('express');
-const { route } = require('express/lib/router');
+const express = require("express")
+const { route } = require("express/lib/router")
 const router = express.Router()
 
-
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   try {
-    if (req.isAuthenticated()) {
-      res.render('pages/dashboard/index', { layout: 'layout' });
-    }
-    else {
-      res.redirect('login');
-    }
+    res.render("pages/dashboard/index", {
+      layout: "layout",
+      curUser: req.curUser
+    })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 })
-
-
 
 module.exports = router
 
