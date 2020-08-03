@@ -4,7 +4,8 @@ const OrderSchema = new Schema(
   {
     roomLetterIds: [Schema.Types.ObjectId],
     employeeId: Schema.Types.ObjectId,
-    totalPrice: { type: Number, min: 10000 },
+    totalPrice: { type: Number },
+    hasPayed: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
 
     createdAt: { type: Number, default: Date.now() },
