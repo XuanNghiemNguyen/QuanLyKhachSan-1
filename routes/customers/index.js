@@ -18,7 +18,8 @@ router.get("/views", async (req, res) => {
       layout: "layout",
       data: _customers,
       dataType: _customerTypes || [],
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: "Khách hàng",
     })
   } catch (error) {
     console.log(error)

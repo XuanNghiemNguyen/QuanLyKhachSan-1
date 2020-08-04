@@ -5,9 +5,10 @@ const RoomCategory = require("../../models/room-category.model")
 
 router.get("/views", async (req, res) => {
   try {
-    const _rooms = await Room.find({ isDeleted: false })
+    const { _cateId } = req.query
+    let _rooms = await Room.find({ isDeleted: false })
+    if (_cateId && _cateId.toString() !== 'all') _rooms = _rooms.filter(i => i.cateOfRoomId.toString() === _cateId.toString())
     const _roomCates = await RoomCategory.find({ isDeleted: false })
-
     if (_rooms && _rooms.length > 0) {
       for (let i = 0; i < _rooms.length; i++) {
         const cate = await RoomCategory.findById(_rooms[i].cateOfRoomId)
@@ -18,7 +19,9 @@ router.get("/views", async (req, res) => {
       layout: "layout",
       data: _rooms,
       dataCate: _roomCates || [],
-      curUser: req.curUser
+      cateActive: _cateId,
+      curUser: req.curUser,
+      pageTitle: 'Phòng'
     })
   } catch (error) {
     console.log(error)

@@ -5,15 +5,33 @@
     class="card-header py-3"
     style="display: flex; justify-content: space-between;"
   >
-    <h3 class="m-0 font-weight-bold text-primary">Phòng</h3>
-    <a
-      href="#"
-      class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
-      data-toggle="modal"
-      data-target="#myModalAdd"
-    >
-      <i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a
-    >
+    <!-- <h3 class="m-0 font-weight-bold text-primary">Phòng</h3> -->
+    <span>
+      <div class="form-control">
+        <label for="cateActivation">Loại phòng:</label>&nbsp;
+        <select
+          id="cateActivation"
+          onchange="roomByCategory(value)"
+          data-cateDefault="<%= cateActive%>"
+        >
+        <option value="all">TẤT CẢ</option>
+
+          <% dataCate.forEach(function(item, idx) { %>
+          <option value="<%= item._id %>"><%= item.nameOfCategory %></option>
+          <% }); %>
+        </select>
+      </div>
+    </span>
+    <span>
+      <a
+        href="#"
+        class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
+        data-toggle="modal"
+        data-target="#myModalAdd"
+      >
+        <i class="fas fa-plus-circle"></i> Thêm mới</a
+      >
+    </span>
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -29,7 +47,7 @@
             <th>Tên phòng</th>
             <th>Loại phòng</th>
             <th>Đơn giá</th>
-            <th>Ghi chú</th>
+            <th>Tình trạng</th>
             <th>Thao tác</th>
           </tr>
         </thead>
@@ -40,7 +58,7 @@
             <td><%= item.nameOfRoom%></td>
             <td><%= item.cate%></td>
             <td><%= item.price.toLocaleString()%> đ</td>
-            <td><%= item.note%></td>
+            <td><%= item.status%></td>
             <td>
               <a
                 href="javascript:void(0);"
@@ -186,7 +204,7 @@
   </form>
 
   <!-- Modal Update -->
-  <form action="/rooms/update?id=<%= data._id %>" method="post">
+  <form action="/rooms/update" method="post">
     <div
       class="modal fade"
       id="EditModal"
@@ -209,18 +227,19 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="form-group">
-              <label for="nameOfRoom_update">Tên phòng:</label>
-              <input
-                type="text"
-                class="form-control nameOfRoom"
-                placeholder="Nhập tên phòng"
-                id="nameOfRoom_update"
-                name="nameOfRoom"
-                placeholder="Nhập tên phòng"
-                required
-              />
-            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="nameOfRoom_update">Tên phòng:</label>
+                <input
+                  type="text"
+                  class="form-control nameOfRoom"
+                  placeholder="Nhập tên phòng"
+                  id="nameOfRoom_update"
+                  name="nameOfRoom"
+                  placeholder="Nhập tên phòng"
+                  required
+                />
+              </div>
             <div class="form-group">
               <label for="category_room">Loại phòng:</label>
               <select
@@ -239,10 +258,10 @@
             <div class="form-group">
               <label for="status_Create">Tình trạng:</label>
               <label class="radio-inline">
-                <input type="radio" name="status" value="Còn phòng" /> Còn phòng
+                <input type="radio" name="status" value="Còn trống" /> Còn trống
               </label>
               <label class="radio-inline">
-                <input type="radio" name="status" value="Hết phòng" /> Hết phòng
+                <input type="radio" name="status" value="Đang sử dụng" /> Đang sử dụng
               </label>
             </div>
             <div class="form-group">
@@ -346,7 +365,13 @@
   ></script>
 
   <script>
+    function roomByCategory(value) {
+      window.location.href = `/rooms/views?_cateId=${value}`
+    }
     $(document).ready(function () {
+      const cateId = $("#cateActivation").data("catedefault")
+      if(cateId) $("#cateActivation").val(cateId)
+      document.getElementById("#cateActivation")
       document.getElementById("collapseTwo").classList.add("show")
       document.getElementById("rooms-tab").classList.add("active")
       //showing data to edit modal
