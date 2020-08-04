@@ -9,6 +9,8 @@ router.get("/change-password/views", async (req, res) => {
       layout: "layout",
       curUser: req.curUser,
       error_old_password: "none",
+      pageTitle: 'Người dùng'
+
     })
   } catch (error) {
     console.log(error)

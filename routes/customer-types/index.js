@@ -17,7 +17,8 @@ router.get("/views", async (req, res) => {
     res.render("pages/customer-types/index", {
       layout: "layout",
       data: _customerTypes || [],
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: 'Loại khách'
     })
   } catch (error) {
     console.log(error)
