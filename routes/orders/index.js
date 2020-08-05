@@ -7,53 +7,63 @@ const RoomLetter = require("../../models/room-letter.model")
 
 router.get("/views", async (req, res) => {
   try {
-    let roomletters = await RoomLetter.find({ isDeleted: false, hasPayed: false })
+    let roomletters = await RoomLetter.find({
+      isDeleted: false,
+      hasPayed: false,
+    })
     let ordersNotPayed = await Order.find({ isDeleted: false, hasPayed: false })
-    let customerIdInOrder = []; let roomletterInOrder = [];
+    let customerIdInOrder = []
+    let roomletterInOrder = []
     for (let i = 0; i < ordersNotPayed.length; i++) {
-      let roomlettersInOrder = await RoomLetter.findById(ordersNotPayed[i].roomLetterIds[0]);
-      customerIdInOrder.push(roomlettersInOrder.customerId);
+      let roomlettersInOrder = await RoomLetter.findById(
+        ordersNotPayed[i].roomLetterIds[0]
+      )
+      customerIdInOrder.push(roomlettersInOrder.customerId)
       for (let j = 0; j < ordersNotPayed[i].roomLetterIds.length; j++) {
         roomletterInOrder.push(ordersNotPayed[i].roomLetterIds[j])
       }
     }
-    
+
     for (let i = 0; i < roomletters.length; i++) {
-      let dup = false; // check if roomletters[i]._id exists in Order or not
-      for(let j = 0; j < roomletterInOrder.length; j++) {
+      let dup = false // check if roomletters[i]._id exists in Order or not
+      for (let j = 0; j < roomletterInOrder.length; j++) {
         if (roomletters[i]._id.toString() == roomletterInOrder[j]) {
-          dup = true;
-          break;
+          dup = true
+          break
         }
       }
-      if (!dup) // has not been added to order
-      {
-        let exitCustomer = false;
+      if (!dup) {
+        // has not been added to order
+        let exitCustomer = false
         for (let k = 0; k < customerIdInOrder.length; k++) {
           if (customerIdInOrder[k] == roomletters[i].customerId.toString()) {
-            exitCustomer = true;
+            exitCustomer = true
           }
         }
-        if (!exitCustomer) // do not have same customer
-        {
-          const _orders = new Order({});
-          _orders.roomLetterIds.push(roomletters[i]._id);
+        if (!exitCustomer) {
+          // do not have same customer
+          const _orders = new Order({})
+          _orders.roomLetterIds.push(roomletters[i]._id)
           _orders.totalPrice = roomletters[i].price
-          const employeeId = "5f02c588e88cb9194897288d"; // id employee or admin
-          _orders.employeeId = employeeId
+          _orders.employeeId = req.curUser._id.toString()
           await _orders.save()
           // update
-          customerIdInOrder.push(roomletters[i].customerId);
-          roomletterInOrder.push(roomletters[i]._id);
-        } else { // have same customer
-          const roomletterId = roomletters[i]._id;
-          let roomletterWithSameCustomer = await RoomLetter.findOne({ customerId: roomletters[i].customerId });
-          let order = await Order.findOne({ roomLetterIds: roomletterWithSameCustomer._id })
-          console.log(order.totalPrice);
+          customerIdInOrder.push(roomletters[i].customerId)
+          roomletterInOrder.push(roomletters[i]._id)
+        } else {
+          // have same customer
+          const roomletterId = roomletters[i]._id
+          let roomletterWithSameCustomer = await RoomLetter.findOne({
+            customerId: roomletters[i].customerId,
+          })
+          let order = await Order.findOne({
+            roomLetterIds: roomletterWithSameCustomer._id,
+          })
+          console.log(order.totalPrice)
           if (order) {
-            order.roomLetterIds.push(roomletterId);
-            order.totalPrice += roomletters[i].price;
-            console.log(order);
+            order.roomLetterIds.push(roomletterId)
+            order.totalPrice += roomletters[i].price
+            console.log(order)
             await order.save()
           }
         }
@@ -63,16 +73,15 @@ router.get("/views", async (req, res) => {
     if (_orders && _orders.length > 0) {
       for (let i = 0; i < _orders.length; i++) {
         const createdByUser = await User.findById(_orders[i].employeeId)
-        _orders[i].createdByUser = createdByUser
-          ? createdByUser.name
-          : ""
+        _orders[i].createdByUser = createdByUser ? createdByUser.name : ""
       }
     }
 
-    res.render("pages/room-categories/index", {
+    res.render("pages/orders/index", {
       layout: "layout",
       data: _orders || [],
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: "Hóa đơn thanh toán",
     })
   } catch (error) {
     console.log(error)
@@ -81,13 +90,12 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
     const { nameOfCategory, note, price } = req.body
     const _roomCategory = new RoomCategory({})
     _roomCategory.nameOfCategory = nameOfCategory
     _roomCategory.note = note
     _roomCategory.price = parseInt(price)
-    _roomCategory.createdBy = createdBy
+    _roomCategory.createdBy = req.curUser._id
     await _roomCategory.save()
     return res.redirect("/room-categories/views")
   } catch (error) {

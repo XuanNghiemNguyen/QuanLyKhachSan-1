@@ -3,7 +3,7 @@
   <!-- <div class="card shadow mb-4"> -->
 
   <div class="card-header py-3" style="display: flex; justify-content: space-between;">
-    <h3 class="m-0 font-weight-bold text-primary">Loại phòng</h3>
+    <!-- <h3 class="m-0 font-weight-bold text-primary">Hóa đơn thanh toán</h3> -->
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#myModalAdd">
       <i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a>
   </div>
@@ -15,7 +15,7 @@
             <th>STT</th>
             <th>Mã đơn đặt phòng</th>
             <th>Giá</th>
-            <th>Đã thanh toán</th>
+            <th>Tình trạng</th>
             <th>Người tạo</th>
             <th>Thao tác</th>
           </tr>
@@ -26,7 +26,7 @@
             <td><%= idx + 1 %></td>
             <td><%= item._id %></td>
             <td><%= item.totalPrice.toLocaleString()%> đ</td>
-            <td><%= item.hasPayed%></td>
+            <td><%= item.hasPayed ? 'Đã thanh toán' : 'Chưa thanh toán'%></td>
             <td><%= item.createdByUser%></td>
             <td>
               <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>">Cập nhật</a>

@@ -33,7 +33,8 @@ router.get("/views", async (req, res) => {
       dataRoom: _rooms,
       dataType: _customerTypes || [],
       dataCustomer: _customers,
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: 'Phiếu thuê phòng'
     })
   } catch (error) {
     console.log(error)
@@ -42,7 +43,6 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
     const { customerId, roomId, dayCheckIn, dayCheckOut, numberOfPeople, customerTypeId } = req.body;
     const sur = Surcharge.findOne({isEnabled: true}) // Surcharge chua lay dc data, xem lai!!!!!
     const room = await Room.findById(roomId);
@@ -59,7 +59,7 @@ router.post("/add", async (req, res) => {
     _roomletter.surchargeId = sur._id
     _roomletter.customerTypeId = customerTypeId
     _roomletter.hasPayed = false
-    _roomletter.createdBy = createdBy
+    _roomletter.createdBy = req.curUser._id
     // Price
     let priceRoom = room.price;
     if (!priceRoom) {
