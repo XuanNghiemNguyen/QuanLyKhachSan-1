@@ -57,6 +57,8 @@ app.use("/customers", isLogged, require("./routes/customers"))
 app.use("/surcharges", isLogged, isAdmin, require("./routes/surcharges"))
 app.use("/employees", isLogged, isAdmin, require("./routes/employees"))
 app.use("/logout", isLogged, require("./routes/logout"))
+app.use("/room-letters", isLogged, require("./routes/room-letters"))
+app.use("/orders", isLogged, require("./routes/orders"))
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
