@@ -15,7 +15,9 @@ router.get("/views", async (req, res) => {
     res.render("pages/surcharges/index", {
       layout: "layout",
       data: _surcharges || [],
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: 'Phụ phí'
+
     })
   } catch (error) {
     console.log(error)
@@ -24,7 +26,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
+    const createdBy =  req.curUser._id // id employee or admin
     const { numberOfPeople, surchargePercent, isEnabled } = req.body
     const _surcharge = new Surcharge({})
     _surcharge.numberOfPeople = parseInt(numberOfPeople)

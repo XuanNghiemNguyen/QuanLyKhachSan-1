@@ -18,7 +18,8 @@ router.get("/views", async (req, res) => {
       layout: "layout",
       data: _customers,
       dataType: _customerTypes || [],
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: "Khách hàng",
     })
   } catch (error) {
     console.log(error)
@@ -27,7 +28,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
+    const createdBy = req.curUser._id // id employee or admin
     const { name, numberOfId, customerTypeId, address, gender } = req.body
     const _customer = new Customer({})
     _customer.name = name

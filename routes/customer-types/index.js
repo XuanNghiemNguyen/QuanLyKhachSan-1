@@ -17,7 +17,8 @@ router.get("/views", async (req, res) => {
     res.render("pages/customer-types/index", {
       layout: "layout",
       data: _customerTypes || [],
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: 'Loại khách'
     })
   } catch (error) {
     console.log(error)
@@ -26,7 +27,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
+    const createdBy = req.curUser._id // id employee or admin
     const { nameOfType, factor } = req.body
     const _customerType = new CustomerType({})
     _customerType.nameOfType = nameOfType

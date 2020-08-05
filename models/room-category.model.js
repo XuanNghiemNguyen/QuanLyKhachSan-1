@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+  const { Schema, model } = require('mongoose')
 
 const RoomCategorySchema = new Schema(
   {
@@ -7,7 +7,7 @@ const RoomCategorySchema = new Schema(
       uppercase: true,
       trim: true,
       minlength: 3,
-      maxlength: 20,
+      maxlength: 255,
     },
     price: { type: Number, default: 150000, min: 10000 },
     note: { type: String, default: '' },

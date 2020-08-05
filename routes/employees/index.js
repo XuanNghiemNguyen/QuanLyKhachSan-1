@@ -4,17 +4,18 @@ const User = require("../../models/user.model")
 
 router.get("/views", async (req, res) => {
   try {
-    let _users = await User.find({ isDeleted: false, type: 'employee' })
+    let _users = await User.find({ isDeleted: false, type: "employee" })
     if (_users && _users.length > 0) {
       for (let i = 0; i < _users.length; i++) {
         const createdByUser = await User.findById(_users[i].createdBy)
         _users[i].createdByUser = createdByUser ? createdByUser.name : ""
       }
     }
-    res.render("pages/employees/index", {
+    return res.render("pages/employees/index", {
       layout: "layout",
       data: _users || [],
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: "Nhân viên",
     })
   } catch (error) {
     console.log(error)
@@ -23,7 +24,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy = "5f02c588e88cb9194897288d" // id employee or admin
+    const createdBy = req.curUser._id // id employee or admin
     const { type, name, email, password, address, avatar, isEnabled } = req.body
     const _user = new User({})
     _user.type = type

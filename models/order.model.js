@@ -7,7 +7,7 @@ const OrderSchema = new Schema(
     totalPrice: { type: Number },
     hasPayed: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
-
+    isPaid: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
   },
   {

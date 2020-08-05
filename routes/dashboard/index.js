@@ -6,7 +6,8 @@ router.get("/", (req, res) => {
   try {
     res.render("pages/dashboard/index", {
       layout: "layout",
-      curUser: req.curUser
+      curUser: req.curUser,
+      pageTitle: 'Dashboard'
     })
   } catch (error) {
     console.log(error)
