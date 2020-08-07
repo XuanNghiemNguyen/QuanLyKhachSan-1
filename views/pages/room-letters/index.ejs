@@ -3,7 +3,8 @@
   <!-- <div class="card shadow mb-4"> -->
   <div class="card-header py-3" style="display: flex; justify-content: space-between;">
     <!-- <h3 class="m-0 font-weight-bold text-primary">Phiếu thuê phòng</h3> -->
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#myModalAdd">
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal"
+      data-target="#myModalAdd">
       <i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a>
   </div>
   <div class="card-body">
@@ -28,7 +29,10 @@
             <td><%= item.numberOfPeople%></td>
             <td><%= item.createdByUser%></td>
             <td>
-              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-customerid="<%= item.customerId %>" data-roomid="<%= item.roomId %>" data-dayin="<%= item.dayCheckIn %>" data-dayout="<%= item.dayCheckOut %>" data-numpeople="<%= item.numberOfPeople %>" data-type="<%= item.customerTypeId %>">Cập nhật</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>"
+                data-customerid="<%= item.customerId %>" data-roomid="<%= item.roomId %>"
+                data-dayin="<%= item.dayCheckIn %>" data-dayout="<%= item.dayCheckOut %>"
+                data-numpeople="<%= item.numberOfPeople %>" data-type="<%= item.customerTypeId %>">Cập nhật</a>
               <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
             </td>
           </tr>
@@ -38,183 +42,248 @@
     </div>
   </div>
 
-<!-- Modal Add -->
-<form action="/room-letters/add" method="post">
-  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalLabel">Thêm phiếu thuê phòng mới</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-       <div class="modal-body">
-          <!--
+  <!-- Modal Add -->
+  <form action="/room-letters/add" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Thêm phiếu thuê phòng mới</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!--
           <div class="form-group">
             <label for="customerid_create">Mã khách hàng:</label>
             <input type="text" class="form-control" placeholder="Nhập mã khách hàng" id="customerid_create" name="customerId" required />
           </div>
           -->
-          <div class="form-group">
-            <label for="customerId">Khách hàng:</label>
-            <input list="customerId" class="form-control" id="myBrowser" placeholder="Chọn khách hàng đã lưu" name="customerId" />
-            <datalist id="customerId">
-              <% dataCustomer.forEach(function(item, idx) { %>
-              <option value="<%= item._id %>"><%= item.name %> - <%= item.numberOfId %></option>
-              <% }); %>
-            </datalist>
-          </div>
-          <!--
+            <div class="form-group">
+              <label for="customerId">Khách hàng:</label>
+              <input list="customerId" class="form-control" id="myBrowser" placeholder="Chọn khách hàng đã lưu"
+                name="customerId" />
+              <datalist id="customerId">
+                <% dataCustomer.forEach(function(item, idx) { %>
+                <option value="<%= item._id %>"><%= item.name %> - <%= item.numberOfId %></option>
+                <% }); %>
+              </datalist>
+            </div>
+            <!--
           <div class="form-group">
             <label for="roomId_create">Mã phòng:</label>
             <input type="text" class="form-control" placeholder="Nhập mã phòng" id="roomId_create" name="roomId" required />
           </div>
           -->
-          <div class="form-group">
-            <label for="roomId_create">Tên phòng:</label>
-            <select class="form-control roomId" id="category_room" name="roomId" required>
-              <% dataRoom.forEach(function(item, idx) { %>
-              <option value="<%= item._id %>"><%= item.nameOfRoom %></option>
-              <% }); %>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="numberOfPeople_create">Số lượng người:</label>
-            <input type="number" class="form-control" placeholder="Nhập số lượng người" id="numberOfPeople_create" name="numberOfPeople" required />
-          </div>
-          <div class="form-group">
-            <label for="type_customer">Loại khách hàng:</label>
-            <select class="form-control customerTypeId" id="type_customer" name="customerTypeId" required>
-              <% dataType.forEach(function(item, idx) { %>
+            <div class="form-group">
+              <label for="roomId_create">Tên phòng:</label>
+              <select class="form-control roomId" id="category_room" name="roomId" required>
+                <% dataRoom.forEach(function(item, idx) { %>
+                <option value="<%= item._id %>"><%= item.nameOfRoom %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="numberOfPeople_create">Số lượng người:</label>
+              <input type="number" class="form-control" placeholder="Nhập số lượng người" id="numberOfPeople_create"
+                name="numberOfPeople" required />
+            </div>
+            <div class="form-group">
+              <label for="type_customer">Loại khách hàng:</label>
+              <select class="form-control customerTypeId" id="type_customer" name="customerTypeId" required>
+                <% dataType.forEach(function(item, idx) { %>
                 <option value="<%= item._id %>"><%= item.nameOfType %></option>
-              <% }); %>
-            </select>
+                <% }); %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="dayCheckIn_create">Ngày đến:</label>
+              <input type="date" class="form-control dayCheckIn" id="dayCheckIn_create" name="dayCheckIn" required />
+            </div>
+            <div class="form-group">
+              <label for="dayCheckOut_create">Ngày đi:</label>
+              <input type="date" class="form-control dayCheckOut" id="dayCheckOut_create" name="dayCheckOut" required />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="dayCheckIn_create">Ngày đến:</label>
-            <input type="date" class="form-control dayCheckIn" id="dayCheckIn_create" name="dayCheckIn" required />
-          </div>
-          <div class="form-group">
-            <label for="dayCheckOut_create">Ngày đi:</label>
-            <input type="date" class="form-control dayCheckOut" id="dayCheckOut_create" name="dayCheckOut" required />
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-primary">Save</button>
-       </div>
-     </div>
-   </div>
-  </div>
-</form>
-
-<!-- Modal Update -->
-<form action="/room-letters/update?id=<%= data._id %>" method="post">
- <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sửa phiếu đặt phòng</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
-      <div class="modal-body">
-        <!--
+    </div>
+  </form>
+
+  <!-- Modal Update -->
+  <form action="/room-letters/update?id=<%= data._id %>" method="post" id="updateForm">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sửa phiếu đặt phòng</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!--
         <div class="form-group">
           <label for="customerid_update">Mã khách hàng:</label>
           <input type="text" class="form-control customerId" placeholder="Nhập mã khách hàng" id="customerid_update" name="customerId" required />
         </div>
         -->
-        <div class="form-group">
-          <label for="customerId">Khách hàng:</label>
-          <input list="customerId" class="form-control customerId" id="myBrowser" placeholder="Chọn khách hàng đã lưu" name="customerId" />
-          <datalist id="customerId">
-            <% dataCustomer.forEach(function(item, idx) { %>
-            <option value="<%= item._id %>"><%= item.name %> - <%= item.numberOfId %></option>
-            <% }); %>
-          </datalist>
-        </div>
-        <!--
+            <div class="form-group">
+              <label for="customerId">Khách hàng:</label>
+              <input list="customerId" class="form-control customerId" id="myBrowser"
+                placeholder="Chọn khách hàng đã lưu" name="customerId" />
+              <datalist id="customerId">
+                <% dataCustomer.forEach(function(item, idx) { %>
+                <option value="<%= item._id %>"><%= item.name %> - <%= item.numberOfId %></option>
+                <% }); %>
+              </datalist>
+            </div>
+            <!--
         <div class="form-group">
           <label for="roomId_update">Mã phòng:</label>
           <input type="text" class="form-control roomId" placeholder="Nhập mã phòng" id="roomId_update" name="roomId" required />
         </div>
         -->
-        <div class="form-group">
-          <label for="roomId_update">Tên phòng:</label>
-          <select class="form-control roomId" id="room" name="roomId" required>
-            <% dataRoom.forEach(function(item, idx) { %>
-            <option value="<%= item._id %>"><%= item.nameOfRoom %></option>
-            <% }); %>
-          </select>
+            <div class="form-group">
+              <label for="roomId_update">Tên phòng:</label>
+              <select class="form-control roomId" id="room" name="roomId" required>
+                <% dataRoom.forEach(function(item, idx) { %>
+                <option value="<%= item._id %>"><%= item.nameOfRoom %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="numberOfPeople_update">Số lượng người:</label>
+              <input type="number" class="form-control numberOfPeople" placeholder="Nhập số lượng người"
+                id="numberOfPeople_update" name="numberOfPeople" required />
+            </div>
+            <div class="form-group">
+              <label for="type_customer_update">Loại khách hàng:</label>
+              <select class="form-control customerTypeId" id="type_customer_update" name="customerTypeId" required>
+                <% dataType.forEach(function(item, idx) { %>
+                <option value="<%= item._id %>"><%= item.nameOfType %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="dayCheckIn_update">Ngày đến:</label>
+              <input type="date" class="form-control dayCheckIn" id="dayCheckIn_update" name="dayCheckIn" required />
+            </div>
+            <div class="form-group">
+              <label for="dayCheckOut_update">Ngày đi:</label>
+              <input type="date" class="form-control dayCheckOut" id="dayCheckOut_update" name="dayCheckOut" required />
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <input type="hidden" name="id" class="_id">
+            <button class="btn btn-success col-2" type="button" onclick="printLetterRoom()">
+              <img src="/img/print.png" style="height: 20px;width: 20px;"></button>
+            <div class="col-6 row justify-content-around">
+              <button type="button" class="btn btn-secondary col mr-2" data-dismiss="modal">Hủy</button>
+              <button type="submit" class="btn btn-primary col ml-1">Xác nhận</button>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="numberOfPeople_update">Số lượng người:</label>
-          <input type="number" class="form-control numberOfPeople" placeholder="Nhập số lượng người" id="numberOfPeople_update" name="numberOfPeople" required />
-        </div>
-        <div class="form-group">
-          <label for="type_customer_update">Loại khách hàng:</label>
-          <select class="form-control customerTypeId" id="type_customer_update" name="customerTypeId" required>
-            <% dataType.forEach(function(item, idx) { %>
-              <option value="<%= item._id %>"><%= item.nameOfType %></option>
-            <% }); %>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="dayCheckIn_update">Ngày đến:</label>
-          <input type="date" class="form-control dayCheckIn" id="dayCheckIn_update" name="dayCheckIn" required />
-        </div>
-        <div class="form-group">
-          <label for="dayCheckOut_update">Ngày đi:</label>
-          <input type="date" class="form-control dayCheckOut" id="dayCheckOut_update" name="dayCheckOut" required />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <input type="hidden" name="id" class="_id">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        <button type="submit" class="btn btn-primary">Xác nhận</button>
       </div>
     </div>
-  </div>
- </div>
-</form>
+  </form>
 
-<!-- Modal Delete -->
-<form id="add-row-form" action="/room-letters/delete" method="post">
-   <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!-- Modal Delete -->
+  <form id="add-row-form" action="/room-letters/delete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
-         <div class="modal-content">
-             <div class="modal-header">
-                  <h5 class="modal-title" id="myModalLabel">Xóa phiếu đặt phòng</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-             </div>
-             <div class="modal-body">
-                <strong>Bạn có chắc chắn muốn xóa?</strong>
-             </div>
-             <div class="modal-footer">
-                  <input type="hidden" name="id" class="form-control _id2" required>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                  <button type="submit" class="btn btn-success">Xác nhận</button>
-             </div>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Xóa phiếu đặt phòng</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
           </div>
+          <div class="modal-body">
+            <strong>Bạn có chắc chắn muốn xóa?</strong>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="id" class="form-control _id2" required>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-success">Xác nhận</button>
+          </div>
+        </div>
       </div>
-   </div>
-</form>
+    </div>
+  </form>
 
-  <script
-    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"
-  ></script>
+  <!-- Modal Print -->
+  <form id="print-form" style="display:none">
+    <img src="/img/logo.png" style="width: 100px; height: 100px;" />
+    <h3 style="float: right; margin-top: 20px;">HCMUS HOTEL</h3>
+    <div id="printModal">
+      <h3 class="text-center mb-4">PHIẾU ĐẶT PHÒNG</h3>
+      <div class="form-row">
+        <div class="form-group col-md-6" style="display: inline">
+          <span>Tên phòng:</span>
+          <span id="print-room"></span>
+        </div>
+        <div class="form-group col-md-6" style="display: inline">
+          <span id="print-employee">Nhân viên: <%= curUser.name %></span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-6" style="display:inline">
+          <label>Khách hàng:</label>
+          <input class="form-control" id="inputCustomer">
+        </div>
+        <div class="form-group col-3" style="display:inline">
+          <label>Số người:</label>
+          <input class="form-control" id="inputNumPeople">
+        </div>
+        <div class="form-group col-3" style="display:inline">
+          <label>Loại khách:</label>
+          <input class="form-control" id="inputCustomerType">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-6" style="display: inline;">
+          <label>Ngày thuê:</label>
+          <input class="form-control" id="inputCheckIn">
+        </div>
+        <div class="form-group col-6" style="display: inline;">
+          <label>Ngày trả phòng:</label>
+          <input class="form-control" id="inputCheckOut">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Ghi chú</label>
+        <textarea class="form-control" rows="7"></textarea>
+      </div>
+      <div class="row justify-content-around mt-5" style="margin-left: 100px;">
+        <div class="col-4 font-weight-bold">
+          Khách hàng
+        </div>
+        <div class="col-4 font-weight-bold">
+          Người lập phiếu
+        </div>
+      </div>
+    </div>
+  </form>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+  <link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
+  <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
   <script>
-    $(document).ready(function(){
-    //   document.getElementById('collapseUtilities').classList.add('show')
-    // document.getElementById('room-letters-tab').classList.add('active')
+    $(document).ready(function () {
+      //   document.getElementById('collapseUtilities').classList.add('show')
+      // document.getElementById('room-letters-tab').classList.add('active')
       //showing data to edit modal        
-      $('#dataTable').on('click','.edit',function(){
+      $('#dataTable').on('click', '.edit', function () {
         const _id = $(this).data('id');
         const customerId = $(this).data('customerid');
         const roomId = $(this).data('roomid');
@@ -232,12 +301,28 @@
         $('._id').val(_id);
       });
       //showing delete record modal
-      $('#dataTable').on('click','.delete',function(){
+      $('#dataTable').on('click', '.delete', function () {
         const _id = $(this).data('id');
         $('#DeleteModal').modal('show');
         $('._id2').val(_id);
       });
- 
     });
   </script>
 </div>
+<script>
+  function printLetterRoom() {
+    document.getElementById("print-form").style.display = 'initial';
+    document.getElementById("inputCustomer").value = document.getElementById("customerId").firstElementChild.value.toString();
+    document.getElementById("print-room").textContent = document.getElementById("category_room").firstElementChild.label.toString();
+    document.getElementById("inputNumPeople").value = document.getElementById("numberOfPeople_update").value.toString();
+    document.getElementById("inputCustomerType").value = document.getElementById("type_customer_update").firstElementChild.label.toString();
+    document.getElementById("inputCheckIn").value = document.getElementById("dayCheckIn_update").value.toString();
+    document.getElementById("inputCheckOut").value = document.getElementById("dayCheckOut_update").value.toString();
+    printJS({
+      printable: 'print-form', type: 'html',
+      css: ['https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'],
+      targetStyles: ['*']
+    });
+    document.getElementById("print-form").style.display = 'none';
+  }
+</script>
