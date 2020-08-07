@@ -30,7 +30,7 @@
             <td><%= item.createdByUser%></td>
             <td>
               <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>"
-                data-customerid="<%= item.customerId %>" data-roomid="<%= item.roomId %>"
+                data-customerid="<%= item.customerId %>" data-cus="<%= item.cus %>" data-roomid="<%= item.roomId %>"
                 data-dayin="<%= item.dayCheckIn %>" data-dayout="<%= item.dayCheckOut %>"
                 data-numpeople="<%= item.numberOfPeople %>" data-type="<%= item.customerTypeId %>">Cập nhật</a>
               <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
@@ -280,19 +280,20 @@
   <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
   <script>
     $(document).ready(function () {
-      //   document.getElementById('collapseUtilities').classList.add('show')
-      // document.getElementById('room-letters-tab').classList.add('active')
+        document.getElementById('collapseTwo').classList.add('show')
+      document.getElementById('room-letter-tab').classList.add('active')
       //showing data to edit modal        
       $('#dataTable').on('click', '.edit', function () {
         const _id = $(this).data('id');
         const customerId = $(this).data('customerid');
+        const cusName = $(this).data('cus');
         const roomId = $(this).data('roomid');
         const numberOfPeople = $(this).data('numpeople');
         const dayCheckIn = $(this).data('dayin');
         const dayCheckOut = $(this).data('dayout');
         const customerTypeId = $(this).data('type');
         $('#EditModal').modal('show');
-        $('.customerId').val(customerId);
+        $('.customerId').val(cusName);
         $('.roomId').val(roomId);
         $('.numberOfPeople').val(numberOfPeople);
         $('#dayCheckIn_update').val(new Date(dayCheckIn).toISOString().split('T')[0]);
