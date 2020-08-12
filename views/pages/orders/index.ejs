@@ -253,6 +253,7 @@
                     <th>STT</th>
                     <th>Mã phiếu thuê</th>
                     <th>Số người</th>
+                    <th>Số ngày</th>
                     <th>Giá</th>
                     <th>Ngày lập phiếu</th>
                   </tr>
@@ -263,6 +264,7 @@
                     <td>${idx + 1}</td>
                     <td>${item._id}</td>
                     <td>${item.numberOfPeople}</td>
+                    <td>${item.numberOfDays}</td>
                     <td>${item.price.toLocaleString()} đ</td>
                     <td>${(new Date(item.createdAt)).toLocaleString()}</td>
                   </tr>`
