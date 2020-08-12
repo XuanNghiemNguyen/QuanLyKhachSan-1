@@ -72,9 +72,10 @@ router.get("/", async (req, res) => {
         // number: Math.round((count / _roomLetterOnThisMonth.length) * 100),
       })
     }
-    const _revenueOnThisMonth = _orderOnThisMonth
-      .map((x) => x.totalPrice)
-      .reduce((a, b) => parseInt(a) + parseInt(b))
+    const priceInOrders = _orderOnThisMonth.map((x) => x.totalPrice)
+    const _revenueOnThisMonth = priceInOrders.length
+      ? priceInOrders.reduce((a, b) => parseInt(a) + parseInt(b))
+      : 0
     res.render("pages/dashboard/index", {
       layout: "layout",
       _roomLetterByCate,

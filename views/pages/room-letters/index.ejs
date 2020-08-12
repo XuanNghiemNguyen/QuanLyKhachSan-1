@@ -30,7 +30,7 @@
             <td><%= item.createdByUser%></td>
             <td>
               <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>"
-                data-customerid="<%= item.customerId %>" data-cus="<%= item.cus %>" data-roomid="<%= item.roomId %>"
+                data-customerid="<%= item.customerId %>" data-roomid="<%= item.roomId %>"
                 data-dayin="<%= item.dayCheckIn %>" data-dayout="<%= item.dayCheckOut %>"
                 data-numpeople="<%= item.numberOfPeople %>" data-type="<%= item.customerTypeId %>">Cập nhật</a>
               <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
@@ -117,7 +117,7 @@
   </form>
 
   <!-- Modal Update -->
-  <form action="/room-letters/update?id=<%= data._id %>" method="post" id="updateForm">
+  <form action="/room-letters/update" method="post" id="updateForm">
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -137,7 +137,7 @@
         -->
             <div class="form-group">
               <label for="customerId">Khách hàng:</label>
-              <input list="customerId" class="form-control customerId" id="myBrowser"
+              <input disabled list="customerId" class="form-control customerId" id="myBrowser"
                 placeholder="Chọn khách hàng đã lưu" name="customerId" />
               <datalist id="customerId">
                 <% dataCustomer.forEach(function(item, idx) { %>
@@ -153,7 +153,7 @@
         -->
             <div class="form-group">
               <label for="roomId_update">Tên phòng:</label>
-              <select class="form-control roomId" id="room" name="roomId" required>
+              <select class="form-control roomId" id="room-update" name="roomId" required>
                 <% dataRoom.forEach(function(item, idx) { %>
                 <option value="<%= item._id %>"><%= item.nameOfRoom %></option>
                 <% }); %>
@@ -286,15 +286,14 @@
       $('#dataTable').on('click', '.edit', function () {
         const _id = $(this).data('id');
         const customerId = $(this).data('customerid');
-        const cusName = $(this).data('cus');
         const roomId = $(this).data('roomid');
         const numberOfPeople = $(this).data('numpeople');
         const dayCheckIn = $(this).data('dayin');
         const dayCheckOut = $(this).data('dayout');
         const customerTypeId = $(this).data('type');
         $('#EditModal').modal('show');
-        $('.customerId').val(cusName);
-        $('.roomId').val(roomId);
+        $('.customerId').val(customerId);
+        $('#room-update').val(roomId);
         $('.numberOfPeople').val(numberOfPeople);
         $('#dayCheckIn_update').val(new Date(dayCheckIn).toISOString().split('T')[0]);
         $('#dayCheckOut_update').val(new Date(dayCheckOut).toISOString().split('T')[0]);

@@ -6,12 +6,12 @@ const RoomCategory = require("../../models/room-category.model")
 const Customer = require("../../models/customer.model")
 const Surcharge = require("../../models/surcharge.model")
 const CustomerType = require("../../models/customer-type.model")
-User = require("../../models/user.model")
+const User = require("../../models/user.model")
 
 router.get("/views", async (req, res) => {
   try {
     let _roomletters = await RoomLetter.find({ isDeleted: false })
-    const _rooms = await Room.find({ isDeleted: false })
+    const _rooms = await Room.find({ isDeleted: false, status: "Còn trống" })
     const _customers = await Customer.find({ isDeleted: false })
     const _customerTypes = await CustomerType.find({ isDeleted: false })
     if (_roomletters && _roomletters.length > 0) {
@@ -34,7 +34,7 @@ router.get("/views", async (req, res) => {
       dataType: _customerTypes || [],
       dataCustomer: _customers,
       curUser: req.curUser,
-      pageTitle: 'Phiếu thuê phòng'
+      pageTitle: "Phiếu thuê phòng",
     })
   } catch (error) {
     console.log(error)
@@ -43,39 +43,51 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const { customerId, roomId, dayCheckIn, dayCheckOut, numberOfPeople, customerTypeId } = req.body;
-    const sur = Surcharge.findOne({isEnabled: true}) // Surcharge chua lay dc data, xem lai!!!!!
-    const room = await Room.findById(roomId);
-
-    const _roomletter = new RoomLetter({})
-    _roomletter.customerId = customerId
-    _roomletter.roomId = roomId
-    _roomletter.dayCheckIn = Date.parse(dayCheckIn)
-    _roomletter.dayCheckOut = Date.parse(dayCheckOut)
-    // NumberOfDays
-    const diffTime = Math.abs(Date.parse(dayCheckOut) - Date.parse(dayCheckIn));
-    _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    _roomletter.numberOfPeople = numberOfPeople
-    _roomletter.surchargeId = sur._id
-    _roomletter.customerTypeId = customerTypeId
-    _roomletter.hasPayed = false
-    _roomletter.createdBy = req.curUser._id
-    // Price
-    let priceRoom = room.price;
-    if (!priceRoom) {
-      const cateData = await RoomCategory.findById(room.cateOfRoomId);
-      priceRoom = cateData.price;
-      console.log("Vo if dau tien");
-
-    } else {
-      if (numberOfPeople >= sur.numberOfPeople) {
-        _roomletter.price = priceRoom + sur.surchargePercent * priceRoom / 100;
-      } else {
-        _roomletter.price = priceRoom;
+    const {
+      customerId,
+      roomId,
+      dayCheckIn,
+      dayCheckOut,
+      numberOfPeople,
+      customerTypeId,
+    } = req.body
+    const sur = await Surcharge.find({ isEnabled: true }) // Surcharge chua lay dc data, xem lai!!!!!
+    const room = await Room.findById(roomId)
+    let _roomletter = new RoomLetter()
+      if (customerId) _roomletter.customerId = customerId
+      if (roomId) _roomletter.roomId = roomId
+      if (dayCheckIn) _roomletter.dayCheckIn = Date.parse(dayCheckIn)
+      if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
+      // NumberOfDays
+      const diffTime = Math.abs(
+        Date.parse(dayCheckOut) - Date.parse(dayCheckIn)
+      )
+      _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
+      //price of unit
+      let priceRoom = room && room.price
+      if (!priceRoom) {
+        const cateData = await RoomCategory.findById(room.cateOfRoomId)
+        priceRoom = cateData.price || 0
       }
-    }
-
-    await _roomletter.save()
+      if (customerTypeId) {
+        _roomletter.customerTypeId = customerTypeId
+        //price is changed by customerType
+        const _customerTypes = await CustomerType.findById(customerTypeId)
+        if (_customerTypes) {
+          priceRoom *= _customerTypes.factor || 1
+        }
+      }
+      if (sur && sur[0]._id) {
+        _roomletter.surchargeId = sur[0]._id
+        //price is changed by surcharge
+        if (numberOfPeople >= sur[0].numberOfPeople) {
+          priceRoom += (sur[0].surchargePercent * priceRoom) / 100
+        }
+      }
+      _roomletter.price = priceRoom * parseInt(numberOfPeople)
+      _roomletter.createdBy = req.curUser._id
+      await _roomletter.save()
     return res.redirect("/room-letters/views")
   } catch (error) {
     console.log(error)
@@ -85,9 +97,17 @@ router.post("/add", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   try {
-    const { id, customerId, roomId, dayCheckIn, dayCheckOut, numberOfPeople, customerTypeId } = req.body
-    const sur = Surcharge.findOne({isEnabled: true}) // Surcharge chua lay dc data, xem lai!!!!!
-    const room = await Room.findById(roomId);
+    const {
+      id,
+      customerId,
+      roomId,
+      dayCheckIn,
+      dayCheckOut,
+      numberOfPeople,
+      customerTypeId,
+    } = req.body
+    const sur = await Surcharge.find({ isEnabled: true }) // Surcharge chua lay dc data, xem lai!!!!!
+    const room = await Room.findById(roomId)
     if (!id) {
       return
     }
@@ -98,26 +118,34 @@ router.post("/update", async (req, res) => {
       if (dayCheckIn) _roomletter.dayCheckIn = Date.parse(dayCheckIn)
       if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
       // NumberOfDays
-      const diffTime = Math.abs(Date.parse(dayCheckOut) - Date.parse(dayCheckIn));
-      _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const diffTime = Math.abs(
+        Date.parse(dayCheckOut) - Date.parse(dayCheckIn)
+      )
+      _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
       if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
-      if (customerTypeId) _roomletter.customerTypeId = customerTypeId
-      _roomletter.surchargeId = sur._id
-      // Price
-      let priceRoom = room.price;
+      //price of unit
+      let priceRoom = room && room.price
       if (!priceRoom) {
-        const cateData = await RoomCategory.findById(room.cateOfRoomId);
-        priceRoom = cateData.price;
-        console.log("Vo if dau tien");
-
-      } else {
-        if (numberOfPeople >= sur.numberOfPeople) {
-          _roomletter.price = priceRoom + sur.surchargePercent * priceRoom / 100;
-        } else {
-          _roomletter.price = priceRoom;
+        const cateData = await RoomCategory.findById(room.cateOfRoomId)
+        priceRoom = cateData.price || 0
+      }
+      if (customerTypeId) {
+        _roomletter.customerTypeId = customerTypeId
+        //price is changed by customerType
+        const _customerTypes = await CustomerType.findById(customerTypeId)
+        if (_customerTypes) {
+          priceRoom *= _customerTypes.factor || 1
         }
       }
-      
+      if (sur && sur[0]._id) {
+        _roomletter.surchargeId = sur[0]._id
+        //price is changed by surcharge
+        if (numberOfPeople >= sur[0].numberOfPeople) {
+          priceRoom += (sur[0].surchargePercent * priceRoom) / 100
+        }
+      }
+      _roomletter.price = priceRoom * parseInt(numberOfPeople)
+      _roomletter.createdBy = req.curUser._id
       await _roomletter.save()
     }
     return res.redirect("/room-letters/views")
