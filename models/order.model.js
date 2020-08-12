@@ -2,12 +2,12 @@ const { Schema, model } = require('mongoose')
 
 const OrderSchema = new Schema(
   {
-    roomLetterIds: [Schema.Types.ObjectId],
+    roomLetterIds: { type: [String], default: [] },
+    customerId: Schema.Types.ObjectId,
     employeeId: Schema.Types.ObjectId,
     totalPrice: { type: Number },
     hasPayed: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
-    isPaid: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
   },
   {
