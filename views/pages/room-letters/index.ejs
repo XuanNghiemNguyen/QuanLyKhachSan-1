@@ -117,7 +117,7 @@
   </form>
 
   <!-- Modal Update -->
-  <form action="/room-letters/update?id=<%= data._id %>" method="post" id="updateForm">
+  <form action="/room-letters/update" method="post" id="updateForm">
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -137,7 +137,7 @@
         -->
             <div class="form-group">
               <label for="customerId">Khách hàng:</label>
-              <input list="customerId" class="form-control customerId" id="myBrowser"
+              <input disabled list="customerId" class="form-control customerId" id="myBrowser"
                 placeholder="Chọn khách hàng đã lưu" name="customerId" />
               <datalist id="customerId">
                 <% dataCustomer.forEach(function(item, idx) { %>
@@ -153,7 +153,7 @@
         -->
             <div class="form-group">
               <label for="roomId_update">Tên phòng:</label>
-              <select class="form-control roomId" id="room" name="roomId" required>
+              <select class="form-control roomId" id="room-update" name="roomId" required>
                 <% dataRoom.forEach(function(item, idx) { %>
                 <option value="<%= item._id %>"><%= item.nameOfRoom %></option>
                 <% }); %>
@@ -296,8 +296,8 @@
   <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
   <script>
     $(document).ready(function () {
-      //   document.getElementById('collapseUtilities').classList.add('show')
-      // document.getElementById('room-letters-tab').classList.add('active')
+        document.getElementById('collapseTwo').classList.add('show')
+      document.getElementById('room-letter-tab').classList.add('active')
       //showing data to edit modal        
       $('#dataTable').on('click', '.edit', function () {
         const _id = $(this).data('id');
@@ -309,7 +309,7 @@
         const customerTypeId = $(this).data('type');
         $('#EditModal').modal('show');
         $('.customerId').val(customerId);
-        $('.roomId').val(roomId);
+        $('#room-update').val(roomId);
         $('.numberOfPeople').val(numberOfPeople);
         $('#dayCheckIn_update').val(new Date(dayCheckIn).toISOString().split('T')[0]);
         $('#dayCheckOut_update').val(new Date(dayCheckOut).toISOString().split('T')[0]);
