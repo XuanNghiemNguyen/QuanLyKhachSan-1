@@ -222,7 +222,7 @@
   <!-- Modal Print -->
   <form id="print-form" style="display:none">
     <img src="/img/logo.png" style="width: 100px; height: 100px;" />
-    <h3 style="float: right; margin-top: 20px;">HCMUS HOTEL</h3>
+    <h3 style="float: right; margin-top: 20px;" id="organization"></h3>
     <div id="printModal">
       <h3 class="text-center mb-4">PHIẾU ĐẶT PHÒNG</h3>
       <div class="form-row">
@@ -246,6 +246,22 @@
         <div class="form-group col-3" style="display:inline">
           <label>Loại khách:</label>
           <input class="form-control" id="inputCustomerType">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-6" style="display:inline">
+          <label>Loại phòng thuê:</label>
+          <% dataRoom.forEach(function(item, idx) { %>
+          <input class="form-control" id="inputRoomType" value="<%= item.cateOfRoomId.nameOfCategory %>">
+          <% }); %>
+        </div>
+        <div class="form-group col-3" style="display:inline">
+          <label>Giá phòng:</label>
+          <input class="form-control" id="inputRoomPrice">
+        </div>
+        <div class="form-group col-3" style="display:inline">
+          <label>Giá phụ thu:</label>
+          <input class="form-control" id="inputSurcharge">
         </div>
       </div>
       <div class="form-row">
@@ -318,6 +334,8 @@
     document.getElementById("inputCustomerType").value = document.getElementById("type_customer_update").firstElementChild.label.toString();
     document.getElementById("inputCheckIn").value = document.getElementById("dayCheckIn_update").value.toString();
     document.getElementById("inputCheckOut").value = document.getElementById("dayCheckOut_update").value.toString();
+    document.getElementById("organization").textContent = document.title.toString();
+
     printJS({
       printable: 'print-form', type: 'html',
       css: ['https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'],

@@ -44,7 +44,7 @@ router.get("/views", async (req, res) => {
 router.post("/add", async (req, res) => {
   try {
     const { customerId, roomId, dayCheckIn, dayCheckOut, numberOfPeople, customerTypeId } = req.body;
-    const sur = Surcharge.findOne({isEnabled: true}) // Surcharge chua lay dc data, xem lai!!!!!
+    const sur = Surcharge.findOne({ isEnabled: true }) // Surcharge chua lay dc data, xem lai!!!!!
     const room = await Room.findById(roomId);
 
     const _roomletter = new RoomLetter({})
@@ -86,7 +86,7 @@ router.post("/add", async (req, res) => {
 router.post("/update", async (req, res) => {
   try {
     const { id, customerId, roomId, dayCheckIn, dayCheckOut, numberOfPeople, customerTypeId } = req.body
-    const sur = Surcharge.findOne({isEnabled: true}) // Surcharge chua lay dc data, xem lai!!!!!
+    const sur = Surcharge.findOne({ isEnabled: true }) // Surcharge chua lay dc data, xem lai!!!!!
     const room = await Room.findById(roomId);
     if (!id) {
       return
@@ -117,7 +117,7 @@ router.post("/update", async (req, res) => {
           _roomletter.price = priceRoom;
         }
       }
-      
+
       await _roomletter.save()
     }
     return res.redirect("/room-letters/views")
