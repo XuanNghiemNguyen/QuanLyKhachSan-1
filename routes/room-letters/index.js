@@ -7,6 +7,7 @@ const Customer = require("../../models/customer.model")
 const Surcharge = require("../../models/surcharge.model")
 const CustomerType = require("../../models/customer-type.model")
 const User = require("../../models/user.model")
+const { notification } = require("../../common")
 
 router.get("/views", async (req, res) => {
   try {
@@ -35,6 +36,7 @@ router.get("/views", async (req, res) => {
       dataCustomer: _customers,
       curUser: req.curUser,
       pageTitle: "Phiếu thuê phòng",
+      notification: notification(false),
     })
   } catch (error) {
     console.log(error)
@@ -54,40 +56,38 @@ router.post("/add", async (req, res) => {
     const sur = await Surcharge.find({ isEnabled: true }) // Surcharge chua lay dc data, xem lai!!!!!
     const room = await Room.findById(roomId)
     let _roomletter = new RoomLetter()
-      if (customerId) _roomletter.customerId = customerId
-      if (roomId) _roomletter.roomId = roomId
-      if (dayCheckIn) _roomletter.dayCheckIn = Date.parse(dayCheckIn)
-      if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
-      // NumberOfDays
-      const diffTime = Math.abs(
-        Date.parse(dayCheckOut) - Date.parse(dayCheckIn)
-      )
-      _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-      if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
-      //price of unit
-      let priceRoom = room && room.price
-      if (!priceRoom) {
-        const cateData = await RoomCategory.findById(room.cateOfRoomId)
-        priceRoom = cateData.price || 0
+    if (customerId) _roomletter.customerId = customerId
+    if (roomId) _roomletter.roomId = roomId
+    if (dayCheckIn) _roomletter.dayCheckIn = Date.parse(dayCheckIn)
+    if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
+    // NumberOfDays
+    const diffTime = Math.abs(Date.parse(dayCheckOut) - Date.parse(dayCheckIn))
+    _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
+    //price of unit
+    let priceRoom = room && room.price
+    if (!priceRoom) {
+      const cateData = await RoomCategory.findById(room.cateOfRoomId)
+      priceRoom = cateData.price || 0
+    }
+    if (customerTypeId) {
+      _roomletter.customerTypeId = customerTypeId
+      //price is changed by customerType
+      const _customerTypes = await CustomerType.findById(customerTypeId)
+      if (_customerTypes) {
+        priceRoom *= _customerTypes.factor || 1
       }
-      if (customerTypeId) {
-        _roomletter.customerTypeId = customerTypeId
-        //price is changed by customerType
-        const _customerTypes = await CustomerType.findById(customerTypeId)
-        if (_customerTypes) {
-          priceRoom *= _customerTypes.factor || 1
-        }
+    }
+    if (sur && sur[0]._id) {
+      _roomletter.surchargeId = sur[0]._id
+      //price is changed by surcharge
+      if (numberOfPeople >= sur[0].numberOfPeople) {
+        priceRoom += (sur[0].surchargePercent * priceRoom) / 100
       }
-      if (sur && sur[0]._id) {
-        _roomletter.surchargeId = sur[0]._id
-        //price is changed by surcharge
-        if (numberOfPeople >= sur[0].numberOfPeople) {
-          priceRoom += (sur[0].surchargePercent * priceRoom) / 100
-        }
-      }
-      _roomletter.price = priceRoom * parseInt(numberOfPeople)
-      _roomletter.createdBy = req.curUser._id
-      await _roomletter.save()
+    }
+    _roomletter.price = priceRoom * parseInt(numberOfPeople)
+    _roomletter.createdBy = req.curUser._id
+    await _roomletter.save()
     return res.redirect("/room-letters/views")
   } catch (error) {
     console.log(error)

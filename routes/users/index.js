@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const bcrypt = require("bcryptjs")
 const Users = require("../../models/user.model")
+const { notification } = require("../../common")
 
 router.get("/change-password/views", async (req, res) => {
   try {
@@ -9,8 +10,8 @@ router.get("/change-password/views", async (req, res) => {
       layout: "layout",
       curUser: req.curUser,
       error_old_password: "none",
-      pageTitle: 'Người dùng'
-
+      pageTitle: "Người dùng",
+      notification: notification(false),
     })
   } catch (error) {
     console.log(error)
