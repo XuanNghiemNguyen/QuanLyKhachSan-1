@@ -3,6 +3,7 @@ const router = express.Router()
 const RoomCategory = require("../../models/room-category.model")
 const Room = require("../../models/room.model")
 const User = require("../../models/user.model")
+const { notification } = require("../../common")
 
 router.get("/views", async (req, res) => {
   try {
@@ -25,7 +26,8 @@ router.get("/views", async (req, res) => {
       layout: "layout",
       data: _roomCategories || [],
       curUser: req.curUser,
-      pageTitle: 'Loại phòng'
+      pageTitle: "Loại phòng",
+      notification: notification(false),
     })
   } catch (error) {
     console.log(error)
@@ -34,7 +36,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy =  req.curUser._id// id employee or admin
+    const createdBy = req.curUser._id // id employee or admin
     const { nameOfCategory, note, price } = req.body
     const _roomCategory = new RoomCategory({})
     _roomCategory.nameOfCategory = nameOfCategory

@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const User = require("../../models/user.model")
-
+const { notification } = require("../../common/index")
 router.get("/views", async (req, res) => {
   try {
     let _users = await User.find({ isDeleted: false, type: "employee" })
@@ -16,6 +16,7 @@ router.get("/views", async (req, res) => {
       data: _users || [],
       curUser: req.curUser,
       pageTitle: "Nhân viên",
+      notification: notification(false)
     })
   } catch (error) {
     console.log(error)

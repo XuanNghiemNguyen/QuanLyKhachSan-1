@@ -2,12 +2,27 @@ const express = require("express")
 const router = express.Router()
 const Room = require("../../models/room.model")
 const RoomCategory = require("../../models/room-category.model")
+const { notification } = require("../../common")
+
+const get_notify = (type) => {
+  switch (type) {
+    case "login":
+      return notification(true, "Thông báo", "Đăng nhập thành công!")
+    case "create":
+      return notification(true, "Thông báo", "Tạo phòng thành công!")
+    default:
+      break
+  }
+}
 
 router.get("/views", async (req, res) => {
   try {
     const { _cateId } = req.query
     let _rooms = await Room.find({ isDeleted: false })
-    if (_cateId && _cateId.toString() !== 'all') _rooms = _rooms.filter(i => i.cateOfRoomId.toString() === _cateId.toString())
+    if (_cateId && _cateId.toString() !== "all")
+      _rooms = _rooms.filter(
+        (i) => i.cateOfRoomId.toString() === _cateId.toString()
+      )
     const _roomCates = await RoomCategory.find({ isDeleted: false })
     if (_rooms && _rooms.length > 0) {
       for (let i = 0; i < _rooms.length; i++) {
@@ -15,13 +30,19 @@ router.get("/views", async (req, res) => {
         _rooms[i].cate = cate ? cate.nameOfCategory : ""
       }
     }
+    const { success, type } = req.query
+    let notify = {}
+    if (success && type) {
+      notify = get_notify(type)
+    }
     res.render("pages/rooms/index", {
       layout: "layout",
       data: _rooms,
       dataCate: _roomCates || [],
       cateActive: _cateId,
       curUser: req.curUser,
-      pageTitle: 'Phòng'
+      pageTitle: "Phòng",
+      notification: notify,
     })
   } catch (error) {
     console.log(error)
@@ -30,7 +51,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy =  req.curUser._id// id employee or admin
+    const createdBy = req.curUser._id // id employee or admin
     const {
       nameOfRoom,
       cateOfRoomId,
@@ -48,7 +69,7 @@ router.post("/add", async (req, res) => {
     _room.maxPeople = parseInt(maxPeople)
     _room.createdBy = createdBy
     await _room.save()
-    return res.redirect("/rooms/views")
+    return res.redirect("/rooms/views?success=true&type=create")
   } catch (error) {
     console.log(error)
     res.render(error)

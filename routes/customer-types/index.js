@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const CustomerType = require("../../models/customer-type.model")
 const User = require("../../models/user.model")
+const { notification } = require("../../common/index")
 
 router.get("/views", async (req, res) => {
   try {
@@ -18,7 +19,8 @@ router.get("/views", async (req, res) => {
       layout: "layout",
       data: _customerTypes || [],
       curUser: req.curUser,
-      pageTitle: 'Loại khách'
+      pageTitle: 'Loại khách',
+      notification: notification(false)
     })
   } catch (error) {
     console.log(error)
