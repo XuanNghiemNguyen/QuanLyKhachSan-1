@@ -1,0 +1,77 @@
+<div class="container-fluid">
+  <div style="text-align: center;"><h3>BÁO CÁO DOANH THU TRONG THÁNG</h3></div>
+  <div style="text-align: center;"><h3>HCMUS HOTEL</h3></div>
+
+  <div class="row mt-5" style="border: 1px solid;">
+    <div class="col" sm="6" style="border-right: 1px solid;">
+        <div style="margin: 10px">
+            <div class="row">
+                <div class="col">
+                    <h5><b>Thông tin khách sạn</b></h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Số lượng nhân viên: <b><%= numEmployee %></b></div>
+            </div>
+
+            <div class="row">
+                <div class="col">Số lượng phòng: <b><%= numRoom %></b></div>
+            </div>
+            <div class="row">
+                <div class="col">Số lượng loại phòng: <b><%= numRoomCate %></b></div>
+            </div>
+        </div>
+    </div>
+    <div class="col" sm="6">
+        <div class="row">
+            <div class="col">
+                <div style="margin: 10px">
+                    <div class="row">
+                        <div class="col">
+                            <h5><b>Thông tin đặt phòng</b></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">Số lượng khách hàng: <b><%= numCus %></b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Số lượng phiếu đặt phòng: <b><%= numRoomLetter %></b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Số lượng đơn hàng: <b><%= numOrder %></b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <table id="table-report">
+      <tr>
+        <th id="th-report">STT</th>
+        <th id="th-report">Loại phòng</th>
+        <th id="th-report">Phiếu đặt</th>
+        <th id="th-report">Số tiền</th>
+      </tr>
+      <% data.forEach(function(item, idx) { %>
+        <tr>
+          <td id="td-report"><%= idx + 1 %></td>
+          <td id="td-report"><%= item.nameCate%></td>
+          <td id="td-report"><%= item.numRoomLetter%></td>
+          <td id="td-report"><%= item.price.toLocaleString()%> đ</td>
+
+        </tr>
+        <% }); %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td id="td-report"><b>Tổng tiền:</b></td>
+          <td id="td-report"><b><%= totalMoney.toLocaleString()%> đ</b></td>
+        </tr>
+    </table>
+  </div>
+
+
+
+</div>

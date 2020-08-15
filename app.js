@@ -5,7 +5,7 @@ const dotenv = require("dotenv")
 const cookieParser = require("cookie-parser")
 const expressLayouts = require("express-ejs-layouts")
 const logger = require("morgan")
-const { isLogged, isAdmin } = require('./middlewares/authen')
+const { isLogged, isAdmin } = require("./middlewares/authen")
 require("express-async-errors")
 
 const mongoose = require("mongoose")
@@ -47,18 +47,24 @@ app.use(flash())
 /* GET home page. */
 app.use("/login", require("./routes/login"))
 app.use("/forgot-password", require("./routes/forgot-password"))
-app.use("/",isLogged, require("./routes/dashboard"))
-app.use("/dashboard",isLogged, require("./routes/dashboard"))
+app.use("/", isLogged, require("./routes/dashboard"))
+app.use("/dashboard", isLogged, require("./routes/dashboard"))
 app.use("/room-categories", isLogged, require("./routes/room-categories"))
 app.use("/rooms", isLogged, require("./routes/rooms"))
 app.use("/users", isLogged, require("./routes/users"))
-app.use("/customer-types", isLogged, isAdmin, require("./routes/customer-types"))
+app.use(
+  "/customer-types",
+  isLogged,
+  isAdmin,
+  require("./routes/customer-types")
+)
 app.use("/customers", isLogged, require("./routes/customers"))
 app.use("/surcharges", isLogged, isAdmin, require("./routes/surcharges"))
 app.use("/employees", isLogged, isAdmin, require("./routes/employees"))
 app.use("/logout", isLogged, require("./routes/logout"))
 app.use("/room-letters", isLogged, require("./routes/room-letters"))
 app.use("/orders", isLogged, require("./routes/orders"))
+app.use("/reports", isLogged, require("./routes/reports"))
 
 //connect database
 const uri = `mongodb+srv://XuanNghiemNguyen:${process.env.DB_PASSWORD}@cluster0-6az1w.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
