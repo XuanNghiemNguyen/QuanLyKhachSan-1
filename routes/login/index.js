@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
       message = "";
     }
     if (req.isAuthenticated()) {
-      res.redirect('/dashboard');
+      res.redirect('/rooms/views');
     }
     return res.render("pages/login/index", { layout: false, clientName: `${process.env.CLIENT_NAME}`, message: message });
   } catch (error) {
@@ -27,7 +27,7 @@ router.post('/', passport.authenticate('local', {
   if (req.body.isRemember) {
     req.session.cookie.expires = new Date(253402300000000); // set the expired date to year 10000
   }
-  return res.redirect('/dashboard');
+  return res.redirect('/rooms/views?success=true&type=login');
 });
 
 passport.use(new LocalStrategy({ passReqToCallback: true },

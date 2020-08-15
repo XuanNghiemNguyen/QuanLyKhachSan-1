@@ -127,7 +127,10 @@
                 href="/room-categories/views"
                 >Loại phòng</a
               >
-              <a id="rooms-tab" class="collapse-item" href="/rooms/views?_cateId=all"
+              <a
+                id="rooms-tab"
+                class="collapse-item"
+                href="/rooms/views?_cateId=all"
                 >Phòng</a
               >
               <a
@@ -321,5 +324,67 @@
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+    <% if (notification && notification.show) { %>
+    <style>
+      #notification {
+        left: 60px;
+        top: 85vh;
+        position: absolute;
+        animation-name: example;
+        animation-duration: 0.4s;
+        animation-delay: 0.4s;
+      }
+      @keyframes example {
+        0% {
+          top: 85vh;
+          left: -50px;
+        }
+        50% {
+          left: 150px;
+          top: 85vh;
+        }
+        100% {
+          left: 60px;
+          top: 85vh;
+        }
+      }
+    </style>
+
+    <div id="notification">
+      <div
+        class="notification"
+        style="
+          display: block;
+          width: 250px;
+          border-style: outset;
+          border-radius: 10px;
+          background-color: white;
+          padding: 10px;
+        "
+      >
+        <div style="display: flex; justify-content: space-between;">
+          <b id="noti-title"><%= notification.title%></b>
+          <button
+            id="close-noti"
+            onclick="return closeNoti()"
+            type="button"
+            style="padding: 0; border: none; background: none;"
+          >
+            x
+          </button>
+        </div>
+        <hr style="margin: 0px;" />
+        <p id="noti-message" style="margin-top: 10px;"><%= notification.message%></p>
+      </div>
+    </div>
+    <script>
+      function closeNoti() {
+        document.getElementById("notification").style.visibility = "hidden"
+      }
+      setTimeout(() => {
+        document.getElementById("notification").style.visibility = "hidden";
+      }, 3000)
+    </script>
+    <% } %>
   </body>
 </html>

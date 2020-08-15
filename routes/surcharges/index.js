@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const Surcharge = require("../../models/surcharge.model")
 const User = require("../../models/user.model")
+const { notification } = require("../../common")
 
 router.get("/views", async (req, res) => {
   try {
@@ -16,8 +17,8 @@ router.get("/views", async (req, res) => {
       layout: "layout",
       data: _surcharges || [],
       curUser: req.curUser,
-      pageTitle: 'Phụ phí'
-
+      pageTitle: "Phụ phí",
+      notification: notification(false),
     })
   } catch (error) {
     console.log(error)
@@ -26,7 +27,7 @@ router.get("/views", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const createdBy =  req.curUser._id // id employee or admin
+    const createdBy = req.curUser._id // id employee or admin
     const { numberOfPeople, surchargePercent, isEnabled } = req.body
     const _surcharge = new Surcharge({})
     _surcharge.numberOfPeople = parseInt(numberOfPeople)
