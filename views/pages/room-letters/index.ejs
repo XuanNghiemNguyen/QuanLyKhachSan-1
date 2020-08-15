@@ -155,7 +155,7 @@
               <label for="roomId_update">Tên phòng:</label>
               <select class="form-control roomId" id="room-update" name="roomId" required>
                 <% dataRoom.forEach(function(item, idx) { %>
-                <option value="<%= item._id %>"><%= item.nameOfRoom %></option>
+                <option value="<%= item._id %>" label="<%= item.nameOfRoom %>"><%= item.nameOfRoom %></option>
                 <% }); %>
               </select>
             </div>
@@ -183,7 +183,7 @@
           </div>
           <div class="modal-footer justify-content-between">
             <input type="hidden" name="id" class="_id">
-            <button class="btn btn-success col-2" type="button" onclick="printLetterRoom()">
+            <button class="btn btn-success col-2" type="button" onclick="printLetterRoom('<% data %>')">
               <img src="/img/print.png" style="height: 20px;width: 20px;"></button>
             <div class="col-6 row justify-content-around">
               <button type="button" class="btn btn-secondary col mr-2" data-dismiss="modal">Hủy</button>
@@ -220,15 +220,15 @@
   </form>
 
   <!-- Modal Print -->
-  <form id="print-form" style="display:none">
+  <form id="print-form" name="printForm" style="display:none">
     <img src="/img/logo.png" style="width: 100px; height: 100px;" />
     <h3 style="float: right; margin-top: 20px;" id="organization"></h3>
-    <div id="printModal">
+    <div>
       <h3 class="text-center mb-4">PHIẾU ĐẶT PHÒNG</h3>
       <div class="form-row">
         <div class="form-group col-md-6" style="display: inline">
           <span>Tên phòng:</span>
-          <span id="print-room"></span>
+          <span name="roomName" id="print-room"></span>
         </div>
         <div class="form-group col-md-6" style="display: inline">
           <span id="print-employee">Nhân viên: <%= curUser.name %></span>
@@ -251,17 +251,15 @@
       <div class="form-row">
         <div class="form-group col-6" style="display:inline">
           <label>Loại phòng thuê:</label>
-          <% dataRoom.forEach(function(item, idx) { %>
-          <input class="form-control" id="inputRoomType" value="<%= item.cateOfRoomId.nameOfCategory %>">
-          <% }); %>
+          <input class="form-control" id="inputRoomType" value="<%= this.roomName %>">
         </div>
         <div class="form-group col-3" style="display:inline">
           <label>Giá phòng:</label>
-          <input class="form-control" id="inputRoomPrice">
+          <input class="form-control" id="inputRoomPrice" value="<%= data[i].price %>">
         </div>
         <div class="form-group col-3" style="display:inline">
-          <label>Giá phụ thu:</label>
-          <input class="form-control" id="inputSurcharge">
+          <label>Mức phụ thu(%):</label>
+          <input class="form-control" id="inputSurcharge" value="<%= data[i].surcharge %>">
         </div>
       </div>
       <div class="form-row">
@@ -296,7 +294,7 @@
   <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
   <script>
     $(document).ready(function () {
-        document.getElementById('collapseTwo').classList.add('show')
+      document.getElementById('collapseTwo').classList.add('show')
       document.getElementById('room-letter-tab').classList.add('active')
       //showing data to edit modal        
       $('#dataTable').on('click', '.edit', function () {
@@ -326,15 +324,18 @@
   </script>
 </div>
 <script>
-  function printLetterRoom() {
+  function printLetterRoom(data) {
     document.getElementById("print-form").style.display = 'initial';
     document.getElementById("inputCustomer").value = document.getElementById("customerId").firstElementChild.value.toString();
-    document.getElementById("print-room").textContent = document.getElementById("category_room").firstElementChild.label.toString();
+    var category = document.getElementById("room-update");
+    document.getElementById("print-room").textContent = category.options[category.selectedIndex].label;
+    document.getElementById("print-room").title = category.options[category.selectedIndex].label;
     document.getElementById("inputNumPeople").value = document.getElementById("numberOfPeople_update").value.toString();
     document.getElementById("inputCustomerType").value = document.getElementById("type_customer_update").firstElementChild.label.toString();
     document.getElementById("inputCheckIn").value = document.getElementById("dayCheckIn_update").value.toString();
     document.getElementById("inputCheckOut").value = document.getElementById("dayCheckOut_update").value.toString();
     document.getElementById("organization").textContent = document.title.toString();
+
 
     printJS({
       printable: 'print-form', type: 'html',
