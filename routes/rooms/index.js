@@ -15,6 +15,7 @@ router.get("/views", async (req, res) => {
         _rooms[i].cate = cate ? cate.nameOfCategory : ""
       }
     }
+    console.log(_rooms);
     res.render("pages/rooms/index", {
       layout: "layout",
       data: _rooms,
