@@ -3,7 +3,7 @@ const router = express.Router()
 const Customer = require("../../models/customer.model")
 const RoomLetter = require("../../models/room-letter.model")
 const Order = require("../../models/order.model")
-
+const { notification } = require("../../common/index")
 router.get("/views", async (req, res) => {
   try {
     let _orders = (await Order.find({ isDeleted: false })) || []
@@ -22,6 +22,7 @@ router.get("/views", async (req, res) => {
       curUser: req.curUser,
       dataCustomer: dataCustomer || [],
       pageTitle: "Hóa đơn thanh toán",
+      notification: notification(false)
     })
   } catch (error) {
     console.log(error)

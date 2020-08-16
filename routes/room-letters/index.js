@@ -7,6 +7,7 @@ const Customer = require("../../models/customer.model")
 const Surcharge = require("../../models/surcharge.model")
 const CustomerType = require("../../models/customer-type.model")
 const User = require("../../models/user.model")
+const { notification } = require("../../common")
 
 router.get("/views", async (req, res) => {
   try {
@@ -24,12 +25,6 @@ router.get("/views", async (req, res) => {
 
         const room = await Room.findById(_roomletters[i].roomId)
         _roomletters[i].room = room ? room.nameOfRoom : ""
-
-        const category = await RoomCategory.findById(room.cateOfRoomId)
-        _roomletters[i].category = category ? category.nameOfCategory : ""
-
-        const surcharge = await Surcharge.findById(_roomletters[i].surchargeId)
-        _roomletters[i].surcharge = surcharge ? surcharge.surchargePercent : "0"
       }
     }
 
@@ -41,6 +36,7 @@ router.get("/views", async (req, res) => {
       dataCustomer: _customers,
       curUser: req.curUser,
       pageTitle: "Phiếu thuê phòng",
+      notification: notification(false),
     })
   } catch (error) {
     console.log(error)
@@ -65,9 +61,7 @@ router.post("/add", async (req, res) => {
     if (dayCheckIn) _roomletter.dayCheckIn = Date.parse(dayCheckIn)
     if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
     // NumberOfDays
-    const diffTime = Math.abs(
-      Date.parse(dayCheckOut) - Date.parse(dayCheckIn)
-    )
+    const diffTime = Math.abs(Date.parse(dayCheckOut) - Date.parse(dayCheckIn))
     _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
     if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
     //price of unit

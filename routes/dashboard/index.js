@@ -4,6 +4,7 @@ const Room = require("../../models/room.model")
 const RoomCategory = require("../../models/room-category.model")
 const RoomLetter = require("../../models/room-letter.model")
 const Order = require("../../models/order.model")
+const { notification } = require("../../common/index")
 
 router.get("/", async (req, res) => {
   try {
@@ -86,6 +87,7 @@ router.get("/", async (req, res) => {
       _revenueOnThisMonth: _revenueOnThisMonth.toLocaleString() || 0,
       curUser: req.curUser,
       pageTitle: "Dashboard",
+      notification: notification(false),
     })
   } catch (error) {
     console.log(error)
