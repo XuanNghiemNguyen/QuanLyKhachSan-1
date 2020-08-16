@@ -51,6 +51,11 @@ router.post("/add", async (req, res) => {
       _order.roomLetterIds.push(_roomLetters[i]._id)
       totalPrice += parseInt(_roomLetters[i].price)
       _roomLetters[i].hasPayed = true
+      const room = Room.findById(_roomletters[i].roomId)
+      if (room) {
+        room.status = "Còn trống"
+        await room.save()
+      }
       await _roomLetters[i].save()
     }
     _order.employeeId = req.curUser._id

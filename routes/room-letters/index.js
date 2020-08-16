@@ -23,7 +23,9 @@ router.get("/views", async (req, res) => {
         const cus = await Customer.findById(_roomletters[i].customerId)
         _roomletters[i].cus = cus ? cus.name : ""
 
-        const cusType = await CustomerType.findById(_roomletters[i].customerTypeId)
+        const cusType = await CustomerType.findById(
+          _roomletters[i].customerTypeId
+        )
         _roomletters[i].cusType = cusType ? cusType.nameOfType : ""
 
         const room = await Room.findById(_roomletters[i].roomId)
@@ -97,6 +99,8 @@ router.post("/add", async (req, res) => {
     }
     _roomletter.price = priceRoom * parseInt(numberOfPeople)
     _roomletter.createdBy = req.curUser._id
+    room.status = "Đang sử dụng"
+    await room.save()
     await _roomletter.save()
     return res.redirect("/room-letters/views")
   } catch (error) {
@@ -175,6 +179,11 @@ router.post("/delete", async (req, res) => {
     const _roomletter = await RoomLetter.findById(id)
     if (_roomletter) {
       _roomletter.isDeleted = true
+      const room = Room.findById(_roomletter.roomId)
+      if (room) {
+        room.status = "Còn trống"
+        await room.save()
+      }
       await _roomletter.save()
     }
     return res.redirect("/room-letters/views")

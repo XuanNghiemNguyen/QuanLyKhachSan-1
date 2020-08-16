@@ -18,10 +18,11 @@ const getRandomCode = () => {
 
 router.get("/", async (req, res) => {
   try {
+    const {error} = req.query
     return res.render("pages/forgot-password/index", {
       layout: false,
       clientName: `${process.env.CLIENT_NAME}`,
-      message: "",
+      message: error === "emailInvalid" ? "Email không tồn tại, xin nhập lại!" : "",
     })
   } catch (error) {
     console.log(error)
@@ -51,9 +52,6 @@ router.get("/change-password", async (req, res) => {
 router.post("/getOTP", async (req, res) => {
   try {
     const { email } = req.body
-    if (!email) {
-      return
-    }
     const user = await User.findOne({ email })
     if (user) {
       const OTP_CODE = getRandomCode()
@@ -113,7 +111,7 @@ router.post("/getOTP", async (req, res) => {
       return res.redirect(`/forgot-password/change-password?email=${email}`)
     } else {
       console.log("Tài khoản không tồn tại!")
-      return
+      return res.redirect(`/forgot-password?error=emailInvalid`)
     }
   } catch (err) {
     return res.status(500).json({
@@ -157,7 +155,7 @@ router.post("/change-password", async (req, res) => {
     await user.save()
     user_Verify.isUsed = true
     await user_Verify.save()
-    return res.redirect("/login")
+    return res.redirect("/login?changepassSuccess=true")
   } catch (err) {
     return res.status(500).json({
       success: false,

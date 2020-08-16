@@ -7,10 +7,9 @@ const Users = require('../../models/user.model')
 
 router.get('/', async (req, res) => {
   try {
-    const message = req.flash('failureMessage');
-    if (message == null) {
-      message = "";
-    }
+    const { changepassSuccess } = req.query
+    let message = req.flash('failureMessage');
+    message = changepassSuccess ? "Lấy lại mật khẩu thành công!" : (message || "")
     if (req.isAuthenticated()) {
       res.redirect('/rooms/views');
     }
