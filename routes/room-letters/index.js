@@ -23,8 +23,18 @@ router.get("/views", async (req, res) => {
         const cus = await Customer.findById(_roomletters[i].customerId)
         _roomletters[i].cus = cus ? cus.name : ""
 
+        const cusType = await CustomerType.findById(_roomletters[i].customerTypeId)
+        _roomletters[i].cusType = cusType ? cusType.nameOfType : ""
+
         const room = await Room.findById(_roomletters[i].roomId)
         _roomletters[i].room = room ? room.nameOfRoom : ""
+
+        // Get data for printing
+        const category = await RoomCategory.findById(room.cateOfRoomId)
+        _roomletters[i].category = category ? category.nameOfCategory : ""
+
+        const surcharge = await Surcharge.findById(_roomletters[i].surchargeId)
+        _roomletters[i].surcharge = surcharge ? surcharge.surchargePercent : "0"
       }
     }
 

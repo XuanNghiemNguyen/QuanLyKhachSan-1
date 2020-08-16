@@ -34,6 +34,12 @@
                 data-dayin="<%= item.dayCheckIn %>" data-dayout="<%= item.dayCheckOut %>"
                 data-numpeople="<%= item.numberOfPeople %>" data-type="<%= item.customerTypeId %>">Cập nhật</a>
               <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-success print" style="width: 50px;"
+                data-id="<%= item._id %>" data-customername="<%= item.cus %>" data-roomname="<%= item.room %>"
+                data-dayin="<%= item.dayCheckIn %>" data-dayout="<%= item.dayCheckOut %>"
+                data-numpeople="<%= item.numberOfPeople %>" data-type="<%= item.cusType %>"
+                data-category="<%= item.category %>" data-surchage="<%= item.surcharge %>"
+                data-price="<%= item.price %>"><img src="/img/print.png" style="height: 20px;width: 20px;"></a>
             </td>
           </tr>
           <% }); %>
@@ -183,8 +189,6 @@
           </div>
           <div class="modal-footer justify-content-between">
             <input type="hidden" name="id" class="_id">
-            <button class="btn btn-success col-2" type="button" onclick="printLetterRoom('<% data %>')">
-              <img src="/img/print.png" style="height: 20px;width: 20px;"></button>
             <div class="col-6 row justify-content-around">
               <button type="button" class="btn btn-secondary col mr-2" data-dismiss="modal">Hủy</button>
               <button type="submit" class="btn btn-primary col ml-1">Xác nhận</button>
@@ -220,17 +224,17 @@
   </form>
 
   <!-- Modal Print -->
-  <form id="print-form" name="printForm" style="display:none">
+  <form id="print-form" name="printForm" style="display: none;">
     <img src="/img/logo.png" style="width: 100px; height: 100px;" />
     <h3 style="float: right; margin-top: 20px;" id="organization"></h3>
     <div>
       <h3 class="text-center mb-4">PHIẾU ĐẶT PHÒNG</h3>
       <div class="form-row">
-        <div class="form-group col-md-6" style="display: inline">
+        <div class="form-group col-md-6">
           <span>Tên phòng:</span>
           <span name="roomName" id="print-room"></span>
         </div>
-        <div class="form-group col-md-6" style="display: inline">
+        <div class="form-group col-md-6">
           <span id="print-employee">Nhân viên: <%= curUser.name %></span>
         </div>
       </div>
@@ -251,15 +255,15 @@
       <div class="form-row">
         <div class="form-group col-6" style="display:inline">
           <label>Loại phòng thuê:</label>
-          <input class="form-control" id="inputRoomType" value="<%= this.roomName %>">
+          <input class="form-control" id="inputRoomType">
         </div>
         <div class="form-group col-3" style="display:inline">
           <label>Giá phòng:</label>
-          <input class="form-control" id="inputRoomPrice" value="<%= data[i].price %>">
+          <input class="form-control" id="inputRoomPrice">
         </div>
         <div class="form-group col-3" style="display:inline">
           <label>Mức phụ thu(%):</label>
-          <input class="form-control" id="inputSurcharge" value="<%= data[i].surcharge %>">
+          <input class="form-control" id="inputSurcharge">
         </div>
       </div>
       <div class="form-row">
@@ -284,7 +288,6 @@
           Người lập phiếu
         </div>
       </div>
-    </div>
   </form>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -320,28 +323,35 @@
         $('#DeleteModal').modal('show');
         $('._id2').val(_id);
       });
+      //open print modal
+      $('#dataTable').on('click', '.print', function () {
+        const customerName = $(this).data('customername');
+        const roomname = $(this).data('roomname');
+        const numberOfPeople = $(this).data('numpeople');
+        const dayCheckIn = $(this).data('dayin');
+        const dayCheckOut = $(this).data('dayout');
+        const customerTypeId = $(this).data('type');
+        const roomPrice = $(this).data('price');
+        const category = $(this).data('category');
+        const surcharge = $(this).data('surchage');
+        $('#print-form').show();
+        $("#organization").text(document.title);
+        $('#print-room').text(roomname);
+        $('#inputCustomer').val(customerName);
+        $('#inputNumPeople').val(numberOfPeople);
+        $('#inputCustomerType').val(customerTypeId);
+        $('#inputRoomType').val(category);
+        $('#inputRoomPrice').val(roomPrice);
+        $('#inputSurcharge').val(surcharge);
+        $('#inputCheckIn').val(new Date(dayCheckIn).toISOString().split('T')[0]);
+        $('#inputCheckOut').val(new Date(dayCheckOut).toISOString().split('T')[0]);
+        printJS({
+          printable: 'print-form', type: 'html',
+          css: ['https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'],
+          targetStyles: ['*']
+        });
+        $('#print-form').hide();
+      });
     });
   </script>
 </div>
-<script>
-  function printLetterRoom(data) {
-    document.getElementById("print-form").style.display = 'initial';
-    document.getElementById("inputCustomer").value = document.getElementById("customerId").firstElementChild.value.toString();
-    var category = document.getElementById("room-update");
-    document.getElementById("print-room").textContent = category.options[category.selectedIndex].label;
-    document.getElementById("print-room").title = category.options[category.selectedIndex].label;
-    document.getElementById("inputNumPeople").value = document.getElementById("numberOfPeople_update").value.toString();
-    document.getElementById("inputCustomerType").value = document.getElementById("type_customer_update").firstElementChild.label.toString();
-    document.getElementById("inputCheckIn").value = document.getElementById("dayCheckIn_update").value.toString();
-    document.getElementById("inputCheckOut").value = document.getElementById("dayCheckOut_update").value.toString();
-    document.getElementById("organization").textContent = document.title.toString();
-
-
-    printJS({
-      printable: 'print-form', type: 'html',
-      css: ['https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'],
-      targetStyles: ['*']
-    });
-    document.getElementById("print-form").style.display = 'none';
-  }
-</script>
