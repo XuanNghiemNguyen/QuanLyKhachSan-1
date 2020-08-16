@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const bcrypt = require('bcryptjs')
 const User = require("../../models/user.model")
 const { notification } = require("../../common/index")
 router.get("/views", async (req, res) => {
@@ -31,6 +32,7 @@ router.post("/add", async (req, res) => {
     _user.type = type
     _user.name = name
     const hash = bcrypt.hashSync(password, 10)
+    _user.email = email
     _user.password = hash
     _user.address = address
     _user.avatar = avatar
