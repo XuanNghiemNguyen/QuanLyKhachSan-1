@@ -6,6 +6,7 @@ const User = require("../../models/user.model")
 const Customer = require("../../models/customer.model")
 const RoomLetter = require("../../models/room-letter.model")
 const Order = require("../../models/order.model")
+const { notification } = require("../../common")
 
 
 router.get("/views", async (req, res) => {
@@ -68,6 +69,7 @@ router.get("/views", async (req, res) => {
       data: _roomCategories,
       totalMoney: totalMoney,
       curUser: req.curUser,
+      notification: notification(false),
       pageTitle: 'Báo cáo doanh thu'
     })
   } catch (error) {
