@@ -18,6 +18,15 @@ router.get("/views", async (req, res) => {
     const _roomLetters = await RoomLetter.find({ isDeleted: false, hasPayed: true })
     const _orders = await Order.find({ isDeleted: false, hasPayed: true })
 
+    // Create roomLetterInOrder in order to find RoomLetters in Order which has hasPayed true
+    let roomLetterInOrder = [];
+    for (let i = 0; i < _orders.length; i++){
+      for (let j = 0; j < _orders[i].roomLetterIds.length; j++){
+        roomLetterInOrder.push(_orders[i].roomLetterIds[j]);
+      }
+    }
+    console.log(roomLetterInOrder);
+
     const ts_now = new Date()
     let first_day_month = new Date(ts_now.getFullYear(), ts_now.getMonth(), 1).getTime();
     let last_day_month = new Date(ts_now.getFullYear(), ts_now.getMonth() + 1, 1).getTime();
@@ -27,6 +36,7 @@ router.get("/views", async (req, res) => {
       let numRoomLetter = 0; let price = 0;
       let roomWithCateId = await Room.find({ isDeleted: false, cateOfRoomId: _roomCategories[i]._id })
       for (let j = 0; j < roomWithCateId.length; j++) {
+        let roomLetterWithRoomIdInOrder = [];
         let roomLetterWithRoomId = await RoomLetter.find
         ({ 
           isDeleted: false, 
@@ -37,9 +47,17 @@ router.get("/views", async (req, res) => {
           $lt: last_day_month,
           }, 
         })
-        numRoomLetter += roomLetterWithRoomId.length;
-        for (let k = 0; k < roomLetterWithRoomId.length; k++){
-          price += roomLetterWithRoomId[k].price;
+        // Check if roomLetter in Order with hasPayed true
+        for (let t = 0; t < roomLetterWithRoomId.length; t++) {
+          for (let h = 0; h < roomLetterInOrder.length; h++) {
+            if (roomLetterWithRoomId[t]._id == roomLetterInOrder[h]) {
+              roomLetterWithRoomIdInOrder.push(roomLetterWithRoomId[t]);
+            }
+          }
+        }
+        numRoomLetter += roomLetterWithRoomIdInOrder.length;
+        for (let k = 0; k < roomLetterWithRoomIdInOrder.length; k++){
+          price += roomLetterWithRoomIdInOrder[k].price;
         }
       }
       _numRoomletters.push(numRoomLetter);
@@ -56,6 +74,10 @@ router.get("/views", async (req, res) => {
     for (let i = 0; i < _totalPrices.length; i++){
       totalMoney += _totalPrices[i];
     }
+    let numberOfRoomletters = 0;
+    for (let i = 0; i < _numRoomletters.length; i++){
+      numberOfRoomletters += _numRoomletters[i];
+    }
 
     res.render("pages/reports/index", {
       layout: "layout",
@@ -64,7 +86,7 @@ router.get("/views", async (req, res) => {
       numEmployee: _employees.length || 0,
       numRoomCate: _roomCategories.length || 0,
       numCus: _customers.length || 0,
-      numRoomLetter: _roomLetters.length || 0,
+      numRoomLetter: numberOfRoomletters,
       numOrder: _orders.length || 0,
       data: _roomCategories,
       totalMoney: totalMoney,
