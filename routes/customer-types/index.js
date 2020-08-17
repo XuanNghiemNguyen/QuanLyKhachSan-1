@@ -4,6 +4,19 @@ const CustomerType = require("../../models/customer-type.model")
 const User = require("../../models/user.model")
 const { notification } = require("../../common/index")
 
+const get_notify = (type) => {
+  switch (type) {
+    case "create":
+      return notification(true, "Thông báo", "Thêm loại khách hàng thành công!")
+    case "update":
+      return notification(true, "Thông báo", "Cập nhật loại khách hàng thành công!")
+    case "delete":
+      return notification(true, "Thông báo", "Xóa loại khách hàng thành công!")
+    default:
+      break
+  }
+}
+
 router.get("/views", async (req, res) => {
   try {
     let _customerTypes = await CustomerType.find({ isDeleted: false })
@@ -15,12 +28,19 @@ router.get("/views", async (req, res) => {
           : ""
       }
     }
+
+    const { success, type } = req.query
+    let notify = {}
+    if (success && type) {
+      notify = get_notify(type)
+    }
+
     res.render("pages/customer-types/index", {
       layout: "layout",
       data: _customerTypes || [],
       curUser: req.curUser,
       pageTitle: 'Loại khách',
-      notification: notification(false)
+      notification: notify
     })
   } catch (error) {
     console.log(error)
@@ -36,7 +56,7 @@ router.post("/add", async (req, res) => {
     _customerType.factor = parseFloat(factor)
     _customerType.createdBy = createdBy
     await _customerType.save()
-    return res.redirect("/customer-types/views")
+    return res.redirect("/customer-types/views?success=true&type=create")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -55,7 +75,7 @@ router.post("/update", async (req, res) => {
       if (factor) _customerType.factor = factor
       await _customerType.save()
     }
-    return res.redirect("/customer-types/views")
+    return res.redirect("/customer-types/views?success=true&type=update")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -75,7 +95,7 @@ router.post("/delete", async (req, res) => {
       _customerType.isDeleted = true
       await _customerType.save()
     }
-    return res.redirect("/customer-types/views")
+    return res.redirect("/customer-types/views?success=true&type=delete")
   } catch (error) {
     console.log(error)
     res.render(error)

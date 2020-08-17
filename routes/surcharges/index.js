@@ -4,6 +4,19 @@ const Surcharge = require("../../models/surcharge.model")
 const User = require("../../models/user.model")
 const { notification } = require("../../common")
 
+const get_notify = (type) => {
+  switch (type) {
+    case "create":
+      return notification(true, "Thông báo", "Tạo phụ phí phòng thành công!")
+    case "update":
+      return notification(true, "Thông báo", "Cập nhật phụ phí thành công!")
+    case "delete":
+      return notification(true, "Thông báo", "Xóa phụ phí phòng thành công!")
+    default:
+      break
+  }
+}
+
 router.get("/views", async (req, res) => {
   try {
     let _surcharges = await Surcharge.find({ isDeleted: false })
@@ -13,12 +26,19 @@ router.get("/views", async (req, res) => {
         _surcharges[i].createdByUser = createdByUser ? createdByUser.name : ""
       }
     }
+
+    const { success, type } = req.query
+    let notify = {}
+    if (success && type) {
+      notify = get_notify(type)
+    }
+
     res.render("pages/surcharges/index", {
       layout: "layout",
       data: _surcharges || [],
       curUser: req.curUser,
       pageTitle: "Phụ phí",
-      notification: notification(false),
+      notification: notify,
     })
   } catch (error) {
     console.log(error)
@@ -35,7 +55,7 @@ router.post("/add", async (req, res) => {
     _surcharge.isEnabled = isEnabled
     _surcharge.createdBy = createdBy
     await _surcharge.save()
-    return res.redirect("/surcharges/views")
+    return res.redirect("/surcharges/views?success=true&type=create")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -56,7 +76,7 @@ router.post("/update", async (req, res) => {
       if (isEnabled) _surcharge.isEnabled = isEnabled
       await _surcharge.save()
     }
-    return res.redirect("/surcharges/views")
+    return res.redirect("/surcharges/views?success=true&type=update")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -75,7 +95,7 @@ router.post("/delete", async (req, res) => {
       _surcharge.isDeleted = true
       await _surcharge.save()
     }
-    return res.redirect("/surcharges/views")
+    return res.redirect("/surcharges/views?success=true&type=delete")
   } catch (error) {
     console.log(error)
     res.render(error)

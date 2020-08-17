@@ -232,11 +232,12 @@
       <h2 class="text-center mb-4">PHIẾU ĐẶT PHÒNG</h3>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <span>Tên phòng: </span>
+            <b>Tên phòng: </b>
             <span name="roomName" id="print-room"></span>
           </div>
           <div class="form-group col-md-6">
-            <span id="create-employee">Người lập phiếu: </span>
+            <b>Người lập phiếu: </b>
+            <span id="create-employee"> </span>
           </div>
         </div>
         <div class="form-row">
@@ -341,7 +342,7 @@
         $('#print-form').show();
         $("#organization").text(document.title);
         $('#print-room').text(roomname);
-        $('#create-employee').append(" " + employee);
+        $('#create-employee').text(" " + employee);
         $('#inputCustomer').val(customerName);
         $('#inputNumPeople').val(numberOfPeople);
         $('#inputCustomerType').val(customerTypeId);
