@@ -74,7 +74,8 @@ router.post("/add", async (req, res) => {
     if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
     // NumberOfDays
     const diffTime = Math.abs(Date.parse(dayCheckOut) - Date.parse(dayCheckIn))
-    _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    let numDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    _roomletter.numberOfDays = numDay
     if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
     //price of unit
     let priceRoom = room && room.price
@@ -158,7 +159,7 @@ router.post("/update", async (req, res) => {
           priceRoom += (sur[0].surchargePercent * priceRoom) / 100
         }
       }
-      _roomletter.price = priceRoom * parseInt(numberOfPeople)
+      _roomletter.price = priceRoom * parseInt(numberOfPeople) * numDay
       _roomletter.createdBy = req.curUser._id
       await _roomletter.save()
     }
