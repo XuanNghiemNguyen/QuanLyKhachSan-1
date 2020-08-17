@@ -16,6 +16,7 @@ const CustomerSchema = new Schema(
       trim: true,
       maxlength: 255
     },
+    numberOfId: { type: String, required: true },
     customerTypeId: Schema.Types.ObjectId,
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
