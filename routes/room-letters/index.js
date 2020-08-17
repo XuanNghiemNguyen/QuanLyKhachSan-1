@@ -180,10 +180,10 @@ router.post("/delete", async (req, res) => {
     const _roomletter = await RoomLetter.findById(id)
     if (_roomletter) {
       _roomletter.isDeleted = true
-      const room = Room.findById(_roomletter.roomId)
-      if (room) {
-        room.status = "Còn trống"
-        await room.save()
+      const _room = await Room.findById(_roomletter.roomId)
+      if (_room) {
+        _room.status = "Còn trống"
+        await _room.save()
       }
       await _roomletter.save()
     }

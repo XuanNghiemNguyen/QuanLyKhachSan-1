@@ -3,7 +3,9 @@ const router = express.Router()
 const Customer = require("../../models/customer.model")
 const RoomLetter = require("../../models/room-letter.model")
 const Order = require("../../models/order.model")
+const Room = require("../../models/room.model")
 const { notification } = require("../../common/index")
+
 router.get("/views", async (req, res) => {
   try {
     let _orders = (await Order.find({ isDeleted: false })) || []
@@ -51,7 +53,7 @@ router.post("/add", async (req, res) => {
       _order.roomLetterIds.push(_roomLetters[i]._id)
       totalPrice += parseInt(_roomLetters[i].price)
       _roomLetters[i].hasPayed = true
-      const room = Room.findById(_roomletters[i].roomId)
+      const room = await Room.findById(_roomLetters[i].roomId)
       if (room) {
         room.status = "Còn trống"
         await room.save()
