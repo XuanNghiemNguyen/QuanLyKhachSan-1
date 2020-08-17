@@ -14,10 +14,12 @@
 
 ## :rocket: Running
 
-- //connect database NOSQL BOOSTER
+- connect database NOSQL BOOSTER:
   uri = `mongodb+srv://XuanNghiemNguyen:2101998@cluster0-6az1w.mongodb.net/QLKS?retryWrites=true&w=majority`
-
-- type: `npm start` or `nodemon`
+- yêu cầu môi trường: NodeJS, NPM
+- cài đặt các dependence: `npm i`
+- chạy phần mềm: `npm start`
+- sản phẩm deploy automatically: https://hotel-management-hcmus.herokuapp.com/
 
 ### :straight_ruler: Quy định message commit code
 
