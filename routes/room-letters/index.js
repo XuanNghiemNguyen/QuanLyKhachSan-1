@@ -159,7 +159,7 @@ router.post("/update", async (req, res) => {
           priceRoom += (sur[0].surchargePercent * priceRoom) / 100
         }
       }
-      _roomletter.price = priceRoom * parseInt(numDay)
+      _roomletter.price = priceRoom * parseInt(_roomletter.numberOfDays)
       _roomletter.createdBy = req.curUser._id
       await _roomletter.save()
     }
