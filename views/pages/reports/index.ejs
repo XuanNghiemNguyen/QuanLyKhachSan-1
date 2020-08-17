@@ -1,48 +1,57 @@
 <div class="container-fluid">
-  <div style="text-align: center;"><h3>BÁO CÁO DOANH THU TRONG THÁNG</h3></div>
-  <div style="text-align: center;"><h3>HCMUS HOTEL</h3></div>
-
-  <div class="row mt-5" style="border: 1px solid;">
+  <div style="text-align: center;">
+    <h3>BÁO CÁO DOANH THU TRONG THÁNG</h3>
+  </div>
+  <div style="text-align: center;">
+    <h3>HCMUS HOTEL</h3>
+  </div>
+  <div>
+    <hr>
+    <a href="javascript:void(0);" id="print-button" class="btn btn-sm btn-success print"
+      style="font-size:18px; width: 150px;">
+      <img class="mr-2" src="/img/print.png" style="height: 25px;width: 25px;">Lưu báo cáo</a>
+  </div>
+  <div class="row mt-3" style="border: 1px solid;">
     <div class="col" sm="6" style="border-right: 1px solid;">
-        <div style="margin: 10px">
-            <div class="row">
-                <div class="col">
-                    <h5><b>Thông tin khách sạn</b></h5>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">Số lượng nhân viên: <b><%= numEmployee %></b></div>
-            </div>
-
-            <div class="row">
-                <div class="col">Số lượng phòng: <b><%= numRoom %></b></div>
-            </div>
-            <div class="row">
-                <div class="col">Số lượng loại phòng: <b><%= numRoomCate %></b></div>
-            </div>
+      <div style="margin: 10px">
+        <div class="row">
+          <div class="col">
+            <h5><b>Thông tin khách sạn</b></h5>
+          </div>
         </div>
+        <div class="row">
+          <div class="col">Số lượng nhân viên: <b><%= numEmployee %></b></div>
+        </div>
+
+        <div class="row">
+          <div class="col">Số lượng phòng: <b><%= numRoom %></b></div>
+        </div>
+        <div class="row">
+          <div class="col">Số lượng loại phòng: <b><%= numRoomCate %></b></div>
+        </div>
+      </div>
     </div>
     <div class="col" sm="6">
-        <div class="row">
-            <div class="col">
-                <div style="margin: 10px">
-                    <div class="row">
-                        <div class="col">
-                            <h5><b>Thông tin đặt phòng</b></h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">Số lượng khách hàng: <b><%= numCus %></b></div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Số lượng phiếu đặt phòng: <b><%= numRoomLetter %></b></div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Số lượng đơn hàng: <b><%= numOrder %></b></div>
-                    </div>
-                </div>
+      <div class="row">
+        <div class="col">
+          <div style="margin: 10px">
+            <div class="row">
+              <div class="col">
+                <h5><b>Thông tin đặt phòng</b></h5>
+              </div>
             </div>
+            <div class="row">
+              <div class="col">Số lượng khách hàng: <b><%= numCus %></b></div>
+            </div>
+            <div class="row">
+              <div class="col">Số lượng phiếu đặt phòng: <b><%= numRoomLetter %></b></div>
+            </div>
+            <div class="row">
+              <div class="col">Số lượng đơn hàng: <b><%= numOrder %></b></div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 
@@ -55,6 +64,46 @@
         <th id="th-report">Số tiền</th>
       </tr>
       <% data.forEach(function(item, idx) { %>
+      <tr>
+        <td id="td-report"><%= idx + 1 %></td>
+        <td id="td-report"><%= item.nameCate%></td>
+        <td id="td-report"><%= item.numRoomLetter%></td>
+        <td id="td-report"><%= item.price.toLocaleString()%> đ</td>
+
+      </tr>
+      <% }); %>
+      <tr>
+        <td colspan="2">
+        <td id="td-report"><b>Tổng tiền:</b></td>
+        <td id="td-report"><b><%= totalMoney.toLocaleString()%> đ</b></td>
+      </tr>
+    </table>
+  </div>
+
+
+  <!-- Modal Print -->
+  <form id="print-form" name="printForm" style="display: none; font-size:20px">
+    <img src="/img/logo.png" style="width: 100px; height: 100px;" />
+    <h3 style="float: right; margin-top: 20px;" id="organization"></h3>
+    <div class="ml-5">
+      <h3 class="text-center mb-4">BÁO CÁO DOANH THU TRONG THÁNG</h3>
+      <div class="form-row">
+        <div class="form-group col-8" style="display: inline;">
+          <span id="print-employee">Người in: <%= curUser.name %></span>
+        </div>
+        <div class="form-group col-3" style="display: inline;">
+          <span>Ngày in:</span>
+          <span id="print-date"></span>
+        </div>
+      </div>
+      <table style="text-align: center; width: auto;" border="1" cellpadding="3">
+        <tr>
+          <th>STT</th>
+          <th style="min-width: 400px;">Loại phòng</th>
+          <th style="min-width: 200px;">Phiếu đặt</th>
+          <th style="min-width: 300px;">Số tiền</th>
+        </tr>
+        <% data.forEach(function(item, idx) { %>
         <tr>
           <td id="td-report"><%= idx + 1 %></td>
           <td id="td-report"><%= item.nameCate%></td>
@@ -69,9 +118,61 @@
           <td id="td-report"><b>Tổng tiền:</b></td>
           <td id="td-report"><b><%= totalMoney.toLocaleString()%> đ</b></td>
         </tr>
-    </table>
-  </div>
+      </table>
+      <table class="mt-5" style="text-align: center; width: auto;" border="1" cellpadding="3">
+        <tr>
+          <th style="min-width: 400px" colspan="2">Thông tin khách sạn</th>
+          <th style="min-width: 400px;" colspan="2">Thông tin đặt phòng</th>
+        </tr>
+        <tr>
+          <td>Số lượng nhân viên:</td>
+          <td><%= numEmployee %></td>
+          <td>Số lượng khách hàng:</td>
+          <td><%= numCus %></td>
+        </tr>
+        <tr>
+          <td>Số lượng phòng:</td>
+          <td><%= numRoom %></td>
+          <td>Số lượng phiếu đặt phòng:</td>
+          <td><%= numRoomLetter %></td>
+        </tr>
+        <tr>
+          <td>Số lượng loại phòng:</td>
+          <td><%= numRoomCate %></td>
+          <td>Số lượng đơn hàng:</td>
+          <td><%= numOrder %></td>
+        </tr>
+      </table>
+    </div>
+  </form>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+  <link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
+  <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      //open print modal
+      $('#print-button').on('click', function () {
+        $('#print-form').show();
+        $("#organization").text(document.title);
 
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = dd + '/' + mm + '/' + yyyy;
+        $('#print-date').text(today);
 
+        printJS({
+          printable: 'print-form', type: 'html',
+          css: ['https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'],
+          targetStyles: ['*']
+        });
+
+        $('#print-form').hide();
+      });
+    });
+  </script>
 </div>
