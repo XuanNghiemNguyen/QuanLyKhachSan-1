@@ -98,7 +98,7 @@ router.post("/add", async (req, res) => {
         priceRoom += (sur[0].surchargePercent * priceRoom) / 100
       }
     }
-    _roomletter.price = priceRoom * parseInt(numberOfPeople)
+    _roomletter.price = priceRoom * parseInt(numDay)
     _roomletter.createdBy = req.curUser._id
     room.status = "Đang sử dụng"
     await room.save()
@@ -159,7 +159,7 @@ router.post("/update", async (req, res) => {
           priceRoom += (sur[0].surchargePercent * priceRoom) / 100
         }
       }
-      _roomletter.price = priceRoom * parseInt(numberOfPeople) * numDay
+      _roomletter.price = priceRoom * parseInt(numDay)
       _roomletter.createdBy = req.curUser._id
       await _roomletter.save()
     }
