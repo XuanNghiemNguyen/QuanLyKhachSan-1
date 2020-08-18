@@ -117,7 +117,7 @@ router.post("/add", async (req, res) => {
         priceRoom += (sur[0].surchargePercent * priceRoom) / 100
       }
     }
-    _roomletter.price = priceRoom * parseInt(numDay)
+    _roomletter.price = priceRoom * numDay
     _roomletter.createdBy = req.curUser._id
     room.status = "Đang sử dụng"
     await room.save()
@@ -152,10 +152,9 @@ router.post("/update", async (req, res) => {
       if (dayCheckIn) _roomletter.dayCheckIn = Date.parse(dayCheckIn)
       if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
       // NumberOfDays
-      const diffTime = Math.abs(
-        Date.parse(dayCheckOut) - Date.parse(dayCheckIn)
-      )
-      _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      const diffTime = Math.abs(Date.parse(dayCheckOut) - Date.parse(dayCheckIn))
+      let numDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      _roomletter.numberOfDays = numDay
       if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
       //price of unit
       let priceRoom = room && room.price
@@ -178,7 +177,7 @@ router.post("/update", async (req, res) => {
           priceRoom += (sur[0].surchargePercent * priceRoom) / 100
         }
       }
-      _roomletter.price = priceRoom * parseInt(_roomletter.numberOfDays)
+      _roomletter.price = priceRoom * numDay
       _roomletter.createdBy = req.curUser._id
       await _roomletter.save()
     }
