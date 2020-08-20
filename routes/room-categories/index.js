@@ -5,6 +5,19 @@ const Room = require("../../models/room.model")
 const User = require("../../models/user.model")
 const { notification } = require("../../common")
 
+const get_notify = (type) => {
+  switch (type) {
+    case "create":
+      return notification(true, "Thông báo", "Thêm loại phòng thành công!")
+    case "update":
+      return notification(true, "Thông báo", "Cập nhật loại phòng thành công!")
+    case "delete":
+      return notification(true, "Thông báo", "Xóa loại phòng thành công!")
+    default:
+      break
+  }
+}
+
 router.get("/views", async (req, res) => {
   try {
     let _roomCategories = await RoomCategory.find({ isDeleted: false })
@@ -22,12 +35,19 @@ router.get("/views", async (req, res) => {
           : ""
       }
     }
+
+    const { success, type } = req.query
+    let notify = {}
+    if (success && type) {
+      notify = get_notify(type)
+    }
+
     res.render("pages/room-categories/index", {
       layout: "layout",
       data: _roomCategories || [],
       curUser: req.curUser,
       pageTitle: "Loại phòng",
-      notification: notification(false),
+      notification: notify,
     })
   } catch (error) {
     console.log(error)
@@ -44,7 +64,7 @@ router.post("/add", async (req, res) => {
     _roomCategory.price = parseInt(price)
     _roomCategory.createdBy = createdBy
     await _roomCategory.save()
-    return res.redirect("/room-categories/views")
+    return res.redirect("/room-categories/views?success=true&type=create")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -64,7 +84,7 @@ router.post("/update", async (req, res) => {
       if (note) _roomCategory.note = note
       await _roomCategory.save()
     }
-    return res.redirect("/room-categories/views")
+    return res.redirect("/room-categories/views?success=true&type=update")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -83,7 +103,7 @@ router.post("/delete", async (req, res) => {
       _roomCategory.isDeleted = true
       await _roomCategory.save()
     }
-    return res.redirect("/room-categories/views")
+    return res.redirect("/room-categories/views?success=true&type=delete")
   } catch (error) {
     console.log(error)
     res.render(error)

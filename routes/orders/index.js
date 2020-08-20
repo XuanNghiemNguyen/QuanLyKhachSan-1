@@ -4,7 +4,20 @@ const Customer = require("../../models/customer.model")
 const RoomLetter = require("../../models/room-letter.model")
 const Order = require("../../models/order.model")
 const Room = require("../../models/room.model")
-const { notification } = require("../../common/index")
+const { notification } = require("../../common")
+
+const get_notify = (type) => {
+  switch (type) {
+    case "create":
+      return notification(true, "Thông báo", "Tạo hóa đơn thành công!")
+    case "payment":
+      return notification(true, "Thông báo", "Thanh toán hóa đơn thành công!")
+    case "delete":
+      return notification(true, "Thông báo", "Xóa hóa đơn thành công!")
+    default:
+      break
+  }
+}
 
 router.get("/views", async (req, res) => {
   try {
@@ -18,13 +31,20 @@ router.get("/views", async (req, res) => {
       _orders[c]["roomLetters"] = _roomLetters
     }
     const dataCustomer = await Customer.find({ isDeleted: false })
+
+    const { success, type } = req.query
+    let notify = {}
+    if (success && type) {
+      notify = get_notify(type)
+    }
+
     res.render("pages/orders/index", {
       layout: "layout",
       data: _orders,
       curUser: req.curUser,
       dataCustomer: dataCustomer || [],
       pageTitle: "Hóa đơn thanh toán",
-      notification: notification(false)
+      notification: notify
     })
   } catch (error) {
     console.log(error)
@@ -66,7 +86,7 @@ router.post("/add", async (req, res) => {
     _order.createdAt = Date.now()
 
     await _order.save()
-    return res.redirect("/orders/views")
+    return res.redirect("/orders/views?success=true&type=create")
   } catch (error) {
     console.log(error)
   }
@@ -79,12 +99,12 @@ router.post("/payment", async (req, res) => {
       console.log("id not found")
       return
     }
-    const _order = await Order.findOne({_id: id, isDeleted: false})
+    const _order = await Order.findOne({ _id: id, isDeleted: false })
     if (_order) {
       _order.hasPayed = true
       await _order.save()
     }
-    return res.redirect("/orders/views")
+    return res.redirect("/orders/views?success=true&type=payment")
   } catch (error) {
     console.log(error)
   }
@@ -103,7 +123,7 @@ router.post("/delete", async (req, res) => {
       _order.isDeleted = true
       await _order.save()
     }
-    return res.redirect("/orders/views")
+    return res.redirect("/orders/views?success=true&type=delete")
   } catch (error) {
     console.log(error)
   }

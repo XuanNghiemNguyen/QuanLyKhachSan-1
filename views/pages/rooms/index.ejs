@@ -1,20 +1,13 @@
 <div class="container-fluid">
   <!-- Page Heading -->
   <!-- <div class="card shadow mb-4"> -->
-  <div
-    class="card-header py-3"
-    style="display: flex; justify-content: space-between;"
-  >
+  <div class="card-header py-3" style="display: flex; justify-content: space-between;">
     <!-- <h3 class="m-0 font-weight-bold text-primary">Phòng</h3> -->
     <span>
       <div class="form-control">
         <label for="cateActivation">Loại phòng:</label>&nbsp;
-        <select
-          id="cateActivation"
-          onchange="roomByCategory(value)"
-          data-cateDefault="<%= cateActive%>"
-        >
-        <option value="all">TẤT CẢ</option>
+        <select id="cateActivation" onchange="roomByCategory(value)" data-cateDefault="<%= cateActive%>">
+          <option value="all">TẤT CẢ</option>
 
           <% dataCate.forEach(function(item, idx) { %>
           <option value="<%= item._id %>"><%= item.nameOfCategory %></option>
@@ -23,24 +16,14 @@
       </div>
     </span>
     <span>
-      <a
-        href="#"
-        class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
-        data-toggle="modal"
-        data-target="#myModalAdd"
-      >
-        <i class="fas fa-plus-circle"></i> Thêm mới</a
-      >
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal"
+        data-target="#myModalAdd">
+        <i class="fas fa-plus-circle"></i> Thêm mới</a>
     </span>
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table
-        class="table table-bordered"
-        id="dataTable"
-        width="100%"
-        cellspacing="0"
-      >
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>STT</th>
@@ -60,24 +43,11 @@
             <td><%= item.price.toLocaleString()%> đ</td>
             <td><%= item.status%></td>
             <td>
-              <a
-                href="javascript:void(0);"
-                class="btn btn-sm btn-info edit"
-                data-id="<%= item._id %>"
-                data-name="<%= item.nameOfRoom %>"
-                data-cate="<%= item.cateOfRoomId %>"
-                data-price="<%= item.price %>"
-                data-status="<%= item.status %>"
-                data-max="<%= item.maxPeople %>"
-                data-note="<%= item.note %>"
-                >Cập nhật</a
-              >
-              <a
-                href="javascript:void(0);"
-                class="btn btn-sm btn-danger delete"
-                data-id="<%= item._id %>"
-                >Xóa</a
-              >
+              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>"
+                data-name="<%= item.nameOfRoom %>" data-cate="<%= item.cateOfRoomId %>" data-price="<%= item.price %>"
+                data-status="<%= item.status %>" data-max="<%= item.maxPeople %>" data-note="<%= item.note %>">Cập
+                nhật</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
             </td>
           </tr>
           <% }); %>
@@ -88,51 +58,27 @@
 
   <!-- Modal Add -->
   <form action="/rooms/add" method="post">
-    <div
-      class="modal fade"
-      id="myModalAdd"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Thêm phòng mới</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="form-group">
               <label for="nameOfRoom_Create">Tên phòng:</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Nhập tên phòng"
-                id="nameOfRoom_create"
-                name="nameOfRoom"
-                required
-              />
+              <input type="text" class="form-control" placeholder="Nhập tên phòng" id="nameOfRoom_create"
+                name="nameOfRoom" required />
             </div>
             <div class="form-group">
               <label for="category_room">Loại phòng:</label>
-              <select
-                class="form-control cateOfRoomId"
-                id="category_room"
-                name="cateOfRoomId"
-                required
-              >
+              <select class="form-control cateOfRoomId" id="category_room" name="cateOfRoomId" required>
                 <% dataCate.forEach(function(item, idx) { %>
-                <option value="<%= item._id %>"
-                  ><%= item.nameOfCategory %></option
-                >
+                <option value="<%= item._id %>"><%= item.nameOfCategory %></option>
                 <% }); %>
               </select>
             </div>
@@ -147,53 +93,26 @@
               </label>
             </div>
             <div class="form-group">
-              <label
-                for="price_create"
-                style="display: flex; justify-content: space-between;"
-              >
+              <label for="price_create" style="display: flex; justify-content: space-between;">
                 <span> Đơn giá:</span>
                 <span>(VND)</span>
               </label>
-              <input
-                type="number"
-                min="100000"
-                step="50000"
-                max="5000000"
-                class="form-control"
-                placeholder="Nhập giá"
-                id="price_create"
-                name="price"
-                required
-              />
+              <input type="number" min="100000" step="50000" max="5000000" class="form-control" placeholder="Nhập giá"
+                id="price_create" name="price" required />
             </div>
             <div class="form-group">
               <label for="nameOfRoom_Create">Số lượng người tối đa:</label>
-              <input
-                type="number"
-                class="form-control"
-                placeholder="Nhập số người tối đa"
-                id="maxPeople_create"
-                name="maxPeople"
-                required
-              />
+              <input type="number" class="form-control" placeholder="Nhập số người tối đa" id="maxPeople_create"
+                name="maxPeople" required />
             </div>
             <div class="form-group">
               <label for="note_create">Ghi chú:</label>
-              <textarea
-                rows="3"
-                class="form-control"
-                placeholder="Thêm ghi chú"
-                id="note_create"
-                name="note"
-              ></textarea>
+              <textarea rows="3" class="form-control" placeholder="Thêm ghi chú" id="note_create"
+                name="note"></textarea>
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Close
             </button>
             <button type="submit" class="btn btn-primary">Save</button>
@@ -206,24 +125,13 @@
 
   <!-- Modal Delete -->
   <form id="add-row-form" action="/rooms/delete" method="post">
-    <div
-      class="modal fade"
-      id="DeleteModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="myModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="myModalLabel">Xóa phòng</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -243,24 +151,13 @@
   </form>
   <!-- Modal Update -->
   <form action="/rooms/update" method="post">
-    <div
-      class="modal fade"
-      id="EditModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Sửa loại phòng</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -268,103 +165,62 @@
             <div class="modal-body">
               <div class="form-group">
                 <label for="nameOfRoom_update">Tên phòng:</label>
-                <input
-                  type="text"
-                  class="form-control nameOfRoom"
-                  placeholder="Nhập tên phòng"
-                  id="nameOfRoom_update"
-                  name="nameOfRoom"
-                  placeholder="Nhập tên phòng"
-                  required
-                />
+                <input type="text" class="form-control nameOfRoom" placeholder="Nhập tên phòng" id="nameOfRoom_update"
+                  name="nameOfRoom" placeholder="Nhập tên phòng" required />
               </div>
-            <div class="form-group">
-              <label for="category_room">Loại phòng:</label>
-              <select
-                class="form-control cateOfRoomId"
-                id="category_room"
-                name="cateOfRoomId"
-                required
-              >
-                <% dataCate.forEach(function(item, idx) { %>
-                <option value="<%= item._id %>"
-                  ><%= item.nameOfCategory %></option
-                >
-                <% }); %>
-              </select>
+              <div class="form-group">
+                <label for="category_room">Loại phòng:</label>
+                <select class="form-control cateOfRoomId" id="category_room" name="cateOfRoomId" required>
+                  <% dataCate.forEach(function(item, idx) { %>
+                  <option value="<%= item._id %>"><%= item.nameOfCategory %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="status_Create">Tình trạng:</label>
+                <label class="radio-inline">
+                  <input type="radio" name="status" value="Còn trống" /> Còn trống
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="status" value="Đang sử dụng" /> Đang sử dụng
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="price_create" style="display: flex; justify-content: space-between;">
+                  <span> Đơn giá:</span>
+                  <span>(VND)</span>
+                </label>
+                <input type="number" min="10000" class="form-control price" placeholder="Nhập giá" id="price_update"
+                  name="price" required />
+              </div>
+              <div class="form-group">
+                <label for="nameOfRoom_update">Số lượng người tối đa:</label>
+                <input type="number" class="form-control maxPeople" placeholder="Nhập số người tối đa"
+                  id="maxPeople_update" name="maxPeople" required />
+              </div>
+              <div class="form-group">
+                <label for="note_create">Ghi chú:</label>
+                <textarea rows="3" class="form-control note" placeholder="Thêm ghi chú" id="note_update"
+                  name="note"></textarea>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="status_Create">Tình trạng:</label>
-              <label class="radio-inline">
-                <input type="radio" name="status" value="Còn trống" /> Còn trống
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="status" value="Đang sử dụng" /> Đang sử dụng
-              </label>
+            <div class="modal-footer">
+              <input type="hidden" name="id" class="_id" />
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Hủy
+              </button>
+              <button type="submit" class="btn btn-primary">Xác nhận</button>
             </div>
-            <div class="form-group">
-              <label
-                for="price_create"
-                style="display: flex; justify-content: space-between;"
-              >
-                <span> Đơn giá:</span>
-                <span>(VND)</span>
-              </label>
-              <input
-                type="number"
-                min="10000"
-                class="form-control price"
-                placeholder="Nhập giá"
-                id="price_update"
-                name="price"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="nameOfRoom_update">Số lượng người tối đa:</label>
-              <input
-                type="number"
-                class="form-control maxPeople"
-                placeholder="Nhập số người tối đa"
-                id="maxPeople_update"
-                name="maxPeople"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="note_create">Ghi chú:</label>
-              <textarea
-                rows="3"
-                class="form-control note"
-                placeholder="Thêm ghi chú"
-                id="note_update"
-                name="note"
-              ></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <input type="hidden" name="id" class="_id" />
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Hủy
-            </button>
-            <button type="submit" class="btn btn-primary">Xác nhận</button>
           </div>
         </div>
       </div>
-    </div>
   </form>
 
-  
 
-  <script
-    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"
-  ></script>
+    crossorigin="anonymous"></script>
 
   <script>
     function roomByCategory(value) {
@@ -372,7 +228,7 @@
     }
     $(document).ready(function () {
       const cateId = $("#cateActivation").data("catedefault")
-      if(cateId) $("#cateActivation").val(cateId)
+      if (cateId) $("#cateActivation").val(cateId)
       document.getElementById("#cateActivation")
       document.getElementById("collapseTwo").classList.add("show")
       document.getElementById("rooms-tab").classList.add("active")

@@ -39,7 +39,8 @@
                 data-dayin="<%= item.dayCheckIn %>" data-dayout="<%= item.dayCheckOut %>"
                 data-numpeople="<%= item.numberOfPeople %>" data-type="<%= item.cusType %>"
                 data-category="<%= item.category %>" data-surchage="<%= item.surcharge %>"
-                data-price="<%= item.price %>"><img src="/img/print.png" style="height: 20px;width: 20px;"></a>
+                data-price="<%= item.price %>" data-employee="<%= item.createdByUser %>"><img src="/img/print.png"
+                  style="height: 20px;width: 20px;"></a>
             </td>
           </tr>
           <% }); %>
@@ -224,70 +225,73 @@
   </form>
 
   <!-- Modal Print -->
-  <form id="print-form" name="printForm" style="display: none;">
+  <form id="print-form" name="printForm" style="display: none; font-size:20px">
     <img src="/img/logo.png" style="width: 100px; height: 100px;" />
     <h3 style="float: right; margin-top: 20px;" id="organization"></h3>
     <div>
-      <h3 class="text-center mb-4">PHIẾU ĐẶT PHÒNG</h3>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <span>Tên phòng:</span>
-          <span name="roomName" id="print-room"></span>
+      <h2 class="text-center mb-4">PHIẾU ĐẶT PHÒNG</h3>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <b>Tên phòng: </b>
+            <span name="roomName" id="print-room"></span>
+          </div>
+          <div class="form-group col-md-6">
+            <b>Người lập phiếu: </b>
+            <span id="create-employee"> </span>
+          </div>
         </div>
-        <div class="form-group col-md-6">
-          <span id="print-employee">Nhân viên: <%= curUser.name %></span>
+        <div class="form-row">
+          <div class="form-group col-6" style="display:inline">
+            <label>Khách hàng:</label>
+            <input class="form-control" id="inputCustomer">
+          </div>
+          <div class="form-group col-3" style="display:inline">
+            <label>Số người:</label>
+            <input class="form-control" id="inputNumPeople">
+          </div>
+          <div class="form-group col-3" style="display:inline">
+            <label>Loại khách:</label>
+            <input class="form-control" id="inputCustomerType">
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-6" style="display:inline">
-          <label>Khách hàng:</label>
-          <input class="form-control" id="inputCustomer">
+        <div class="form-row">
+          <div class="form-group col-6" style="display:inline">
+            <label>Loại phòng thuê:</label>
+            <input class="form-control" id="inputRoomType">
+          </div>
+          <div class="form-group col-3" style="display:inline">
+            <label>Giá phòng:</label>
+            <input class="form-control" id="inputRoomPrice">
+          </div>
+          <div class="form-group col-3" style="display:inline">
+            <label>Mức phụ thu(%):</label>
+            <input class="form-control" id="inputSurcharge">
+          </div>
         </div>
-        <div class="form-group col-3" style="display:inline">
-          <label>Số người:</label>
-          <input class="form-control" id="inputNumPeople">
+        <div class="form-row">
+          <div class="form-group col-6" style="display: inline;">
+            <label>Ngày thuê:</label>
+            <input class="form-control" id="inputCheckIn">
+          </div>
+          <div class="form-group col-6" style="display: inline;">
+            <label>Ngày trả phòng:</label>
+            <input class="form-control" id="inputCheckOut">
+          </div>
         </div>
-        <div class="form-group col-3" style="display:inline">
-          <label>Loại khách:</label>
-          <input class="form-control" id="inputCustomerType">
+        <div class="form-group">
+          <label>Ghi chú</label>
+          <textarea class="form-control" rows="7"></textarea>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-6" style="display:inline">
-          <label>Loại phòng thuê:</label>
-          <input class="form-control" id="inputRoomType">
+        <div class="row justify-content-around mt-5" style="margin-left: 100px;">
+          <div class="col-4 font-weight-bold">
+            Khách hàng
+          </div>
+          <div class="col-4 font-weight-bold" style="text-align: center;">
+            <span>Người in phiếu</span>
+            <br><br><br><br>
+            <span><%= curUser.name %></span>
+          </div>
         </div>
-        <div class="form-group col-3" style="display:inline">
-          <label>Giá phòng:</label>
-          <input class="form-control" id="inputRoomPrice">
-        </div>
-        <div class="form-group col-3" style="display:inline">
-          <label>Mức phụ thu(%):</label>
-          <input class="form-control" id="inputSurcharge">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-6" style="display: inline;">
-          <label>Ngày thuê:</label>
-          <input class="form-control" id="inputCheckIn">
-        </div>
-        <div class="form-group col-6" style="display: inline;">
-          <label>Ngày trả phòng:</label>
-          <input class="form-control" id="inputCheckOut">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Ghi chú</label>
-        <textarea class="form-control" rows="7"></textarea>
-      </div>
-      <div class="row justify-content-around mt-5" style="margin-left: 100px;">
-        <div class="col-4 font-weight-bold">
-          Khách hàng
-        </div>
-        <div class="col-4 font-weight-bold">
-          Người lập phiếu
-        </div>
-      </div>
   </form>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -334,9 +338,11 @@
         const roomPrice = $(this).data('price');
         const category = $(this).data('category');
         const surcharge = $(this).data('surchage');
+        const employee = $(this).data('employee');
         $('#print-form').show();
         $("#organization").text(document.title);
         $('#print-room').text(roomname);
+        $('#create-employee').text(" " + employee);
         $('#inputCustomer').val(customerName);
         $('#inputNumPeople').val(numberOfPeople);
         $('#inputCustomerType').val(customerTypeId);

@@ -10,6 +10,10 @@ const get_notify = (type) => {
       return notification(true, "Thông báo", "Đăng nhập thành công!")
     case "create":
       return notification(true, "Thông báo", "Tạo phòng thành công!")
+    case "update":
+      return notification(true, "Thông báo", "Cập nhật thành công!")
+    case "delete":
+      return notification(true, "Thông báo", "Xóa phòng thành công!")
     default:
       break
   }
@@ -100,7 +104,7 @@ router.post("/update", async (req, res) => {
       if (note) _room.note = note
       await _room.save()
     }
-    return res.redirect("/rooms/views")
+    return res.redirect("/rooms/views?success=true&type=update")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -119,7 +123,7 @@ router.post("/delete", async (req, res) => {
       _room.isDeleted = true
       await _room.save()
     }
-    return res.redirect("/rooms/views")
+    return res.redirect("/rooms/views?success=true&type=delete")
   } catch (error) {
     console.log(error)
     res.render(error)

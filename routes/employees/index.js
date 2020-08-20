@@ -3,6 +3,20 @@ const router = express.Router()
 const bcrypt = require("bcryptjs")
 const User = require("../../models/user.model")
 const { notification } = require("../../common/index")
+
+const get_notify = (type) => {
+  switch (type) {
+    case "create":
+      return notification(true, "Thông báo", "Tạo tài khoản thành công!")
+    case "update":
+      return notification(true, "Thông báo", "Cập nhật tài khoản thành công!")
+    case "delete":
+      return notification(true, "Thông báo", "Xóa tài khoản thành công!")
+    default:
+      break
+  }
+}
+
 router.get("/views", async (req, res) => {
   try {
     let _users = await User.find({ isDeleted: false, type: "employee" })
@@ -12,12 +26,19 @@ router.get("/views", async (req, res) => {
         _users[i].createdByUser = createdByUser ? createdByUser.name : ""
       }
     }
+
+    const { success, type } = req.query
+    let notify = {}
+    if (success && type) {
+      notify = get_notify(type)
+    }
+
     return res.render("pages/employees/index", {
       layout: "layout",
       data: _users || [],
       curUser: req.curUser,
       pageTitle: "Nhân viên",
-      notification: notification(false),
+      notification: notify,
     })
   } catch (error) {
     console.log(error)
@@ -38,7 +59,7 @@ router.post("/add", async (req, res) => {
     _user.isEnabled = isEnabled
     _user.createdBy = createdBy
     await _user.save()
-    return res.redirect("/employees/views")
+    return res.redirect("/employees/views?success=true&type=create")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -64,7 +85,7 @@ router.post("/update", async (req, res) => {
       if (isEnabled) _user.isEnabled = isEnabled
       await _user.save()
     }
-    return res.redirect("/employees/views")
+    return res.redirect("/employees/views?success=true&type=update")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -81,7 +102,7 @@ router.post("/delete", async (req, res) => {
     const _user = await User.findById(id)
     if (_user) _user.isDeleted = true
     await _user.save()
-    return res.redirect("/employees/views")
+    return res.redirect("/employees/views?success=true&type=delete")
   } catch (error) {
     console.log(error)
     res.render(error)

@@ -9,6 +9,19 @@ const CustomerType = require("../../models/customer-type.model")
 const User = require("../../models/user.model")
 const { notification } = require("../../common")
 
+const get_notify = (type) => {
+  switch (type) {
+    case "create":
+      return notification(true, "Thông báo", "Tạo phiếu thuê phòng thành công!")
+    case "update":
+      return notification(true, "Thông báo", "Cập nhật phiếu thuê phòng thành công!")
+    case "delete":
+      return notification(true, "Thông báo", "Xóa phiếu thuê phòng thành công!")
+    default:
+      break
+  }
+}
+
 router.get("/views", async (req, res) => {
   try {
     let _roomletters = await RoomLetter.find({ isDeleted: false })
@@ -40,6 +53,12 @@ router.get("/views", async (req, res) => {
       }
     }
 
+    const { success, type } = req.query
+    let notify = {}
+    if (success && type) {
+      notify = get_notify(type)
+    }
+
     res.render("pages/room-letters/index", {
       layout: "layout",
       data: _roomletters,
@@ -48,7 +67,7 @@ router.get("/views", async (req, res) => {
       dataCustomer: _customers,
       curUser: req.curUser,
       pageTitle: "Phiếu thuê phòng",
-      notification: notification(false),
+      notification: notify,
     })
   } catch (error) {
     console.log(error)
@@ -98,12 +117,12 @@ router.post("/add", async (req, res) => {
         priceRoom += (sur[0].surchargePercent * priceRoom) / 100
       }
     }
-    _roomletter.price = priceRoom * parseInt(numDay)
+    _roomletter.price = priceRoom * numDay
     _roomletter.createdBy = req.curUser._id
     room.status = "Đang sử dụng"
     await room.save()
     await _roomletter.save()
-    return res.redirect("/room-letters/views")
+    return res.redirect("/room-letters/views?success=true&type=create")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -133,10 +152,9 @@ router.post("/update", async (req, res) => {
       if (dayCheckIn) _roomletter.dayCheckIn = Date.parse(dayCheckIn)
       if (dayCheckOut) _roomletter.dayCheckOut = Date.parse(dayCheckOut)
       // NumberOfDays
-      const diffTime = Math.abs(
-        Date.parse(dayCheckOut) - Date.parse(dayCheckIn)
-      )
-      _roomletter.numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      const diffTime = Math.abs(Date.parse(dayCheckOut) - Date.parse(dayCheckIn))
+      let numDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      _roomletter.numberOfDays = numDay
       if (numberOfPeople) _roomletter.numberOfPeople = numberOfPeople
       //price of unit
       let priceRoom = room && room.price
@@ -159,11 +177,11 @@ router.post("/update", async (req, res) => {
           priceRoom += (sur[0].surchargePercent * priceRoom) / 100
         }
       }
-      _roomletter.price = priceRoom * parseInt(numDay)
+      _roomletter.price = priceRoom * numDay
       _roomletter.createdBy = req.curUser._id
       await _roomletter.save()
     }
-    return res.redirect("/room-letters/views")
+    return res.redirect("/room-letters/views?success=true&type=update")
   } catch (error) {
     console.log(error)
     res.render(error)
@@ -187,7 +205,7 @@ router.post("/delete", async (req, res) => {
       }
       await _roomletter.save()
     }
-    return res.redirect("/room-letters/views")
+    return res.redirect("/room-letters/views?success=true&type=delete")
   } catch (error) {
     console.log(error)
     res.render(error)

@@ -3,7 +3,8 @@
   <!-- <div class="card shadow mb-4"> -->
   <div class="card-header py-3" style="display: flex; justify-content: space-between;">
     <!-- <h3 class="m-0 font-weight-bold text-primary">Khách hàng</h3> -->
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#myModalAdd">
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal"
+      data-target="#myModalAdd">
       <i class="fas fa-plus-circle fa-sm"></i> Thêm mới</a>
   </div>
   <div class="card-body">
@@ -26,7 +27,10 @@
             <td><%= item.type%></td>
             <td><%= item.address%></td>
             <td>
-              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>" data-numberid="<%= item.numberOfId %>" data-name="<%= item.name %>" data-type="<%= item.customerTypeId %>" data-address="<%= item.address %>" data-gender="<%= item.gender %>">Cập nhật</a>
+              <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="<%= item._id %>"
+                data-numberid="<%= item.numberOfId %>" data-name="<%= item.name %>"
+                data-type="<%= item.customerTypeId %>" data-address="<%= item.address %>"
+                data-gender="<%= item.gender %>">Cập nhật</a>
               <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="<%= item._id %>">Xóa</a>
             </td>
           </tr>
@@ -36,149 +40,157 @@
     </div>
   </div>
 
-<!-- Modal Add -->
-<form action="/customers/add" method="post">
-  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalLabel">Thêm khách hàng mới</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-       <div class="modal-body">
-        <div class="form-group">
-          <label for="name_Create">Tên khách hàng:</label>
-          <input type="text" class="form-control" placeholder="Nhập tên khách hàng" id="name_create" name="name" required />
+  <!-- Modal Add -->
+  <form action="/customers/add" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Thêm khách hàng mới</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="name_Create">Tên khách hàng:</label>
+              <input type="text" class="form-control" placeholder="Nhập tên khách hàng" id="name_create" name="name"
+                required />
+            </div>
+            <div class="form-group">
+              <label for="numberOfId_Create">Số CMND:</label>
+              <input type="text" class="form-control" placeholder="Nhập số CMND" id="numberOfId_create"
+                name="numberOfId" required />
+            </div>
+            <div class="form-group">
+              <label for="type_customer">Loại khách hàng:</label>
+              <select class="form-control customerTypeId" id="type_customer" name="customerTypeId" required>
+                <% dataType.forEach(function(item, idx) { %>
+                <option value="<%= item._id %>"><%= item.nameOfType %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="gender_Create">Giới tính:</label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="Nam" checked> Nam
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="Nữ"> Nữ
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="Khác"> Khác
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="address_Create">Địa chỉ:</label>
+              <input type="text" class="form-control" placeholder="Nhập địa chỉ khách hàng" id="address_create"
+                name="address" required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="numberOfId_Create">Số CMND:</label>
-          <input type="text" class="form-control" placeholder="Nhập số CMND" id="numberOfId_create" name="numberOfId" required />
-        </div>
-        <div class="form-group">
-          <label for="type_customer">Loại khách hàng:</label>
-          <select class="form-control customerTypeId" id="type_customer" name="customerTypeId" required>
-            <% dataType.forEach(function(item, idx) { %>
-              <option value="<%= item._id %>"><%= item.nameOfType %></option>
-            <% }); %>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="gender_Create">Giới tính:</label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="Nam" checked> Nam
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="Nữ"> Nữ
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="Khác"> Khác
-          </label>
-        </div>
-        <div class="form-group">
-          <label for="address_Create">Địa chỉ:</label>
-          <input type="text" class="form-control" placeholder="Nhập địa chỉ khách hàng" id="address_create" name="address" required />
-        </div>
-      </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-primary">Save</button>
-       </div>
-     </div>
-   </div>
-  </div>
-</form>
-
-<!-- Modal Update -->
-<form action="/customers/update?id=<%= data._id %>" method="post">
- <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sửa loại khách hàng</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="name_Create">Tên khách hàng:</label>
-          <input type="text" class="form-control name" placeholder="Nhập tên khách hàng" id="name_create" name="name" required />
-        </div>
-        <div class="form-group">
-          <label for="numberOfId_Create">Số CMND:</label>
-          <input type="text" class="form-control numberOfId" placeholder="Nhập số CMND" id="numberOfId_create" name="numberOfId" required />
-        </div>
-        <div class="form-group">
-          <label for="type_customer">Loại khách hàng:</label>
-          <select class="form-control customerTypeId" id="type_customer" name="customerTypeId" required>
-            <% dataType.forEach(function(item, idx) { %>
-              <option value="<%= item._id %>"><%= item.nameOfType %></option>
-            <% }); %>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="gender_Create">Giới tính:</label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="Nam" checked> Nam
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="Nữ"> Nữ
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="Khác"> Khác
-          </label>
-        </div>
-        <div class="form-group">
-          <label for="address_Create">Địa chỉ:</label>
-          <input type="text" class="form-control address" placeholder="Nhập địa chỉ khách hàng" id="address_create" name="address" required />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <input type="hidden" name="id" class="_id">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        <button type="submit" class="btn btn-primary">Xác nhận</button>
       </div>
     </div>
-  </div>
- </div>
-</form>
+  </form>
 
-<!-- Modal Delete -->
-<form id="add-row-form" action="/customers/delete" method="post">
-   <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-         <div class="modal-content">
-             <div class="modal-header">
-                  <h5 class="modal-title" id="myModalLabel">Xóa khách hàng</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-             </div>
-             <div class="modal-body">
-                <strong>Bạn có chắc chắn muốn xóa?</strong>
-             </div>
-             <div class="modal-footer">
-                  <input type="hidden" name="id" class="form-control _id2" required>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                  <button type="submit" class="btn btn-success">Xác nhận</button>
-             </div>
+  <!-- Modal Update -->
+  <form action="/customers/update?id=<%= data._id %>" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sửa loại khách hàng</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="name_Create">Tên khách hàng:</label>
+              <input type="text" class="form-control name" placeholder="Nhập tên khách hàng" id="name_create"
+                name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="numberOfId_Create">Số CMND:</label>
+              <input type="text" class="form-control numberOfId" placeholder="Nhập số CMND" id="numberOfId_create"
+                name="numberOfId" required />
+            </div>
+            <div class="form-group">
+              <label for="type_customer">Loại khách hàng:</label>
+              <select class="form-control customerTypeId" id="type_customer" name="customerTypeId" required>
+                <% dataType.forEach(function(item, idx) { %>
+                <option value="<%= item._id %>"><%= item.nameOfType %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="gender_Create">Giới tính:</label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="Nam" checked> Nam
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="Nữ"> Nữ
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="Khác"> Khác
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="address_Create">Địa chỉ:</label>
+              <input type="text" class="form-control address" placeholder="Nhập địa chỉ khách hàng" id="address_create"
+                name="address" required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="id" class="_id">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Xác nhận</button>
+          </div>
+        </div>
       </div>
-   </div>
-</form>
+    </div>
+  </form>
 
-  <script
-    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  <!-- Modal Delete -->
+  <form id="add-row-form" action="/customers/delete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Xóa khách hàng</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <strong>Bạn có chắc chắn muốn xóa?</strong>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="id" class="form-control _id2" required>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-success">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"
-  ></script>
+    crossorigin="anonymous"></script>
 
   <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
       document.getElementById('collapseUtilities').classList.add('show')
-    document.getElementById('customers-tab').classList.add('active')
+      document.getElementById('customers-tab').classList.add('active')
       //showing data to edit modal      
-      $('#dataTable').on('click','.edit',function(){
+      $('#dataTable').on('click', '.edit', function () {
         const _id = $(this).data('id');
         const name = $(this).data('name');
         const numberOfId = $(this).data('numberid');
@@ -194,12 +206,12 @@
         $('._id').val(_id);
       });
       //showing delete record modal
-      $('#dataTable').on('click','.delete',function(){
+      $('#dataTable').on('click', '.delete', function () {
         const _id = $(this).data('id');
         $('#DeleteModal').modal('show');
         $('._id2').val(_id);
       });
- 
+
     });
   </script>
 </div>
