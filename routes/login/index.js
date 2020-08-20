@@ -32,7 +32,7 @@ router.post('/', passport.authenticate('local', {
 passport.use(new LocalStrategy({ passReqToCallback: true },
   async function (req, username, password, done) {
     try {
-      const User = await Users.find({ email: username });
+      const User = await Users.find({ email: username, isDeleted: false });
       if (User.length == 0) {
         return done(null, false, req.flash('failureMessage', 'Email không tồn tại'));
       }

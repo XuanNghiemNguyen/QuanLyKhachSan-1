@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require("mongoose")
 
 const CustomerSchema = new Schema(
   {
@@ -8,22 +8,23 @@ const CustomerSchema = new Schema(
       trim: true,
       minlength: 1,
       maxlength: 255,
-      required: true
+      required: true,
     },
-    gender: { type: String, maxlength: 10, default: 'Nam' },
-    address:  {
+    gender: { type: String, maxlength: 10, default: "Nam" },
+    address: {
       type: String,
       trim: true,
-      maxlength: 255
+      maxlength: 255,
     },
+    numberOfId: { type: String, required: true },
     customerTypeId: Schema.Types.ObjectId,
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Number, default: Date.now() },
-    createdBy: Schema.Types.ObjectId // employee id
+    createdBy: Schema.Types.ObjectId, // employee id
   },
   {
     versionKey: false, // remove field "__v"
   }
 )
 
-module.exports = model('Customers', CustomerSchema)
+module.exports = model("Customers", CustomerSchema)
